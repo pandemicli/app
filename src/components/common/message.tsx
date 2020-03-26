@@ -42,7 +42,7 @@ const stylesheet = new DynamicStyleSheet({
   message: {
     ...typography.footnote,
     ...typography.medium,
-    color: colors.foreground
+    color: '#fff'
   },
   success: {
     backgroundColor: colors.state.success
