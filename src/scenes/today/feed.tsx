@@ -1,8 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import moment from 'moment'
-import React, { createRef, FunctionComponent } from 'react'
+import React, { createRef, FunctionComponent, useEffect } from 'react'
 import { SectionList, Text } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
@@ -21,10 +20,11 @@ interface Props {
 }
 
 export const Feed: FunctionComponent<Props> = ({
-  navigation: { navigate }
+  navigation: { navigate },
+  route: {
+    params: { date }
+  }
 }) => {
-  const date = moment().startOf('day').toISOString()
-
   const { data, loading, refetch } = useQuery<
     QueryTodayFeedPayload,
     QueryTodayFeedArgs
@@ -33,6 +33,12 @@ export const Feed: FunctionComponent<Props> = ({
       date
     }
   })
+
+  useEffect(() => {
+    refetch({
+      date
+    })
+  }, [date, refetch])
 
   const { toggleCheckIn, togglingCheckIn } = useToggleCheckIn(date)
   const { toggleInteraction, togglingInteraction } = useToggleInteraction(date)

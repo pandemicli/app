@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
+import moment from 'moment'
 import React from 'react'
 import { useSafeArea } from 'react-native-safe-area-context'
 
@@ -11,7 +12,7 @@ export type TodayParamList = {
     date: string
   }
   Feed: {
-    date?: string
+    date: string
   }
   Interactions: {
     date: string
@@ -27,14 +28,38 @@ export const TodayNavigator = () => {
     <Navigator>
       <Screen
         component={Feed}
+        initialParams={{
+          date: moment().startOf('day').toISOString()
+        }}
         name="Feed"
-        options={{
-          header: (props) => <Header {...props} />,
+        options={({
+          navigation: { setParams },
+          route: {
+            params: { date }
+          }
+        }) => ({
+          header: (props) => (
+            <Header
+              {...props}
+              onNext={() =>
+                setParams({
+                  date: moment(date).add(1, 'day').toISOString()
+                })
+              }
+              onPrevious={() =>
+                setParams({
+                  date: moment(date).subtract(1, 'day').toISOString()
+                })
+              }
+            />
+          ),
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Today'
-        }}
+          title: moment().isSame(date, 'day')
+            ? 'Today'
+            : moment(date).format('MMM D')
+        })}
       />
       <Screen
         component={Interactions}

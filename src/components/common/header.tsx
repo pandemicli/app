@@ -8,18 +8,28 @@ import {
 } from 'react-native-dark-mode'
 import { useSafeArea } from 'react-native-safe-area-context'
 
-import { img_dark_back, img_light_back } from '../../assets'
+import {
+  img_dark_back,
+  img_dark_next,
+  img_light_back,
+  img_light_next
+} from '../../assets'
 import { colors, layout, typography } from '../../styles'
 import { Touchable } from './touchable'
 
 interface Props {
   left?: ReactChild
   right?: ReactChild
+
+  onNext?: () => void
+  onPrevious?: () => void
 }
 
 export const Header: FunctionComponent<Props & StackHeaderProps> = ({
   left,
   navigation: { goBack },
+  onNext,
+  onPrevious,
   previous,
   right,
   scene: {
@@ -39,13 +49,16 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
     outputRange: [0, 1, 0]
   })
 
+  const previousIcon = useDynamicValue(img_dark_back, img_light_back)
+  const nextIcon = useDynamicValue(img_dark_next, img_light_next)
+
   return (
     <Animated.View
       style={[
         styles.main,
         {
           opacity,
-          paddingTop: top + layout.margin
+          paddingTop: top
         }
       ]}>
       {(previous || left) && (
@@ -58,7 +71,17 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
           {left}
         </View>
       )}
+      {onPrevious && (
+        <Touchable onPress={onPrevious}>
+          <Image source={previousIcon} style={styles.icon} />
+        </Touchable>
+      )}
       <Text style={styles.title}>{title}</Text>
+      {onNext && (
+        <Touchable onPress={onNext}>
+          <Image source={nextIcon} style={styles.icon} />
+        </Touchable>
+      )}
       {right && <View style={styles.right}>{right}</View>}
     </Animated.View>
   )
@@ -101,7 +124,8 @@ const stylesheet = new DynamicStyleSheet({
     backgroundColor: colors.backgroundDark,
     borderBottomColor: colors.border,
     borderBottomWidth: 1,
-    padding: layout.margin
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   right: {
     bottom: 0,
@@ -113,6 +137,7 @@ const stylesheet = new DynamicStyleSheet({
   title: {
     ...typography.regular,
     ...typography.medium,
-    color: colors.primary
+    color: colors.primary,
+    margin: layout.margin
   }
 })
