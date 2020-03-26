@@ -26,10 +26,8 @@ const stylesheet = new DynamicStyleSheet({
   empty: {
     alignItems: 'center',
     flex: 1,
-    justifyContent: 'center'
-  },
-  list: {
-    flexGrow: 1
+    justifyContent: 'center',
+    margin: layout.margin * 2
   },
   message: {
     ...typography.regular,

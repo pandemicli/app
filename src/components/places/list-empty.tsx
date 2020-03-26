@@ -13,7 +13,7 @@ export const ListEmpty: FunctionComponent<Props> = ({ onPress }) => {
   const styles = useDynamicStyleSheet(stylesheet)
 
   return (
-    <View style={styles.empty}>
+    <View style={styles.main}>
       <Text style={styles.message}>
         You haven't added any places right now.
       </Text>
@@ -23,13 +23,11 @@ export const ListEmpty: FunctionComponent<Props> = ({ onPress }) => {
 }
 
 const stylesheet = new DynamicStyleSheet({
-  empty: {
+  main: {
     alignItems: 'center',
     flex: 1,
-    justifyContent: 'center'
-  },
-  list: {
-    flexGrow: 1
+    justifyContent: 'center',
+    margin: layout.margin * 2
   },
   message: {
     ...typography.regular,
