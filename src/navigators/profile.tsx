@@ -25,15 +25,12 @@ export const ProfileNavigator = () => {
       <Screen
         component={Profile}
         name="Profile"
-        options={{
+        options={({ navigation: { navigate } }) => ({
           header: (props) => (
             <Header
               {...props}
               left={
-                <HeaderButton
-                  icon={camera}
-                  onPress={() => props.navigation.navigate('Scan')}
-                />
+                <HeaderButton icon={camera} onPress={() => navigate('Scan')} />
               }
             />
           ),
@@ -41,7 +38,7 @@ export const ProfileNavigator = () => {
             height: layout.header + top
           },
           title: 'Profile'
-        }}
+        })}
       />
       <Screen
         component={Profile}

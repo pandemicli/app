@@ -29,15 +29,12 @@ export const PlacesNavigator = () => {
       <Screen
         component={Places}
         name="Places"
-        options={{
+        options={({ navigation: { navigate } }) => ({
           header: (props) => (
             <Header
               {...props}
               right={
-                <HeaderButton
-                  icon={add}
-                  onPress={() => props.navigation.navigate('AddPlace')}
-                />
+                <HeaderButton icon={add} onPress={() => navigate('AddPlace')} />
               }
             />
           ),
@@ -45,7 +42,7 @@ export const PlacesNavigator = () => {
             height: layout.header + top
           },
           title: 'Places'
-        }}
+        })}
       />
       <Screen
         component={Places}
