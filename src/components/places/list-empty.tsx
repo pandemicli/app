@@ -17,7 +17,7 @@ export const ListEmpty: FunctionComponent<Props> = ({ onPress }) => {
       <Text style={styles.message}>
         You haven't added any places right now.
       </Text>
-      <Button label="Add place" onPress={onPress} />
+      <Button label="Add place" onPress={onPress} small />
     </View>
   )
 }

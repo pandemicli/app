@@ -17,6 +17,7 @@ import {
   MutationToggleFavoritePlaceArgs,
   Place
 } from '../graphql/types'
+import { dialog } from '../lib'
 
 export const usePlaces = () => {
   const { data, loading, refetch } = useQuery<QueryPlacesPayload>(PLACES)
@@ -30,7 +31,13 @@ export const usePlaces = () => {
     MutationToggleFavoritePlaceArgs
   >(TOGGLE_FAVORITE_PLACE)
 
-  const remove = (id: string, row: SwipeRow<Place>) =>
+  const remove = async (id: string, row: SwipeRow<Place>) => {
+    const yes = await dialog.confirm('Do you want to remove this place?')
+
+    if (!yes) {
+      return
+    }
+
     removePlace({
       update(proxy) {
         const previous = proxy.readQuery<QueryPlacesPayload>({
@@ -56,6 +63,7 @@ export const usePlaces = () => {
         id
       }
     })
+  }
 
   const toggleFavorite = (id: string, row: SwipeRow<Place>) =>
     toggleFavoritePlace({

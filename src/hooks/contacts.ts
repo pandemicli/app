@@ -20,6 +20,7 @@ import {
   MutationSyncContactsArgs,
   MutationToggleFavoriteContactArgs
 } from '../graphql/types'
+import { dialog } from '../lib'
 import { PhoneContact } from '../types'
 
 export const useContacts = () => {
@@ -63,7 +64,13 @@ export const useContacts = () => {
       }
     })
 
-  const remove = (id: string, row: SwipeRow<Contact>) =>
+  const remove = async (id: string, row: SwipeRow<Contact>) => {
+    const yes = await dialog.confirm('Do you want to remove this contact?')
+
+    if (!yes) {
+      return
+    }
+
     removeContact({
       update(proxy) {
         const previous = proxy.readQuery<QueryContactsPayload>({
@@ -91,6 +98,7 @@ export const useContacts = () => {
         id
       }
     })
+  }
 
   const toggleFavorite = (id: string, row: SwipeRow<Contact>) =>
     toggleFavoriteContact({
