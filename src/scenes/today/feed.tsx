@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import moment from 'moment'
 import React, { createRef, FunctionComponent } from 'react'
-import { SectionList } from 'react-native'
+import { SectionList, Text } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { Refresher, Separator } from '../../components/common'
@@ -13,6 +13,7 @@ import { QueryTodayFeedPayload } from '../../graphql/payload'
 import { Contact, Place, QueryTodayFeedArgs } from '../../graphql/types'
 import { useToggleCheckIn, useToggleInteraction } from '../../hooks'
 import { TodayParamList } from '../../navigators'
+import { colors, layout, typography } from '../../styles'
 
 interface Props {
   navigation: StackNavigationProp<TodayParamList, 'Feed'>
@@ -55,6 +56,12 @@ export const Feed: FunctionComponent<Props> = ({
     <SectionList
       contentContainerStyle={styles.list}
       ItemSeparatorComponent={Separator}
+      ListHeaderComponent={
+        <Text style={styles.message}>
+          You can tap <Text style={styles.more}>More</Text> to view the full
+          list.
+        </Text>
+      }
       ref={list}
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
       renderItem={({ item }) => (
@@ -100,5 +107,15 @@ export const Feed: FunctionComponent<Props> = ({
 const stylesheet = new DynamicStyleSheet({
   list: {
     flexGrow: 1
+  },
+  message: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    margin: layout.margin,
+    textAlign: 'center'
+  },
+  more: {
+    ...typography.medium,
+    color: colors.accent
   }
 })

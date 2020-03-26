@@ -2,6 +2,7 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { orderBy } from 'lodash'
 import React, { FunctionComponent, useEffect } from 'react'
+import { Text } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -25,7 +26,7 @@ import { ListActions, ListEmpty, ListItem } from '../../components/contacts'
 import { useContacts } from '../../hooks'
 import { phoneBook } from '../../lib'
 import { ContactsParamList } from '../../navigators'
-import { layout } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 
 interface Props {
   navigation: StackNavigationProp<ContactsParamList, 'Contacts'>
@@ -78,16 +79,41 @@ export const Contacts: FunctionComponent<Props> = ({
     })
   }, [add, navigate, setOptions, sync, syncIcon, syncing])
 
+  const contacts = orderBy(
+    data?.contacts,
+    ['favorite', 'name'],
+    ['desc', 'asc']
+  )
+
   return (
     <SwipeListView
       closeOnRowBeginSwipe
       contentContainerStyle={styles.list}
-      data={orderBy(data?.contacts, ['favorite', 'name'], ['desc', 'asc'])}
+      data={contacts}
       disableLeftSwipe
       ItemSeparatorComponent={Separator}
       keyExtractor={(item) => item.id}
       leftOpenValue={layout.icon * 3 + layout.margin * 3 * 2}
       ListEmptyComponent={<ListEmpty onPress={() => navigate('AddContact')} />}
+      ListFooterComponent={
+        contacts.length > 0 ? (
+          <>
+            <Separator />
+            <Text style={styles.message}>
+              Swipe right to view more options for a contact.
+            </Text>
+          </>
+        ) : null
+      }
+      ListHeaderComponent={
+        <>
+          <Text style={styles.message}>
+            You can tap the sync icon on the top right{'\n'}to sync all your
+            phone contacts.
+          </Text>
+          <Separator />
+        </>
+      }
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
       renderHiddenItem={({ item }, map) => (
         <ListActions
@@ -112,5 +138,11 @@ export const Contacts: FunctionComponent<Props> = ({
 const stylesheet = new DynamicStyleSheet({
   list: {
     flexGrow: 1
+  },
+  message: {
+    ...typography.footnote,
+    color: colors.foregroundLight,
+    margin: layout.margin,
+    textAlign: 'center'
   }
 })

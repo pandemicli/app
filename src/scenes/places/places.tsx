@@ -2,6 +2,7 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
+import { Text } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { SwipeListView } from 'react-native-swipe-list-view'
 
@@ -9,7 +10,7 @@ import { Refresher, Separator } from '../../components/common'
 import { ListActions, ListEmpty, ListItem } from '../../components/places'
 import { usePlaces } from '../../hooks'
 import { PlacesParamList } from '../../navigators'
-import { layout } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 
 interface Props {
   navigation: StackNavigationProp<PlacesParamList, 'Places'>
@@ -31,16 +32,28 @@ export const Places: FunctionComponent<Props> = ({
 
   const styles = useDynamicStyleSheet(stylesheet)
 
+  const places = orderBy(data?.places, ['favorite', 'name'], ['desc', 'asc'])
+
   return (
     <SwipeListView
       closeOnRowBeginSwipe
       contentContainerStyle={styles.list}
-      data={orderBy(data?.places, ['favorite', 'name'], ['desc', 'asc'])}
+      data={places}
       disableLeftSwipe
       ItemSeparatorComponent={Separator}
       keyExtractor={(item) => item.id}
       leftOpenValue={layout.icon * 3 + layout.margin * 3 * 2}
       ListEmptyComponent={<ListEmpty onPress={() => navigate('AddPlace')} />}
+      ListFooterComponent={
+        places.length > 0 ? (
+          <>
+            <Separator />
+            <Text style={styles.message}>
+              Swipe right to view more options for a place.
+            </Text>
+          </>
+        ) : null
+      }
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
       renderHiddenItem={({ item }, map) => (
         <ListActions
@@ -65,5 +78,11 @@ export const Places: FunctionComponent<Props> = ({
 const stylesheet = new DynamicStyleSheet({
   list: {
     flexGrow: 1
+  },
+  message: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    margin: layout.margin,
+    textAlign: 'center'
   }
 })
