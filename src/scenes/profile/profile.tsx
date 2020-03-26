@@ -101,10 +101,12 @@ const stylesheet = new DynamicStyleSheet({
     padding: layout.margin
   },
   signOut: {
-    backgroundColor: colors.backgroundDark,
+    backgroundColor: 'transparent',
+    borderColor: colors.state.error,
+    borderWidth: 2,
     margin: layout.margin
   },
   signOutLabel: {
-    color: colors.actions.favorite
+    color: colors.state.error
   }
 })

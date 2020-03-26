@@ -20,24 +20,25 @@ export const Landing: FunctionComponent<Props> = ({
   return (
     <View style={styles.main}>
       <Image source={img_pandemicli} style={styles.logo} />
+      <Text style={styles.title}>Pandemic.li</Text>
       <Carousel style={styles.carousel}>
         <View style={styles.card}>
           <Text style={styles.subtitle}>Track contacts</Text>
-          <Text style={styles.copy}>
+          <Text style={styles.message}>
             Keep a track of people you see regularly. Log whenever you meet
             them.
           </Text>
         </View>
         <View style={styles.card}>
           <Text style={styles.subtitle}>Track places</Text>
-          <Text style={styles.copy}>
+          <Text style={styles.message}>
             Keep a track of places you visit regularly. Log whenever you visit
             them.
           </Text>
         </View>
         <View style={styles.card}>
           <Text style={styles.subtitle}>Track symptoms</Text>
-          <Text style={styles.copy}>
+          <Text style={styles.message}>
             Keep track of your symptoms and log if you have been diagnosed with
             Corona. The app will notify all people you have met recently to get
             tested.
@@ -63,12 +64,6 @@ const stylesheet = new DynamicStyleSheet({
   carousel: {
     marginVertical: layout.margin * 2
   },
-  copy: {
-    ...typography.paragraph,
-    color: colors.foreground,
-    marginTop: layout.padding,
-    textAlign: 'center'
-  },
   footer: {
     flexDirection: 'row'
   },
@@ -82,13 +77,23 @@ const stylesheet = new DynamicStyleSheet({
     flex: 1,
     justifyContent: 'center'
   },
+  message: {
+    ...typography.paragraph,
+    color: colors.foreground,
+    marginTop: layout.padding,
+    textAlign: 'center'
+  },
   signUp: {
     backgroundColor: colors.accent,
     marginLeft: layout.margin
   },
   subtitle: {
     ...typography.subtitle,
+    color: colors.primaryDark
+  },
+  title: {
+    ...typography.title,
     color: colors.primary,
-    textAlign: 'center'
+    marginTop: layout.margin
   }
 })

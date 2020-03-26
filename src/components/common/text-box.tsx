@@ -32,6 +32,6 @@ const stylesheet = new DynamicStyleSheet({
     borderRadius: layout.radius,
     color: colors.foreground,
     height: layout.textBox,
-    paddingHorizontal: layout.margin * (3 / 4)
+    paddingHorizontal: layout.margin
   }
 })

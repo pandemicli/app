@@ -10,7 +10,7 @@ export const colors = {
   },
   background: new DynamicValue('#fff', '#000'),
   backgroundDark: new DynamicValue('#f6f7f8', '#111'),
-  border: new DynamicValue('#ecf0f1', '#181818'),
+  border: new DynamicValue('#e0e0e0', '#181818'),
   foreground: new DynamicValue('#000', '#fff'),
   foregroundLight: new DynamicValue('#666', '#ccc'),
   modal: new DynamicValue('rgba(255, 255, 255, 0.8)', 'rgba(0, 0, 0, 0.9)'),
