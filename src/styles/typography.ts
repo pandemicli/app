@@ -39,9 +39,6 @@ export const typography: Record<string, TextStyle> = {
   title: {
     fontFamily: 'Inter V',
     fontSize: 24,
-    fontWeight: Platform.select({
-      android: 'bold',
-      ios: '600'
-    })
+    fontWeight: 'bold'
   }
 }
