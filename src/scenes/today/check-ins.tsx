@@ -81,6 +81,7 @@ export const CheckIns: FunctionComponent<Props> = ({
 
               setTimeout(() => push('AddPlace'))
             }}
+            small
           />
         </View>
       }

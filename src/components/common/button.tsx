@@ -65,6 +65,7 @@ const stylesheet = new DynamicStyleSheet({
     paddingHorizontal: layout.margin * 0.75
   },
   smallLabel: {
-    ...typography.small
+    ...typography.small,
+    ...typography.medium
   }
 })

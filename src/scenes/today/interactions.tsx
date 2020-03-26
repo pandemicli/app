@@ -81,6 +81,7 @@ export const Interactions: FunctionComponent<Props> = ({
 
               setTimeout(() => push('AddContact'))
             }}
+            small
           />
         </View>
       }

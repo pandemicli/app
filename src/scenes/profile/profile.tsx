@@ -79,8 +79,8 @@ const stylesheet = new DynamicStyleSheet({
     paddingHorizontal: layout.margin * 2
   },
   greeting: {
-    ...typography.subtitle,
-    color: colors.foreground,
+    ...typography.title,
+    color: colors.primary,
     marginTop: layout.margin * 2,
     textAlign: 'center'
   },
