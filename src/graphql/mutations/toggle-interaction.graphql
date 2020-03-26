@@ -1,0 +1,3 @@
+mutation toggleInteraction($id: String!, $date: String!) {
+  toggleInteraction(id: $id, date: $date)
+}

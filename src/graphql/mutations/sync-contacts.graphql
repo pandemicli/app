@@ -1,0 +1,8 @@
+mutation syncContacts($contacts: [ContactInput!]!) {
+  syncContacts(contacts: $contacts) {
+    id
+    name
+    phone
+    createdAt
+  }
+}

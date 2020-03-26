@@ -1,0 +1,11 @@
+query places($date: String) {
+  places(date: $date) {
+    id
+    favorite
+    googlePlaceId
+    location
+    name
+    checkedInToday
+    createdAt
+  }
+}

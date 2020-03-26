@@ -1,0 +1,5 @@
+<resources>
+  <color name="background">#FFF</color>
+  <color name="foreground">#000</color>
+  <color name="primaryDark">#2E7D32</color>
+</resources>

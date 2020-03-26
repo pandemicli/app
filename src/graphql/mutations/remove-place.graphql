@@ -1,0 +1,3 @@
+mutation removePlace($id: String!) {
+  removePlace(id: $id)
+}

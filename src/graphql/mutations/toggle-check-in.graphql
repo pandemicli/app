@@ -1,0 +1,3 @@
+mutation toggleCheckIn($id: String!, $date: String!) {
+  toggleCheckIn(id: $id, date: $date)
+}

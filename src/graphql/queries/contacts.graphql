@@ -1,0 +1,10 @@
+query contacts($date: String) {
+  contacts(date: $date) {
+    id
+    favorite
+    name
+    phone
+    createdAt
+    interactedToday
+  }
+}

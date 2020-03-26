@@ -1,0 +1,14 @@
+query todayFeed($date: String!) {
+  todayFeed(date: $date) {
+    contacts {
+      id
+      name
+      interactedToday
+    }
+    places {
+      id
+      name
+      checkedInToday
+    }
+  }
+}

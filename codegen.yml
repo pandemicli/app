@@ -1,0 +1,12 @@
+schema: http://localhost:4005
+documents: src/graphql/**/*.graphql
+overwrite: true
+generates:
+  src/graphql/types.ts:
+    plugins:
+      - typescript
+  src/graphql/documents.ts:
+    config:
+      namingConvention: constant-case#constantCase
+    plugins:
+      - typescript-document-nodes
