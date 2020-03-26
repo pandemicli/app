@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native'
+import { Platform, TextStyle } from 'react-native'
 
 export const typography: Record<string, TextStyle> = {
   bold: {
@@ -10,7 +10,10 @@ export const typography: Record<string, TextStyle> = {
     lineHeight: 12 * 1.5
   },
   medium: {
-    fontWeight: '500'
+    fontWeight: Platform.select({
+      android: 'bold',
+      ios: '500'
+    })
   },
   paragraph: {
     fontFamily: 'Inter V',
@@ -28,11 +31,17 @@ export const typography: Record<string, TextStyle> = {
   subtitle: {
     fontFamily: 'Inter V',
     fontSize: 20,
-    fontWeight: '500'
+    fontWeight: Platform.select({
+      android: '600',
+      ios: '500'
+    })
   },
   title: {
     fontFamily: 'Inter V',
     fontSize: 24,
-    fontWeight: '600'
+    fontWeight: Platform.select({
+      android: 'bold',
+      ios: '600'
+    })
   }
 }
