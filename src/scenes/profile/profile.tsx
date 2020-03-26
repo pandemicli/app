@@ -6,7 +6,7 @@ import { Dimensions, ScrollView, Text, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import QRCode from 'react-native-qrcode-svg'
 
-import { Button, Refresher, Spinner } from '../../components/common'
+import { Button, Refresher } from '../../components/common'
 import { PROFILE } from '../../graphql/documents'
 import { QueryProfilePayload } from '../../graphql/payload'
 import { ProfileParamList } from '../../navigators'
@@ -34,7 +34,6 @@ export const Profile: FunctionComponent<Props> = () => {
         refreshControl={
           <Refresher onRefresh={() => refetch()} refreshing={loading} />
         }>
-        {(loading || !data) && <Spinner />}
         {data && (
           <View style={styles.content}>
             <View style={styles.qr}>
