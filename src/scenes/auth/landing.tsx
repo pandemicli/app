@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react'
 import { Image, Text, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
-import { img_corona } from '../../assets'
+import { img_pandemicli } from '../../assets'
 import { Button, Carousel } from '../../components/common'
 import { AuthParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
@@ -19,7 +19,7 @@ export const Landing: FunctionComponent<Props> = ({
 
   return (
     <View style={styles.main}>
-      <Image source={img_corona} style={styles.logo} />
+      <Image source={img_pandemicli} style={styles.logo} />
       <Carousel style={styles.carousel}>
         <View style={styles.card}>
           <Text style={styles.subtitle}>Track contacts</Text>
