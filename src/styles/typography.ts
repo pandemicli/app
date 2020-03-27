@@ -1,44 +1,36 @@
-import { Platform, TextStyle } from 'react-native'
+import { TextStyle } from 'react-native'
 
 export const typography: Record<string, TextStyle> = {
   bold: {
-    fontWeight: '600'
+    fontFamily: 'Inter-SemiBold'
   },
   footnote: {
-    fontFamily: 'Inter V',
+    fontFamily: 'Inter-Regular',
     fontSize: 12,
     lineHeight: 12 * 1.5
   },
   medium: {
-    fontWeight: Platform.select({
-      android: 'bold',
-      ios: '500'
-    })
+    fontFamily: 'Inter-Medium'
   },
   paragraph: {
-    fontFamily: 'Inter V',
+    fontFamily: 'Inter-Regular',
     fontSize: 16,
     lineHeight: 16 * 1.5
   },
   regular: {
-    fontFamily: 'Inter V',
+    fontFamily: 'Inter-Regular',
     fontSize: 16
   },
   small: {
-    fontFamily: 'Inter V',
+    fontFamily: 'Inter-Regular',
     fontSize: 12
   },
   subtitle: {
-    fontFamily: 'Inter V',
-    fontSize: 20,
-    fontWeight: Platform.select({
-      android: '600',
-      ios: '500'
-    })
+    fontFamily: 'Inter-Medium',
+    fontSize: 20
   },
   title: {
-    fontFamily: 'Inter V',
-    fontSize: 24,
-    fontWeight: 'bold'
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 24
   }
 }
