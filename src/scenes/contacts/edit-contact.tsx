@@ -13,6 +13,7 @@ import { img_dark_save, img_light_save } from '../../assets'
 import {
   Header,
   HeaderButton,
+  Message,
   PhoneNumber,
   TextBox
 } from '../../components/common'
@@ -31,7 +32,7 @@ export const EditContact: FunctionComponent<Props> = ({
     params: { contact }
   }
 }) => {
-  const { update, updating } = useContacts()
+  const { errors, update, updating } = useContacts()
 
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -95,6 +96,13 @@ export const EditContact: FunctionComponent<Props> = ({
     <ScrollView
       contentContainerStyle={styles.main}
       keyboardShouldPersistTaps="always">
+      {errors.updating && (
+        <Message
+          message={errors.updating.message}
+          style={styles.item}
+          type="error"
+        />
+      )}
       <TextBox
         autoCorrect={false}
         onChangeText={(name) => setName(name)}

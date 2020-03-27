@@ -12,6 +12,7 @@ import { img_dark_save, img_light_save } from '../../assets'
 import {
   Header,
   HeaderButton,
+  Message,
   PhoneNumber,
   TextBox
 } from '../../components/common'
@@ -27,7 +28,7 @@ interface Props {
 export const AddContact: FunctionComponent<Props> = ({
   navigation: { replace, setOptions }
 }) => {
-  const { create, creating } = useContacts()
+  const { create, creating, errors } = useContacts()
 
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -77,6 +78,13 @@ export const AddContact: FunctionComponent<Props> = ({
     <ScrollView
       contentContainerStyle={styles.main}
       keyboardShouldPersistTaps="always">
+      {errors.creating && (
+        <Message
+          message={errors.creating.message}
+          style={styles.item}
+          type="error"
+        />
+      )}
       <TextBox
         autoCorrect={false}
         onChangeText={(name) => setName(name)}

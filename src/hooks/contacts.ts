@@ -261,6 +261,14 @@ export const useContacts = () => {
     adding: addContactMutation.loading,
     create,
     creating: createContactMutation.loading,
+    errors: {
+      adding: addContactMutation.error,
+      creating: createContactMutation.error,
+      favoriting: toggleFavoriteContactMutation.error,
+      removing: removeContactMutation.error,
+      syncing: syncContactsMutation.error,
+      updating: updateContactMutation.error
+    },
     favoriting: toggleFavoriteContactMutation.loading,
     remove,
     removing: removeContactMutation.loading,
