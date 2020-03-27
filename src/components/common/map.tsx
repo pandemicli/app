@@ -1,29 +1,24 @@
-import React, { FunctionComponent, useState } from 'react'
-import { Dimensions, Image, View } from 'react-native'
+import React, { FunctionComponent } from 'react'
+import { Dimensions, Image, View, ViewStyle } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import MapView, { Region } from 'react-native-maps'
 
 import { img_marker } from '../../assets'
 import { LocationPoint } from '../../graphql/types'
-import { Button } from './button'
-import { Modal } from './modal'
+import { layout } from '../../styles'
 
 interface Props {
   location?: LocationPoint
-  visible: boolean
+  style?: ViewStyle
 
   onChange: (location: LocationPoint) => void
-  onClose: () => void
 }
 
 export const Map: FunctionComponent<Props> = ({
   location,
   onChange,
-  onClose,
-  visible
+  style
 }) => {
-  const [coordinates, setCoordinates] = useState<LocationPoint>()
-
   const styles = useDynamicStyleSheet(stylesheet)
 
   const region: Region = {
@@ -41,33 +36,22 @@ export const Map: FunctionComponent<Props> = ({
   }
 
   return (
-    <Modal onClose={onClose} title="Pick location" visible={visible}>
+    <>
       <MapView
         initialRegion={region}
         onRegionChangeComplete={({ latitude, longitude }) =>
-          setCoordinates({
+          onChange({
             latitude,
             longitude
           })
         }
         provider="google"
-        style={styles.map}
+        style={[styles.map, style]}
       />
       <View pointerEvents="none" style={styles.marker}>
         <Image source={img_marker} style={styles.icon} />
       </View>
-      <Button
-        label="Done"
-        onPress={() => {
-          if (coordinates) {
-            onChange(coordinates)
-          }
-
-          onClose()
-        }}
-        style={styles.button}
-      />
-    </Modal>
+    </>
   )
 }
 
@@ -83,11 +67,13 @@ const stylesheet = new DynamicStyleSheet({
     width: 30
   },
   map: {
-    height: height / 2
+    borderRadius: layout.radius,
+    height: height / 3
   },
   marker: {
     left: '50%',
-    marginLeft: -15,
+    marginLeft: 1,
+    marginTop: -15,
     position: 'absolute',
     top: '50%'
   }

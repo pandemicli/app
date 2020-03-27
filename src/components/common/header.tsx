@@ -43,6 +43,7 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
 
   const styles = useDynamicStyleSheet(stylesheet)
   const back = useDynamicValue(img_dark_back, img_light_back)
+  const background = useDynamicValue('#f6f7f8', '#111')
 
   const opacity = Animated.add(current, next ? next : 0).interpolate({
     inputRange: [0, 1, 2],
@@ -57,6 +58,7 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
       style={[
         styles.main,
         {
+          backgroundColor: background,
           opacity,
           paddingTop: top
         }

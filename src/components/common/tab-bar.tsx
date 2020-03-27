@@ -6,7 +6,8 @@ import {
   DynamicStyleSheet,
   DynamicValue,
   useDarkMode,
-  useDynamicStyleSheet
+  useDynamicStyleSheet,
+  useDynamicValue
 } from 'react-native-dark-mode'
 import { useSafeArea } from 'react-native-safe-area-context'
 
@@ -61,13 +62,20 @@ export const TabBar: FunctionComponent<BottomTabBarProps> = ({
   })
 
   const styles = useDynamicStyleSheet(stylesheet)
+  const background = useDynamicValue('#f6f7f8', '#111')
 
   if (!visible) {
     return null
   }
 
   return (
-    <View style={styles.main}>
+    <View
+      style={[
+        styles.main,
+        {
+          backgroundColor: background
+        }
+      ]}>
       {routes.map((route, active) => (
         <Touchable
           key={active}
@@ -121,7 +129,6 @@ const stylesheet = new DynamicStyleSheet({
     width: layout.icon
   },
   main: {
-    backgroundColor: colors.backgroundDark,
     borderTopColor: colors.border,
     borderTopWidth: 1,
     flexDirection: 'row'

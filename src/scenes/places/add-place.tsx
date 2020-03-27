@@ -3,26 +3,21 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { createRef, FunctionComponent, useEffect, useState } from 'react'
 import {
   ActivityIndicator,
-  Dimensions,
   Image,
   ScrollView,
   Text,
-  TextInput,
-  View
+  TextInput
 } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
   useDynamicValue
 } from 'react-native-dark-mode'
-import MapView, { Marker } from 'react-native-maps'
 
 import {
   img_dark_google_maps,
-  img_dark_marker,
   img_dark_save,
   img_light_google_maps,
-  img_light_marker,
   img_light_save
 } from '../../assets'
 import {
@@ -57,17 +52,16 @@ export const AddPlace: FunctionComponent<Props> = ({
   const [coordinates, setCoordinates] = useState<LocationPoint>()
 
   const [useGoogle, setUseGoogle] = useState(false)
-  const [useMap, setUseMap] = useState(false)
 
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
   const img_save = useDynamicValue(img_dark_save, img_light_save)
-  const img_marker = useDynamicValue(img_dark_marker, img_light_marker)
   const img_google_maps = useDynamicValue(
-    img_dark_google_maps,
-    img_light_google_maps
+    img_light_google_maps,
+    img_dark_google_maps
   )
+  const foreground = useDynamicValue(colors.white, colors.black)
 
   useEffect(() => {
     geo.get().then((location) => {
@@ -142,37 +136,23 @@ export const AddPlace: FunctionComponent<Props> = ({
           returnKeyType="next"
           value={name}
         />
-        {coordinates && (
-          <MapView
-            pitchEnabled={false}
-            provider="google"
-            region={{
-              latitude: coordinates.latitude,
-              latitudeDelta: 0.06,
-              longitude: coordinates.longitude,
-              longitudeDelta: 0.05
-            }}
-            rotateEnabled={false}
-            scrollEnabled={false}
-            style={styles.map}
-            zoomEnabled={false}>
-            <Marker coordinate={coordinates} />
-          </MapView>
-        )}
-        <View style={styles.buttons}>
-          <Touchable
-            onPress={() => setUseMap(true)}
-            style={[styles.button, styles.buttonMap]}>
-            <Image source={img_marker} style={styles.icon} />
-            <Text style={styles.label}>Pick location from a map</Text>
-          </Touchable>
-          <Touchable
-            onPress={() => setUseGoogle(true)}
-            style={[styles.button, styles.buttonGoogle]}>
-            <Image source={img_google_maps} style={styles.icon} />
-            <Text style={styles.label}>Find on Google Places</Text>
-          </Touchable>
-        </View>
+        <Map
+          location={location}
+          onChange={(location) => setCoordinates(location)}
+          style={styles.map}
+        />
+        <Touchable onPress={() => setUseGoogle(true)} style={styles.button}>
+          <Image source={img_google_maps} style={styles.icon} />
+          <Text
+            style={[
+              styles.label,
+              {
+                color: foreground
+              }
+            ]}>
+            Find on Google Places
+          </Text>
+        </Touchable>
       </ScrollView>
       <LocationPicker
         location={location}
@@ -188,37 +168,17 @@ export const AddPlace: FunctionComponent<Props> = ({
         selected={googlePlaceId}
         visible={useGoogle}
       />
-      <Map
-        location={location}
-        onChange={(location) => setCoordinates(location)}
-        onClose={() => setUseMap(false)}
-        visible={useMap}
-      />
     </>
   )
 }
 
-const { height } = Dimensions.get('window')
-
 const stylesheet = new DynamicStyleSheet({
   button: {
     alignItems: 'center',
+    backgroundColor: colors.primary,
     borderRadius: layout.radius,
     flexDirection: 'row',
     padding: layout.margin
-  },
-  buttonGoogle: {
-    backgroundColor: colors.accent,
-    flex: 1,
-    marginLeft: layout.margin
-  },
-  buttonMap: {
-    backgroundColor: colors.primary,
-    flex: 1
-  },
-  buttons: {
-    flexDirection: 'row',
-    marginTop: layout.margin
   },
   error: {
     marginBottom: layout.margin
@@ -228,8 +188,8 @@ const stylesheet = new DynamicStyleSheet({
     width: layout.icon
   },
   label: {
-    ...typography.footnote,
-    color: colors.foreground,
+    ...typography.regular,
+    color: colors.black,
     flex: 1,
     marginLeft: layout.margin
   },
@@ -237,10 +197,7 @@ const stylesheet = new DynamicStyleSheet({
     padding: layout.margin
   },
   map: {
-    borderRadius: layout.radius,
-    height: height / 3,
-    marginTop: layout.margin,
-    width: '100%'
+    marginVertical: layout.margin
   },
   spinner: {
     margin: layout.margin

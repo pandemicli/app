@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -109,7 +109,7 @@ const stylesheet = new DynamicStyleSheet({
     margin: layout.padding * 1.5
   },
   modal: {
-    height: '70%'
+    height: '80%'
   },
   query: {
     backgroundColor: 'transparent',
@@ -126,6 +126,6 @@ const stylesheet = new DynamicStyleSheet({
   },
   separator: {
     backgroundColor: colors.background,
-    height: StyleSheet.hairlineWidth
+    height: 1
   }
 })

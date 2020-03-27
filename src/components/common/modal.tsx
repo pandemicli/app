@@ -6,13 +6,9 @@ import {
   View,
   ViewStyle
 } from 'react-native'
-import {
-  DynamicStyleSheet,
-  useDynamicStyleSheet,
-  useDynamicValue
-} from 'react-native-dark-mode'
+import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
-import { img_dark_close, img_light_close } from '../../assets'
+import { img_dark_close } from '../../assets'
 import { colors, layout, typography } from '../../styles'
 import { KeyboardView } from './keyboard-view'
 import { Touchable } from './touchable'
@@ -33,7 +29,6 @@ export const Modal: FunctionComponent<Props> = ({
   visible
 }) => {
   const styles = useDynamicStyleSheet(stylesheet)
-  const close = useDynamicValue(img_dark_close, img_light_close)
 
   return (
     <ReactNativeModal
@@ -47,7 +42,7 @@ export const Modal: FunctionComponent<Props> = ({
             <View style={styles.header}>
               <Text style={styles.title}>{title}</Text>
               <Touchable onPress={onClose}>
-                <Image source={close} style={styles.icon} />
+                <Image source={img_dark_close} style={styles.icon} />
               </Touchable>
             </View>
             {children}
@@ -74,20 +69,22 @@ const stylesheet = new DynamicStyleSheet({
     backgroundColor: colors.backgroundDark,
     borderRadius: layout.radius,
     margin: layout.margin * 2,
-    maxHeight: '70%',
+    maxHeight: '80%',
     overflow: 'hidden',
-    width: '70%'
+    width: '80%'
   },
   modal: {
     alignItems: 'center',
     backgroundColor: colors.modal,
+    borderColor: colors.border,
+    borderWidth: 1,
     flex: 1,
     justifyContent: 'center'
   },
   title: {
     ...typography.regular,
     ...typography.medium,
-    color: colors.foreground,
+    color: colors.black,
     flex: 1,
     margin: layout.margin
   }

@@ -9,7 +9,8 @@ export const colors = {
     remove: '#ff3b30'
   },
   background: new DynamicValue('#fff', '#000'),
-  backgroundDark: new DynamicValue('#f6f7f8', '#111'),
+  backgroundDark: new DynamicValue('#ecf0f1', '#222'),
+  black: '#000',
   border: new DynamicValue('#e0e0e0', '#181818'),
   foreground: new DynamicValue('#000', '#fff'),
   foregroundLight: new DynamicValue('#666', '#ccc'),
@@ -20,5 +21,6 @@ export const colors = {
     error: '#ff3b30',
     message: '#007aff',
     success: '#4cd964'
-  }
+  },
+  white: '#fff'
 }

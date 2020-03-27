@@ -29,6 +29,7 @@ export const Button: FunctionComponent<Props> = ({
 }) => {
   const styles = useDynamicStyleSheet(stylesheet)
   const color = useDynamicValue(colors.background)
+  const foreground = useDynamicValue(colors.white, colors.black)
 
   return (
     <Touchable
@@ -36,7 +37,15 @@ export const Button: FunctionComponent<Props> = ({
       onPress={onPress}
       style={[styles.main, style, small && styles.small]}>
       {!loading && (
-        <Text style={[styles.label, styleLabel, small && styles.smallLabel]}>
+        <Text
+          style={[
+            styles.label,
+            {
+              color: foreground
+            },
+            styleLabel,
+            small && styles.smallLabel
+          ]}>
           {label}
         </Text>
       )}
@@ -49,7 +58,7 @@ const stylesheet = new DynamicStyleSheet({
   label: {
     ...typography.regular,
     ...typography.medium,
-    color: colors.background
+    color: colors.black
   },
   main: {
     alignItems: 'center',

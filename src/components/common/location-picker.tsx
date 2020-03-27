@@ -1,13 +1,6 @@
 import { useLazyQuery } from '@apollo/react-hooks'
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native'
+import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -88,7 +81,7 @@ export const LocationPicker: FunctionComponent<Props> = ({
         <Image source={search} style={styles.icon} />
         <TextBox
           onChangeText={(query) => setQuery(query)}
-          placeholder="Filter"
+          placeholder="Search"
           style={styles.query}
           value={query}
         />
@@ -133,12 +126,12 @@ const stylesheet = new DynamicStyleSheet({
     width: layout.icon
   },
   label: {
-    ...typography.regular,
+    ...typography.footnote,
     color: colors.foreground,
     margin: layout.padding * 1.5
   },
   modal: {
-    height: '70%'
+    height: '80%'
   },
   query: {
     backgroundColor: 'transparent',
@@ -155,7 +148,7 @@ const stylesheet = new DynamicStyleSheet({
   },
   separator: {
     backgroundColor: colors.background,
-    height: StyleSheet.hairlineWidth
+    height: 1
   },
   spinner: {
     margin: layout.margin
