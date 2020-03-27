@@ -93,6 +93,7 @@ export const Contacts: FunctionComponent<Props> = ({
       contentContainerStyle={styles.list}
       data={contacts}
       disableLeftSwipe
+      initialNumToRender={20}
       ItemSeparatorComponent={Separator}
       keyExtractor={(item) => item.id}
       leftOpenValue={layout.icon * 3 + layout.margin * 3 * 2}
