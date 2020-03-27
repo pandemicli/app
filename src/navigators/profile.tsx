@@ -5,7 +5,7 @@ import { useSafeArea } from 'react-native-safe-area-context'
 
 import { img_dark_camera, img_light_camera } from '../assets'
 import { Header, HeaderButton } from '../components/common'
-import { Profile } from '../scenes/profile'
+import { Profile, Scan } from '../scenes/profile'
 import { layout } from '../styles'
 
 export type ProfileParamList = {
@@ -41,7 +41,7 @@ export const ProfileNavigator = () => {
         })}
       />
       <Screen
-        component={Profile}
+        component={Scan}
         name="Scan"
         options={{
           header: (props) => <Header {...props} />,

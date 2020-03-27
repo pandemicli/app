@@ -31,6 +31,7 @@
     "phone": "^2.4.8",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-camera": "^3.21.0",
     "react-native-contacts": "^5.1.0",
     "react-native-dark-mode": "^0.2.2",
     "react-native-gesture-handler": "^1.6.1",

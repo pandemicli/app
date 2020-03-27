@@ -3,6 +3,7 @@ import set from 'immutability-helper'
 import { SwipeRow } from 'react-native-swipe-list-view'
 
 import {
+  ADD_CONTACT,
   CONTACTS,
   CREATE_CONTACT,
   REMOVE_CONTACT,
@@ -11,6 +12,7 @@ import {
   UPDATE_CONTACT
 } from '../graphql/documents'
 import {
+  MutationAddContactPayload,
   MutationCreateContactPayload,
   MutationRemoveContactPayload,
   MutationSyncContactsPayload,
@@ -21,6 +23,7 @@ import {
 import {
   Contact,
   ContactInput,
+  MutationAddContactArgs,
   MutationCreateContactArgs,
   MutationRemoveContactArgs,
   MutationSyncContactsArgs,
@@ -64,6 +67,11 @@ export const useContacts = () => {
       ]
     }
   })
+
+  const [addContact, addContactMutation] = useMutation<
+    MutationAddContactPayload,
+    MutationAddContactArgs
+  >(ADD_CONTACT)
 
   const create = (
     contact: ContactInput,
@@ -219,7 +227,38 @@ export const useContacts = () => {
       }
     })
 
+  const add = (code: string) =>
+    addContact({
+      update(proxy, response) {
+        if (!response.data) {
+          return
+        }
+
+        try {
+          const previous = proxy.readQuery<QueryContactsPayload>({
+            query: CONTACTS
+          })
+
+          if (previous) {
+            proxy.writeQuery({
+              data: set(previous, {
+                contacts: {
+                  $push: [response.data.addContact]
+                }
+              }),
+              query: CONTACTS
+            })
+          }
+        } catch (error) {}
+      },
+      variables: {
+        code
+      }
+    })
+
   return {
+    add,
+    adding: addContactMutation.loading,
     create,
     creating: createContactMutation.loading,
     favoriting: toggleFavoriteContactMutation.loading,

@@ -63,6 +63,10 @@ export type MutationSyncContactsPayload = {
   syncContacts: Contact[]
 }
 
+export type MutationAddContactPayload = {
+  addContact: Contact
+}
+
 export type MutationCreatePlacePayload = {
   createPlace: Place
 }

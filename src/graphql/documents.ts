@@ -1,5 +1,17 @@
 import gql from 'graphql-tag';
 
+export const ADD_CONTACT = gql`
+    mutation addContact($code: String!) {
+  addContact(code: $code) {
+    id
+    favorite
+    name
+    phone
+    createdAt
+    interactedToday
+  }
+}
+    `;
 export const CREATE_CONTACT = gql`
     mutation createContact($contact: ContactInput!) {
   createContact(contact: $contact) {
@@ -145,6 +157,7 @@ export const PROFILE = gql`
     query profile {
   profile {
     id
+    code
     name
     email
     phone

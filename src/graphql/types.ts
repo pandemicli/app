@@ -80,6 +80,7 @@ export type Mutation = {
   toggleFavoriteContact: Scalars['Boolean'];
   toggleInteraction: Scalars['Boolean'];
   syncContacts: Array<Contact>;
+  addContact: Contact;
   createPlace: Place;
   updatePlace: Place;
   removePlace: Scalars['Boolean'];
@@ -120,6 +121,11 @@ export type MutationToggleInteractionArgs = {
 
 export type MutationSyncContactsArgs = {
   contacts: Array<ContactInput>;
+};
+
+
+export type MutationAddContactArgs = {
+  code: Scalars['String'];
 };
 
 
@@ -225,6 +231,7 @@ export type TodayFeed = {
 export type User = {
    __typename?: 'User';
   id: Scalars['ID'];
+  code: Scalars['String'];
   name: Scalars['String'];
   email: Scalars['String'];
   phone: Scalars['String'];

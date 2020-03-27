@@ -40,7 +40,7 @@ export const Profile: FunctionComponent<Props> = () => {
               <QRCode
                 backgroundColor="#fff"
                 size={width / 3}
-                value={data.profile.id}
+                value={data.profile.code}
               />
             </View>
             <Text style={styles.greeting}>
