@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Dimensions, Image } from 'react-native'
+import { Dimensions, Image, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import MapView, { Region } from 'react-native-maps'
 
@@ -53,7 +53,9 @@ export const Map: FunctionComponent<Props> = ({
         provider="google"
         style={styles.map}
       />
-      <Image source={img_marker} style={styles.marker} />
+      <View pointerEvents="none" style={styles.marker}>
+        <Image source={img_marker} style={styles.icon} />
+      </View>
       <Button
         label="Done"
         onPress={() => {
@@ -76,15 +78,17 @@ const stylesheet = new DynamicStyleSheet({
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0
   },
+  icon: {
+    height: 30,
+    width: 30
+  },
   map: {
     height: height / 2
   },
   marker: {
-    height: 30,
     left: '50%',
     marginLeft: -15,
     position: 'absolute',
-    top: '50%',
-    width: 30
+    top: '50%'
   }
 })
