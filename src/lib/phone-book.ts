@@ -29,13 +29,13 @@ class PhoneBook {
           return
         }
 
-        const contacts = data.map(
-          ({ familyName, givenName, phoneNumbers, recordID }) => ({
+        const contacts = data
+          .map(({ familyName, givenName, phoneNumbers, recordID }) => ({
             deviceId: recordID,
-            name: [givenName, familyName].join(' '),
+            name: [givenName.trim(), familyName.trim()].join(' ').trim(),
             phone: this.getMobile(phoneNumbers)
-          })
-        )
+          }))
+          .filter(({ name }) => name)
 
         resolve(contacts)
       })
@@ -43,7 +43,14 @@ class PhoneBook {
   }
 
   private getMobile(numbers: PhoneNumber[]): string | undefined {
+    const iPhone = numbers.find(({ label }) => label === 'iPhone')?.number
     const mobile = numbers.find(({ label }) => label === 'mobile')?.number
+
+    if (iPhone) {
+      const [number] = phone(iPhone)
+
+      return number
+    }
 
     if (mobile) {
       const [number] = phone(mobile)
