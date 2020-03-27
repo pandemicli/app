@@ -87,13 +87,25 @@ export const Contacts: FunctionComponent<Props> = ({
     ['desc', 'asc']
   )
 
+  const favorites = contacts.filter(({ favorite }) => favorite)
+  const others = contacts.filter(({ favorite }) => !favorite)
+
+  const sections = [
+    {
+      data: favorites,
+      title: 'Favorites'
+    },
+    {
+      data: others,
+      title: 'Others'
+    }
+  ]
+
   return (
     <SwipeListView
       closeOnRowBeginSwipe
       contentContainerStyle={styles.list}
-      data={contacts}
       disableLeftSwipe
-      initialNumToRender={20}
       ItemSeparatorComponent={Separator}
       keyExtractor={(item) => item.id}
       leftOpenValue={layout.icon * 3 + layout.margin * 3 * 2}
@@ -109,13 +121,10 @@ export const Contacts: FunctionComponent<Props> = ({
         ) : null
       }
       ListHeaderComponent={
-        <>
-          <Text style={styles.message}>
-            You can tap the sync icon on the top right{'\n'}to sync all your
-            phone contacts.
-          </Text>
-          <Separator />
-        </>
+        <Text style={styles.message}>
+          You can tap the sync icon on the top right{'\n'}to sync all your phone
+          contacts.
+        </Text>
       }
       recalculateHiddenLayout
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
@@ -135,11 +144,26 @@ export const Contacts: FunctionComponent<Props> = ({
         />
       )}
       renderItem={({ item }) => <ListItem item={item} />}
+      renderSectionHeader={({ section }) =>
+        section.data.length > 0 ? (
+          <Text style={styles.header}>{section.title}</Text>
+        ) : null
+      }
+      sections={sections}
+      useSectionList
     />
   )
 }
 
 const stylesheet = new DynamicStyleSheet({
+  header: {
+    ...typography.small,
+    ...typography.medium,
+    backgroundColor: colors.backgroundDark,
+    color: colors.foregroundLight,
+    flex: 1,
+    padding: layout.margin
+  },
   list: {
     flexGrow: 1
   },

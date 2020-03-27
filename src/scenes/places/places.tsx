@@ -31,11 +31,24 @@ export const Places: FunctionComponent<Props> = ({
 
   const places = orderBy(data?.places, ['favorite', 'name'], ['desc', 'asc'])
 
+  const favorites = places.filter(({ favorite }) => favorite)
+  const others = places.filter(({ favorite }) => !favorite)
+
+  const sections = [
+    {
+      data: favorites,
+      title: 'Favorites'
+    },
+    {
+      data: others,
+      title: 'Others'
+    }
+  ]
+
   return (
     <SwipeListView
       closeOnRowBeginSwipe
       contentContainerStyle={styles.list}
-      data={places}
       disableLeftSwipe
       ItemSeparatorComponent={Separator}
       keyExtractor={(item) => item.id}
@@ -68,11 +81,26 @@ export const Places: FunctionComponent<Props> = ({
         />
       )}
       renderItem={({ item }) => <ListItem item={item} />}
+      renderSectionHeader={({ section }) =>
+        section.data.length > 0 ? (
+          <Text style={styles.header}>{section.title}</Text>
+        ) : null
+      }
+      sections={sections}
+      useSectionList
     />
   )
 }
 
 const stylesheet = new DynamicStyleSheet({
+  header: {
+    ...typography.small,
+    ...typography.medium,
+    backgroundColor: colors.backgroundDark,
+    color: colors.foregroundLight,
+    flex: 1,
+    padding: layout.margin
+  },
   list: {
     flexGrow: 1
   },
