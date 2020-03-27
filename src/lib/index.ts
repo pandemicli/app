@@ -1,4 +1,5 @@
 export { dialog } from './dialog'
 export { geo } from './geo'
+export { mitter } from './mitter'
 export { phoneBook } from './phone-book'
 export { storage } from './storage'

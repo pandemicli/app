@@ -14,6 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { KeyboardView, Spinner } from './components/common'
 import { client } from './graphql'
+import { mitter } from './lib'
 import { AuthNavigator, MainNavigator } from './navigators'
 import { useAuth } from './store'
 import { colors } from './styles'
@@ -21,11 +22,19 @@ import { colors } from './styles'
 export const Pandemic: FunctionComponent = () => {
   const isDarkMode = useDarkMode()
 
-  const [{ loading, token }, { init }] = useAuth()
+  const [{ loading, token }, { init, signOut }] = useAuth()
 
   useEffect(() => {
     init()
   }, [init])
+
+  useEffect(() => {
+    mitter.on('logout', () => signOut())
+
+    return () => {
+      mitter.off('logout', () => signOut())
+    }
+  }, [signOut])
 
   const background = useDynamicValue(colors.background)
 
