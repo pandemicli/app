@@ -150,7 +150,10 @@ export const EditPlace: FunctionComponent<Props> = ({
         />
         <Map
           location={coordinates}
-          onChange={(location) => setCoordinates(location)}
+          onChange={(location) => {
+            setCoordinates(location)
+            setGooglePlaceId(undefined)
+          }}
           style={styles.map}
         />
         <Touchable onPress={() => setUseGoogle(true)} style={styles.button}>

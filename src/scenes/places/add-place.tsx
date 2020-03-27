@@ -138,7 +138,10 @@ export const AddPlace: FunctionComponent<Props> = ({
         />
         <Map
           location={location}
-          onChange={(location) => setCoordinates(location)}
+          onChange={(location) => {
+            setCoordinates(location)
+            setGooglePlaceId(undefined)
+          }}
           style={styles.map}
         />
         <Touchable onPress={() => setUseGoogle(true)} style={styles.button}>
