@@ -23,6 +23,14 @@ export type QueryPlacesPayload = {
 
 // mutations
 
+export type MutationCreateContactPayload = {
+  createContact: Contact
+}
+
+export type MutationUpdateContactPayload = {
+  updateContact: Contact
+}
+
 export type MutationToggleInteractionPayload = {
   toggleInteraction: boolean
 }

@@ -1,0 +1,10 @@
+mutation updateContact($id: String!, $contact: ContactInput!) {
+  updateContact(id: $id, contact: $contact) {
+    id
+    favorite
+    name
+    phone
+    createdAt
+    interactedToday
+  }
+}

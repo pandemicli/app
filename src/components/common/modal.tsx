@@ -1,13 +1,26 @@
 import React, { FunctionComponent } from 'react'
-import { Modal as ReactNativeModal, Text, View } from 'react-native'
-import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
+import {
+  Image,
+  Modal as ReactNativeModal,
+  Text,
+  View,
+  ViewStyle
+} from 'react-native'
+import {
+  DynamicStyleSheet,
+  useDynamicStyleSheet,
+  useDynamicValue
+} from 'react-native-dark-mode'
 
+import { img_dark_clear, img_light_clear } from '../../assets'
 import { colors, layout, typography } from '../../styles'
 import { KeyboardView } from './keyboard-view'
+import { Touchable } from './touchable'
 
 interface Props {
   title: string
   visible: boolean
+  style?: ViewStyle
 
   onClose: () => void
 }
@@ -15,10 +28,12 @@ interface Props {
 export const Modal: FunctionComponent<Props> = ({
   children,
   onClose,
+  style,
   title,
   visible
 }) => {
   const styles = useDynamicStyleSheet(stylesheet)
+  const close = useDynamicValue(img_dark_clear, img_light_clear)
 
   return (
     <ReactNativeModal
@@ -28,9 +43,12 @@ export const Modal: FunctionComponent<Props> = ({
       visible={visible}>
       <KeyboardView>
         <View style={styles.modal}>
-          <View style={styles.main}>
+          <View style={[styles.main, style]}>
             <View style={styles.header}>
               <Text style={styles.title}>{title}</Text>
+              <Touchable onPress={onClose}>
+                <Image source={close} style={styles.icon} />
+              </Touchable>
             </View>
             {children}
           </View>
@@ -45,7 +63,12 @@ const stylesheet = new DynamicStyleSheet({
     backgroundColor: colors.primaryDark,
     borderTopLeftRadius: layout.radius,
     borderTopRightRadius: layout.radius,
-    padding: layout.padding * 1.5
+    flexDirection: 'row'
+  },
+  icon: {
+    height: layout.icon,
+    margin: layout.margin,
+    width: layout.icon
   },
   main: {
     backgroundColor: colors.backgroundDark,
@@ -61,7 +84,10 @@ const stylesheet = new DynamicStyleSheet({
     justifyContent: 'center'
   },
   title: {
-    ...typography.subtitle,
-    color: colors.foreground
+    ...typography.regular,
+    ...typography.medium,
+    color: colors.foreground,
+    flex: 1,
+    margin: layout.margin
   }
 })

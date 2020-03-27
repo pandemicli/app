@@ -2,1241 +2,1489 @@
   {
     "code": "297",
     "id": "AW",
+    "iso": "ABW",
     "name": "Aruba"
   },
   {
     "code": "93",
     "id": "AF",
+    "iso": "AFG",
     "name": "Afghanistan"
   },
   {
     "code": "244",
     "id": "AO",
+    "iso": "AGO",
     "name": "Angola"
   },
   {
     "code": "1264",
     "id": "AI",
+    "iso": "AIA",
     "name": "Anguilla"
   },
   {
     "code": "358",
     "id": "AX",
+    "iso": "ALA",
     "name": "Åland Islands"
   },
   {
     "code": "355",
     "id": "AL",
+    "iso": "ALB",
     "name": "Albania"
   },
   {
     "code": "376",
     "id": "AD",
+    "iso": "AND",
     "name": "Andorra"
   },
   {
     "code": "971",
     "id": "AE",
+    "iso": "ARE",
     "name": "United Arab Emirates"
   },
   {
     "code": "54",
     "id": "AR",
+    "iso": "ARG",
     "name": "Argentina"
   },
   {
     "code": "374",
     "id": "AM",
+    "iso": "ARM",
     "name": "Armenia"
   },
   {
     "code": "1684",
     "id": "AS",
+    "iso": "ASM",
     "name": "American Samoa"
   },
   {
     "code": "1268",
     "id": "AG",
+    "iso": "ATG",
     "name": "Antigua and Barbuda"
   },
   {
     "code": "61",
     "id": "AU",
+    "iso": "AUS",
     "name": "Australia"
   },
   {
     "code": "43",
     "id": "AT",
+    "iso": "AUT",
     "name": "Austria"
   },
   {
     "code": "994",
     "id": "AZ",
+    "iso": "AZE",
     "name": "Azerbaijan"
   },
   {
     "code": "257",
     "id": "BI",
+    "iso": "BDI",
     "name": "Burundi"
   },
   {
     "code": "32",
     "id": "BE",
+    "iso": "BEL",
     "name": "Belgium"
   },
   {
     "code": "229",
     "id": "BJ",
+    "iso": "BEN",
     "name": "Benin"
   },
   {
     "code": "226",
     "id": "BF",
+    "iso": "BFA",
     "name": "Burkina Faso"
   },
   {
     "code": "880",
     "id": "BD",
+    "iso": "BGD",
     "name": "Bangladesh"
   },
   {
     "code": "359",
     "id": "BG",
+    "iso": "BGR",
     "name": "Bulgaria"
   },
   {
     "code": "973",
     "id": "BH",
+    "iso": "BHR",
     "name": "Bahrain"
   },
   {
     "code": "1242",
     "id": "BS",
+    "iso": "BHS",
     "name": "Bahamas"
   },
   {
     "code": "387",
     "id": "BA",
+    "iso": "BIH",
     "name": "Bosnia and Herzegovina"
   },
   {
     "code": "590",
     "id": "BL",
+    "iso": "BLM",
     "name": "Saint BarthÃ©lemy"
   },
   {
     "code": "375",
     "id": "BY",
+    "iso": "BLR",
     "name": "Belarus"
   },
   {
     "code": "501",
     "id": "BZ",
+    "iso": "BLZ",
     "name": "Belize"
   },
   {
     "code": "1441",
     "id": "BM",
+    "iso": "BMU",
     "name": "Bermuda"
   },
   {
     "code": "591",
     "id": "BO",
+    "iso": "BOL",
     "name": "Bolivia"
   },
   {
     "code": "55",
     "id": "BR",
+    "iso": "BRA",
     "name": "Brazil"
   },
   {
     "code": "1246",
     "id": "BB",
+    "iso": "BRB",
     "name": "Barbados"
   },
   {
     "code": "673",
     "id": "BN",
+    "iso": "BRN",
     "name": "Brunei"
   },
   {
     "code": "975",
     "id": "BT",
+    "iso": "BTN",
     "name": "Bhutan"
   },
   {
     "code": "267",
     "id": "BW",
+    "iso": "BWA",
     "name": "Botswana"
   },
   {
     "code": "236",
     "id": "CF",
+    "iso": "CAF",
     "name": "Central African Republic"
   },
   {
     "code": "1",
     "id": "CA",
+    "iso": "CAN",
     "name": "Canada"
   },
   {
     "code": "61",
     "id": "CC",
+    "iso": "CCK",
     "name": "Cocos (Keeling) Islands"
   },
   {
     "code": "41",
     "id": "CH",
+    "iso": "CHE",
     "name": "Switzerland"
   },
   {
     "code": "56",
     "id": "CL",
+    "iso": "CHL",
     "name": "Chile"
   },
   {
     "code": "86",
     "id": "CN",
+    "iso": "CHN",
     "name": "China"
   },
   {
     "code": "225",
     "id": "CI",
+    "iso": "CIV",
     "name": "Ivory Coast"
   },
   {
     "code": "237",
     "id": "CM",
+    "iso": "CMR",
     "name": "Cameroon"
   },
   {
     "code": "243",
     "id": "CD",
+    "iso": "COD",
     "name": "DR Congo"
   },
   {
     "code": "242",
     "id": "CG",
+    "iso": "COG",
     "name": "Republic of the Congo"
   },
   {
     "code": "682",
     "id": "CK",
+    "iso": "COK",
     "name": "Cook Islands"
   },
   {
     "code": "57",
     "id": "CO",
+    "iso": "COL",
     "name": "Colombia"
   },
   {
     "code": "269",
     "id": "KM",
+    "iso": "COM",
     "name": "Comoros"
   },
   {
     "code": "238",
     "id": "CV",
+    "iso": "CPV",
     "name": "Cape Verde"
   },
   {
     "code": "506",
     "id": "CR",
+    "iso": "CRI",
     "name": "Costa Rica"
   },
   {
     "code": "53",
     "id": "CU",
+    "iso": "CUB",
     "name": "Cuba"
   },
   {
     "code": "5999",
     "id": "CW",
+    "iso": "CUW",
     "name": "CuraÃ§ao"
   },
   {
     "code": "61",
     "id": "CX",
+    "iso": "CXR",
     "name": "Christmas Island"
   },
   {
     "code": "1345",
     "id": "KY",
+    "iso": "CYM",
     "name": "Cayman Islands"
   },
   {
     "code": "357",
     "id": "CY",
+    "iso": "CYP",
     "name": "Cyprus"
   },
   {
     "code": "420",
     "id": "CZ",
+    "iso": "CZE",
     "name": "Czechia"
   },
   {
     "code": "49",
     "id": "DE",
+    "iso": "DEU",
     "name": "Germany"
   },
   {
     "code": "253",
     "id": "DJ",
+    "iso": "DJI",
     "name": "Djibouti"
   },
   {
     "code": "1767",
     "id": "DM",
+    "iso": "DMA",
     "name": "Dominica"
   },
   {
     "code": "45",
     "id": "DK",
+    "iso": "DNK",
     "name": "Denmark"
   },
   {
     "code": "1809",
     "id": "DO",
+    "iso": "DOM",
     "name": "Dominican Republic"
   },
   {
     "code": "1829",
     "id": "DO",
+    "iso": "DOM",
     "name": "Dominican Republic"
   },
   {
     "code": "1849",
     "id": "DO",
+    "iso": "DOM",
     "name": "Dominican Republic"
   },
   {
     "code": "213",
     "id": "DZ",
+    "iso": "DZA",
     "name": "Algeria"
   },
   {
     "code": "593",
     "id": "EC",
+    "iso": "ECU",
     "name": "Ecuador"
   },
   {
     "code": "20",
     "id": "EG",
+    "iso": "EGY",
     "name": "Egypt"
   },
   {
     "code": "291",
     "id": "ER",
+    "iso": "ERI",
     "name": "Eritrea"
   },
   {
     "code": "212",
     "id": "EH",
+    "iso": "ESH",
     "name": "Western Sahara"
   },
   {
     "code": "34",
     "id": "ES",
+    "iso": "ESP",
     "name": "Spain"
   },
   {
     "code": "372",
     "id": "EE",
+    "iso": "EST",
     "name": "Estonia"
   },
   {
     "code": "251",
     "id": "ET",
+    "iso": "ETH",
     "name": "Ethiopia"
   },
   {
     "code": "358",
     "id": "FI",
+    "iso": "FIN",
     "name": "Finland"
   },
   {
     "code": "679",
     "id": "FJ",
+    "iso": "FJI",
     "name": "Fiji"
   },
   {
     "code": "500",
     "id": "FK",
+    "iso": "FLK",
     "name": "Falkland Islands"
   },
   {
     "code": "33",
     "id": "FR",
+    "iso": "FRA",
     "name": "France"
   },
   {
     "code": "298",
     "id": "FO",
+    "iso": "FRO",
     "name": "Faroe Islands"
   },
   {
     "code": "691",
     "id": "FM",
+    "iso": "FSM",
     "name": "Micronesia"
   },
   {
     "code": "241",
     "id": "GA",
+    "iso": "GAB",
     "name": "Gabon"
   },
   {
     "code": "44",
     "id": "GB",
+    "iso": "GBR",
     "name": "United Kingdom"
   },
   {
     "code": "995",
     "id": "GE",
+    "iso": "GEO",
     "name": "Georgia"
   },
   {
     "code": "44",
     "id": "GG",
+    "iso": "GGY",
     "name": "Guernsey"
   },
   {
     "code": "233",
     "id": "GH",
+    "iso": "GHA",
     "name": "Ghana"
   },
   {
     "code": "350",
     "id": "GI",
+    "iso": "GIB",
     "name": "Gibraltar"
   },
   {
     "code": "224",
     "id": "GN",
+    "iso": "GIN",
     "name": "Guinea"
   },
   {
     "code": "590",
     "id": "GP",
+    "iso": "GLP",
     "name": "Guadeloupe"
   },
   {
     "code": "220",
     "id": "GM",
+    "iso": "GMB",
     "name": "Gambia"
   },
   {
     "code": "245",
     "id": "GW",
+    "iso": "GNB",
     "name": "Guinea-Bissau"
   },
   {
     "code": "240",
     "id": "GQ",
+    "iso": "GNQ",
     "name": "Equatorial Guinea"
   },
   {
     "code": "30",
     "id": "GR",
+    "iso": "GRC",
     "name": "Greece"
   },
   {
     "code": "1473",
     "id": "GD",
+    "iso": "GRD",
     "name": "Grenada"
   },
   {
     "code": "299",
     "id": "GL",
+    "iso": "GRL",
     "name": "Greenland"
   },
   {
     "code": "502",
     "id": "GT",
+    "iso": "GTM",
     "name": "Guatemala"
   },
   {
     "code": "594",
     "id": "GF",
+    "iso": "GUF",
     "name": "French Guiana"
   },
   {
     "code": "1671",
     "id": "GU",
+    "iso": "GUM",
     "name": "Guam"
   },
   {
     "code": "592",
     "id": "GY",
+    "iso": "GUY",
     "name": "Guyana"
   },
   {
     "code": "852",
     "id": "HK",
+    "iso": "HKG",
     "name": "Hong Kong"
   },
   {
     "code": "504",
     "id": "HN",
+    "iso": "HND",
     "name": "Honduras"
   },
   {
     "code": "385",
     "id": "HR",
+    "iso": "HRV",
     "name": "Croatia"
   },
   {
     "code": "509",
     "id": "HT",
+    "iso": "HTI",
     "name": "Haiti"
   },
   {
     "code": "36",
     "id": "HU",
+    "iso": "HUN",
     "name": "Hungary"
   },
   {
     "code": "62",
     "id": "ID",
+    "iso": "IDN",
     "name": "Indonesia"
   },
   {
     "code": "44",
     "id": "IM",
+    "iso": "IMN",
     "name": "Isle of Man"
   },
   {
     "code": "91",
     "id": "IN",
+    "iso": "IND",
     "name": "India"
   },
   {
     "code": "246",
     "id": "IO",
+    "iso": "IOT",
     "name": "British Indian Ocean Territory"
   },
   {
     "code": "353",
     "id": "IE",
+    "iso": "IRL",
     "name": "Ireland"
   },
   {
     "code": "98",
     "id": "IR",
+    "iso": "IRN",
     "name": "Iran"
   },
   {
     "code": "964",
     "id": "IQ",
+    "iso": "IRQ",
     "name": "Iraq"
   },
   {
     "code": "354",
     "id": "IS",
+    "iso": "ISL",
     "name": "Iceland"
   },
   {
     "code": "972",
     "id": "IL",
+    "iso": "ISR",
     "name": "Israel"
   },
   {
     "code": "39",
     "id": "IT",
+    "iso": "ITA",
     "name": "Italy"
   },
   {
     "code": "1876",
     "id": "JM",
+    "iso": "JAM",
     "name": "Jamaica"
   },
   {
     "code": "44",
     "id": "JE",
+    "iso": "JEY",
     "name": "Jersey"
   },
   {
     "code": "962",
     "id": "JO",
+    "iso": "JOR",
     "name": "Jordan"
   },
   {
     "code": "81",
     "id": "JP",
+    "iso": "JPN",
     "name": "Japan"
   },
   {
     "code": "76",
     "id": "KZ",
+    "iso": "KAZ",
     "name": "Kazakhstan"
   },
   {
     "code": "77",
     "id": "KZ",
+    "iso": "KAZ",
     "name": "Kazakhstan"
   },
   {
     "code": "254",
     "id": "KE",
+    "iso": "KEN",
     "name": "Kenya"
   },
   {
     "code": "996",
     "id": "KG",
+    "iso": "KGZ",
     "name": "Kyrgyzstan"
   },
   {
     "code": "855",
     "id": "KH",
+    "iso": "KHM",
     "name": "Cambodia"
   },
   {
     "code": "686",
     "id": "KI",
+    "iso": "KIR",
     "name": "Kiribati"
   },
   {
     "code": "1869",
     "id": "KN",
+    "iso": "KNA",
     "name": "Saint Kitts and Nevis"
   },
   {
     "code": "82",
     "id": "KR",
+    "iso": "KOR",
     "name": "South Korea"
   },
   {
     "code": "383",
     "id": "XK",
+    "iso": "XKX",
     "name": "Kosovo"
   },
   {
     "code": "965",
     "id": "KW",
+    "iso": "KWT",
     "name": "Kuwait"
   },
   {
     "code": "856",
     "id": "LA",
+    "iso": "LAO",
     "name": "Laos"
   },
   {
     "code": "961",
     "id": "LB",
+    "iso": "LBN",
     "name": "Lebanon"
   },
   {
     "code": "231",
     "id": "LR",
+    "iso": "LBR",
     "name": "Liberia"
   },
   {
     "code": "218",
     "id": "LY",
+    "iso": "LBY",
     "name": "Libya"
   },
   {
     "code": "1758",
     "id": "LC",
+    "iso": "LCA",
     "name": "Saint Lucia"
   },
   {
     "code": "423",
     "id": "LI",
+    "iso": "LIE",
     "name": "Liechtenstein"
   },
   {
     "code": "94",
     "id": "LK",
+    "iso": "LKA",
     "name": "Sri Lanka"
   },
   {
     "code": "266",
     "id": "LS",
+    "iso": "LSO",
     "name": "Lesotho"
   },
   {
     "code": "370",
     "id": "LT",
+    "iso": "LTU",
     "name": "Lithuania"
   },
   {
     "code": "352",
     "id": "LU",
+    "iso": "LUX",
     "name": "Luxembourg"
   },
   {
     "code": "371",
     "id": "LV",
+    "iso": "LVA",
     "name": "Latvia"
   },
   {
     "code": "853",
     "id": "MO",
+    "iso": "MAC",
     "name": "Macau"
   },
   {
     "code": "590",
     "id": "MF",
+    "iso": "MAF",
     "name": "Saint Martin"
   },
   {
     "code": "212",
     "id": "MA",
+    "iso": "MAR",
     "name": "Morocco"
   },
   {
     "code": "377",
     "id": "MC",
+    "iso": "MCO",
     "name": "Monaco"
   },
   {
     "code": "373",
     "id": "MD",
+    "iso": "MDA",
     "name": "Moldova"
   },
   {
     "code": "261",
     "id": "MG",
+    "iso": "MDG",
     "name": "Madagascar"
   },
   {
     "code": "960",
     "id": "MV",
+    "iso": "MDV",
     "name": "Maldives"
   },
   {
     "code": "52",
     "id": "MX",
+    "iso": "MEX",
     "name": "Mexico"
   },
   {
     "code": "692",
     "id": "MH",
+    "iso": "MHL",
     "name": "Marshall Islands"
   },
   {
     "code": "389",
     "id": "MK",
+    "iso": "MKD",
     "name": "Macedonia"
   },
   {
     "code": "223",
     "id": "ML",
+    "iso": "MLI",
     "name": "Mali"
   },
   {
     "code": "356",
     "id": "MT",
+    "iso": "MLT",
     "name": "Malta"
   },
   {
     "code": "95",
     "id": "MM",
+    "iso": "MMR",
     "name": "Myanmar"
   },
   {
     "code": "382",
     "id": "ME",
+    "iso": "MNE",
     "name": "Montenegro"
   },
   {
     "code": "976",
     "id": "MN",
+    "iso": "MNG",
     "name": "Mongolia"
   },
   {
     "code": "1670",
     "id": "MP",
+    "iso": "MNP",
     "name": "Northern Mariana Islands"
   },
   {
     "code": "258",
     "id": "MZ",
+    "iso": "MOZ",
     "name": "Mozambique"
   },
   {
     "code": "222",
     "id": "MR",
+    "iso": "MRT",
     "name": "Mauritania"
   },
   {
     "code": "1664",
     "id": "MS",
+    "iso": "MSR",
     "name": "Montserrat"
   },
   {
     "code": "596",
     "id": "MQ",
+    "iso": "MTQ",
     "name": "Martinique"
   },
   {
     "code": "230",
     "id": "MU",
+    "iso": "MUS",
     "name": "Mauritius"
   },
   {
     "code": "265",
     "id": "MW",
+    "iso": "MWI",
     "name": "Malawi"
   },
   {
     "code": "60",
     "id": "MY",
+    "iso": "MYS",
     "name": "Malaysia"
   },
   {
     "code": "262",
     "id": "YT",
+    "iso": "MYT",
     "name": "Mayotte"
   },
   {
     "code": "264",
     "id": "NA",
+    "iso": "NAM",
     "name": "Namibia"
   },
   {
     "code": "687",
     "id": "NC",
+    "iso": "NCL",
     "name": "New Caledonia"
   },
   {
     "code": "227",
     "id": "NE",
+    "iso": "NER",
     "name": "Niger"
   },
   {
     "code": "672",
     "id": "NF",
+    "iso": "NFK",
     "name": "Norfolk Island"
   },
   {
     "code": "234",
     "id": "NG",
+    "iso": "NGA",
     "name": "Nigeria"
   },
   {
     "code": "505",
     "id": "NI",
+    "iso": "NIC",
     "name": "Nicaragua"
   },
   {
     "code": "683",
     "id": "NU",
+    "iso": "NIU",
     "name": "Niue"
   },
   {
     "code": "31",
     "id": "NL",
+    "iso": "NLD",
     "name": "Netherlands"
   },
   {
     "code": "47",
     "id": "NO",
+    "iso": "NOR",
     "name": "Norway"
   },
   {
     "code": "977",
     "id": "NP",
+    "iso": "NPL",
     "name": "Nepal"
   },
   {
     "code": "674",
     "id": "NR",
+    "iso": "NRU",
     "name": "Nauru"
   },
   {
     "code": "64",
     "id": "NZ",
+    "iso": "NZL",
     "name": "New Zealand"
   },
   {
     "code": "968",
     "id": "OM",
+    "iso": "OMN",
     "name": "Oman"
   },
   {
     "code": "92",
     "id": "PK",
+    "iso": "PAK",
     "name": "Pakistan"
   },
   {
     "code": "507",
     "id": "PA",
+    "iso": "PAN",
     "name": "Panama"
   },
   {
     "code": "64",
     "id": "PN",
+    "iso": "PCN",
     "name": "Pitcairn Islands"
   },
   {
     "code": "51",
     "id": "PE",
+    "iso": "PER",
     "name": "Peru"
   },
   {
     "code": "63",
     "id": "PH",
+    "iso": "PHL",
     "name": "Philippines"
   },
   {
     "code": "680",
     "id": "PW",
+    "iso": "PLW",
     "name": "Palau"
   },
   {
     "code": "675",
     "id": "PG",
+    "iso": "PNG",
     "name": "Papua New Guinea"
   },
   {
     "code": "48",
     "id": "PL",
+    "iso": "POL",
     "name": "Poland"
   },
   {
     "code": "1787",
     "id": "PR",
+    "iso": "PRI",
     "name": "Puerto Rico"
   },
   {
     "code": "1939",
     "id": "PR",
+    "iso": "PRI",
     "name": "Puerto Rico"
   },
   {
     "code": "850",
     "id": "KP",
+    "iso": "PRK",
     "name": "North Korea"
   },
   {
     "code": "351",
     "id": "PT",
+    "iso": "PRT",
     "name": "Portugal"
   },
   {
     "code": "595",
     "id": "PY",
+    "iso": "PRY",
     "name": "Paraguay"
   },
   {
     "code": "970",
     "id": "PS",
+    "iso": "PSE",
     "name": "Palestine"
   },
   {
     "code": "689",
     "id": "PF",
+    "iso": "PYF",
     "name": "French Polynesia"
   },
   {
     "code": "974",
     "id": "QA",
+    "iso": "QAT",
     "name": "Qatar"
   },
   {
     "code": "262",
     "id": "RE",
+    "iso": "REU",
     "name": "Réunion"
   },
   {
     "code": "40",
     "id": "RO",
+    "iso": "ROU",
     "name": "Romania"
   },
   {
     "code": "7",
     "id": "RU",
+    "iso": "RUS",
     "name": "Russia"
   },
   {
     "code": "250",
     "id": "RW",
+    "iso": "RWA",
     "name": "Rwanda"
   },
   {
     "code": "966",
     "id": "SA",
+    "iso": "SAU",
     "name": "Saudi Arabia"
   },
   {
     "code": "249",
     "id": "SD",
+    "iso": "SDN",
     "name": "Sudan"
   },
   {
     "code": "221",
     "id": "SN",
+    "iso": "SEN",
     "name": "Senegal"
   },
   {
     "code": "65",
     "id": "SG",
+    "iso": "SGP",
     "name": "Singapore"
   },
   {
     "code": "500",
     "id": "GS",
+    "iso": "SGS",
     "name": "South Georgia"
   },
   {
     "code": "4779",
     "id": "SJ",
+    "iso": "SJM",
     "name": "Svalbard and Jan Mayen"
   },
   {
     "code": "677",
     "id": "SB",
+    "iso": "SLB",
     "name": "Solomon Islands"
   },
   {
     "code": "232",
     "id": "SL",
+    "iso": "SLE",
     "name": "Sierra Leone"
   },
   {
     "code": "503",
     "id": "SV",
+    "iso": "SLV",
     "name": "El Salvador"
   },
   {
     "code": "378",
     "id": "SM",
+    "iso": "SMR",
     "name": "San Marino"
   },
   {
     "code": "252",
     "id": "SO",
+    "iso": "SOM",
     "name": "Somalia"
   },
   {
     "code": "508",
     "id": "PM",
+    "iso": "SPM",
     "name": "Saint Pierre and Miquelon"
   },
   {
     "code": "381",
     "id": "RS",
+    "iso": "SRB",
     "name": "Serbia"
   },
   {
     "code": "211",
     "id": "SS",
+    "iso": "SSD",
     "name": "South Sudan"
   },
   {
     "code": "239",
     "id": "ST",
+    "iso": "STP",
     "name": "SÃ£o TomÃ© and PrÃ­ncipe"
   },
   {
     "code": "597",
     "id": "SR",
+    "iso": "SUR",
     "name": "Suriname"
   },
   {
     "code": "421",
     "id": "SK",
+    "iso": "SVK",
     "name": "Slovakia"
   },
   {
     "code": "386",
     "id": "SI",
+    "iso": "SVN",
     "name": "Slovenia"
   },
   {
     "code": "46",
     "id": "SE",
+    "iso": "SWE",
     "name": "Sweden"
   },
   {
     "code": "268",
     "id": "SZ",
+    "iso": "SWZ",
     "name": "Swaziland"
   },
   {
     "code": "1721",
     "id": "SX",
+    "iso": "SXM",
     "name": "Sint Maarten"
   },
   {
     "code": "248",
     "id": "SC",
+    "iso": "SYC",
     "name": "Seychelles"
   },
   {
     "code": "963",
     "id": "SY",
+    "iso": "SYR",
     "name": "Syria"
   },
   {
     "code": "1649",
     "id": "TC",
+    "iso": "TCA",
     "name": "Turks and Caicos Islands"
   },
   {
     "code": "235",
     "id": "TD",
+    "iso": "TCD",
     "name": "Chad"
   },
   {
     "code": "228",
     "id": "TG",
+    "iso": "TGO",
     "name": "Togo"
   },
   {
     "code": "66",
     "id": "TH",
+    "iso": "THA",
     "name": "Thailand"
   },
   {
     "code": "992",
     "id": "TJ",
+    "iso": "TJK",
     "name": "Tajikistan"
   },
   {
     "code": "690",
     "id": "TK",
+    "iso": "TKL",
     "name": "Tokelau"
   },
   {
     "code": "993",
     "id": "TM",
+    "iso": "TKM",
     "name": "Turkmenistan"
   },
   {
     "code": "670",
     "id": "TL",
+    "iso": "TLS",
     "name": "Timor-Leste"
   },
   {
     "code": "676",
     "id": "TO",
+    "iso": "TON",
     "name": "Tonga"
   },
   {
     "code": "1868",
     "id": "TT",
+    "iso": "TTO",
     "name": "Trinidad and Tobago"
   },
   {
     "code": "216",
     "id": "TN",
+    "iso": "TUN",
     "name": "Tunisia"
   },
   {
     "code": "90",
     "id": "TR",
+    "iso": "TUR",
     "name": "Turkey"
   },
   {
     "code": "688",
     "id": "TV",
+    "iso": "TUV",
     "name": "Tuvalu"
   },
   {
     "code": "886",
     "id": "TW",
+    "iso": "TWN",
     "name": "Taiwan"
   },
   {
     "code": "255",
     "id": "TZ",
+    "iso": "TZA",
     "name": "Tanzania"
   },
   {
     "code": "256",
     "id": "UG",
+    "iso": "UGA",
     "name": "Uganda"
   },
   {
     "code": "380",
     "id": "UA",
+    "iso": "UKR",
     "name": "Ukraine"
   },
   {
     "code": "598",
     "id": "UY",
+    "iso": "URY",
     "name": "Uruguay"
   },
   {
     "code": "1",
     "id": "US",
+    "iso": "USA",
     "name": "United States"
   },
   {
     "code": "998",
     "id": "UZ",
+    "iso": "UZB",
     "name": "Uzbekistan"
   },
   {
     "code": "3906698",
     "id": "VA",
+    "iso": "VAT",
     "name": "Vatican City"
   },
   {
     "code": "379",
     "id": "VA",
+    "iso": "VAT",
     "name": "Vatican City"
   },
   {
     "code": "1784",
     "id": "VC",
+    "iso": "VCT",
     "name": "Saint Vincent and the Grenadines"
   },
   {
     "code": "58",
     "id": "VE",
+    "iso": "VEN",
     "name": "Venezuela"
   },
   {
     "code": "1284",
     "id": "VG",
+    "iso": "VGB",
     "name": "British Virgin Islands"
   },
   {
     "code": "1340",
     "id": "VI",
+    "iso": "VIR",
     "name": "United States Virgin Islands"
   },
   {
     "code": "84",
     "id": "VN",
+    "iso": "VNM",
     "name": "Vietnam"
   },
   {
     "code": "678",
     "id": "VU",
+    "iso": "VUT",
     "name": "Vanuatu"
   },
   {
     "code": "681",
     "id": "WF",
+    "iso": "WLF",
     "name": "Wallis and Futuna"
   },
   {
     "code": "685",
     "id": "WS",
+    "iso": "WSM",
     "name": "Samoa"
   },
   {
     "code": "967",
     "id": "YE",
+    "iso": "YEM",
     "name": "Yemen"
   },
   {
     "code": "27",
     "id": "ZA",
+    "iso": "ZAF",
     "name": "South Africa"
   },
   {
     "code": "260",
     "id": "ZM",
+    "iso": "ZMB",
     "name": "Zambia"
   },
   {
     "code": "263",
     "id": "ZW",
+    "iso": "ZWE",
     "name": "Zimbabwe"
   }
 ]

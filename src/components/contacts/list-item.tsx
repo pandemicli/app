@@ -22,7 +22,7 @@ export const ListItem: FunctionComponent<Props> = ({ item }) => {
     <View style={styles.main}>
       <View style={styles.details}>
         <Text style={styles.name}>{item.name}</Text>
-        {item.phone && <Text style={styles.phone}>{item.phone}</Text>}
+        {!!item.phone && <Text style={styles.phone}>{item.phone}</Text>}
       </View>
       {item.favorite && <Image source={star} style={styles.icon} />}
     </View>

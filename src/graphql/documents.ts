@@ -1,5 +1,17 @@
 import gql from 'graphql-tag';
 
+export const CREATE_CONTACT = gql`
+    mutation createContact($contact: ContactInput!) {
+  createContact(contact: $contact) {
+    id
+    favorite
+    name
+    phone
+    createdAt
+    interactedToday
+  }
+}
+    `;
 export const REMOVE_CONTACT = gql`
     mutation removeContact($id: String!) {
   removeContact(id: $id)
@@ -24,9 +36,6 @@ export const SYNC_CONTACTS = gql`
     mutation syncContacts($contacts: [ContactInput!]!) {
   syncContacts(contacts: $contacts) {
     id
-    name
-    phone
-    createdAt
   }
 }
     `;
@@ -48,6 +57,18 @@ export const TOGGLE_FAVORITE_PLACE = gql`
 export const TOGGLE_INTERACTION = gql`
     mutation toggleInteraction($id: String!, $date: String!) {
   toggleInteraction(id: $id, date: $date)
+}
+    `;
+export const UPDATE_CONTACT = gql`
+    mutation updateContact($id: String!, $contact: ContactInput!) {
+  updateContact(id: $id, contact: $contact) {
+    id
+    favorite
+    name
+    phone
+    createdAt
+    interactedToday
+  }
 }
     `;
 export const VERIFY = gql`

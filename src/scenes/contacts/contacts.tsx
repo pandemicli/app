@@ -116,6 +116,7 @@ export const Contacts: FunctionComponent<Props> = ({
           <Separator />
         </>
       }
+      recalculateHiddenLayout
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
       renderHiddenItem={({ item }, map) => (
         <ListActions

@@ -1,4 +1,5 @@
-import React, { forwardRef, useState } from 'react'
+import phone from 'phone'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { Image, Text, TextInput, View, ViewStyle } from 'react-native'
 import {
   DynamicStyleSheet,
@@ -14,16 +15,32 @@ import { TextBox } from './text-box'
 import { Touchable } from './touchable'
 
 interface Props {
-  selected?: string
   style?: ViewStyle
+  value?: string
 
   onChange: (phone: string) => void
 }
 
 export const PhoneNumber = forwardRef<TextInput, Props>(
-  ({ onChange, selected, style }, ref) => {
-    const [id, setId] = useState(selected || 'AE')
-    const [phone, setPhone] = useState('')
+  ({ onChange, style, value }, ref) => {
+    const [id, setId] = useState('AE')
+    const [number, setNumber] = useState('')
+    const [valid, setValid] = useState(true)
+
+    useEffect(() => {
+      if (value) {
+        const [number, iso] = phone(value)
+
+        if (number && iso) {
+          const country = countries.find((country) => country.iso === iso)
+
+          if (country) {
+            setId(country.id)
+            setNumber(value.slice(country.code.length + 1))
+          }
+        }
+      }
+    }, [value])
 
     const [visible, setVisible] = useState(false)
 
@@ -36,21 +53,25 @@ export const PhoneNumber = forwardRef<TextInput, Props>(
       <>
         <View style={[styles.main, style]}>
           <Touchable onPress={() => setVisible(true)} style={styles.code}>
-            <Text style={styles.codeLabel}>{country?.code}</Text>
+            <Text style={styles.codeLabel}>+{country?.code}</Text>
             <Image source={expand} style={styles.icon} />
           </Touchable>
           <TextBox
             keyboardType="number-pad"
-            onChangeText={(phone) => {
-              setPhone(phone)
+            onChangeText={(number) => {
+              setNumber(number)
 
-              onChange(`+${country?.code}${phone}`)
+              const [value] = phone(number, country?.id)
+
+              setValid(!!value)
+
+              onChange(value ?? '')
             }}
             placeholder="Phone"
             ref={ref}
             returnKeyType="done"
-            style={styles.phone}
-            value={phone}
+            style={[styles.number, valid ? styles.valid : styles.invalid]}
+            value={number}
           />
         </View>
         <Picker
@@ -61,7 +82,17 @@ export const PhoneNumber = forwardRef<TextInput, Props>(
               value: id
             }))}
           keyExtractor={(item) => item.label}
-          onChange={({ value }) => setId(value)}
+          onChange={({ value }) => {
+            setId(value)
+
+            const [valid] = phone(number, value)
+
+            if (!valid) {
+              setValid(false)
+
+              onChange('')
+            }
+          }}
           onClose={() => setVisible(false)}
           title="Select country"
           visible={visible}
@@ -92,6 +123,9 @@ const stylesheet = new DynamicStyleSheet({
     marginLeft: layout.padding / 2,
     width: layout.icon
   },
+  invalid: {
+    color: colors.state.error
+  },
   label: {
     ...typography.regular,
     ...typography.medium,
@@ -100,9 +134,12 @@ const stylesheet = new DynamicStyleSheet({
   main: {
     flexDirection: 'row'
   },
-  phone: {
+  number: {
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0,
     flex: 1
+  },
+  valid: {
+    color: colors.state.success
   }
 })

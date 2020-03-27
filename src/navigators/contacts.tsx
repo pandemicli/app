@@ -4,7 +4,7 @@ import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Header } from '../components/common'
 import { Contact } from '../graphql/types'
-import { Contacts } from '../scenes/contacts'
+import { AddContact, Contacts, EditContact } from '../scenes/contacts'
 import { layout } from '../styles'
 
 export type ContactsParamList = {
@@ -34,7 +34,7 @@ export const ContactsNavigator = () => {
         }}
       />
       <Screen
-        component={Contacts}
+        component={AddContact}
         name="AddContact"
         options={{
           header: (props) => <Header {...props} />,
@@ -45,7 +45,7 @@ export const ContactsNavigator = () => {
         }}
       />
       <Screen
-        component={Contacts}
+        component={EditContact}
         name="EditContact"
         options={{
           header: (props) => <Header {...props} />,

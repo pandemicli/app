@@ -49,7 +49,11 @@ export const Picker: FunctionComponent<Props> = ({
   const clear = useDynamicValue(img_dark_clear, img_light_clear)
 
   return (
-    <Modal onClose={onClose} title={title} visible={visible}>
+    <Modal
+      onClose={onClose}
+      style={styles.modal}
+      title={title}
+      visible={visible}>
       {data.length > 10 && (
         <View style={styles.search}>
           <Image source={search} style={styles.icon} />
@@ -103,6 +107,9 @@ const stylesheet = new DynamicStyleSheet({
     ...typography.regular,
     color: colors.foreground,
     margin: layout.padding * 1.5
+  },
+  modal: {
+    height: '70%'
   },
   query: {
     backgroundColor: 'transparent',

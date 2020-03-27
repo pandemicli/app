@@ -56,16 +56,16 @@ export type Interaction = {
 export type Mutation = {
    __typename?: 'Mutation';
   createContact: Contact;
+  updateContact: Contact;
   removeContact: Scalars['Boolean'];
-  syncContacts: Array<Contact>;
   toggleFavoriteContact: Scalars['Boolean'];
   toggleInteraction: Scalars['Boolean'];
-  updateContact: Contact;
+  syncContacts: Array<Contact>;
   createPlace: Place;
+  updatePlace: Place;
   removePlace: Scalars['Boolean'];
   toggleFavoritePlace: Scalars['Boolean'];
   toggleCheckIn: Scalars['Boolean'];
-  updatePlace: Place;
   signIn: Scalars['Boolean'];
   signUp: Scalars['Boolean'];
   verify: AuthResult;
@@ -77,13 +77,14 @@ export type MutationCreateContactArgs = {
 };
 
 
-export type MutationRemoveContactArgs = {
+export type MutationUpdateContactArgs = {
   id: Scalars['String'];
+  contact: ContactInput;
 };
 
 
-export type MutationSyncContactsArgs = {
-  contacts: Array<ContactInput>;
+export type MutationRemoveContactArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -98,13 +99,18 @@ export type MutationToggleInteractionArgs = {
 };
 
 
-export type MutationUpdateContactArgs = {
-  id: Scalars['String'];
-  contact: ContactInput;
+export type MutationSyncContactsArgs = {
+  contacts: Array<ContactInput>;
 };
 
 
 export type MutationCreatePlaceArgs = {
+  place: PlaceInput;
+};
+
+
+export type MutationUpdatePlaceArgs = {
+  id: Scalars['String'];
   place: PlaceInput;
 };
 
@@ -122,12 +128,6 @@ export type MutationToggleFavoritePlaceArgs = {
 export type MutationToggleCheckInArgs = {
   id: Scalars['String'];
   date: Scalars['String'];
-};
-
-
-export type MutationUpdatePlaceArgs = {
-  id: Scalars['String'];
-  place: PlaceInput;
 };
 
 
