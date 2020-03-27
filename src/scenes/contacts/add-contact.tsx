@@ -7,7 +7,6 @@ import {
   useDynamicStyleSheet,
   useDynamicValue
 } from 'react-native-dark-mode'
-import {} from 'react-native-gesture-handler'
 
 import { img_dark_save, img_light_save } from '../../assets'
 import {

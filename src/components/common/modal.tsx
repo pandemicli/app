@@ -12,7 +12,7 @@ import {
   useDynamicValue
 } from 'react-native-dark-mode'
 
-import { img_dark_clear, img_light_clear } from '../../assets'
+import { img_dark_close, img_light_close } from '../../assets'
 import { colors, layout, typography } from '../../styles'
 import { KeyboardView } from './keyboard-view'
 import { Touchable } from './touchable'
@@ -33,7 +33,7 @@ export const Modal: FunctionComponent<Props> = ({
   visible
 }) => {
   const styles = useDynamicStyleSheet(stylesheet)
-  const close = useDynamicValue(img_dark_clear, img_light_clear)
+  const close = useDynamicValue(img_dark_close, img_light_close)
 
   return (
     <ReactNativeModal
@@ -75,6 +75,7 @@ const stylesheet = new DynamicStyleSheet({
     borderRadius: layout.radius,
     margin: layout.margin * 2,
     maxHeight: '70%',
+    overflow: 'hidden',
     width: '70%'
   },
   modal: {

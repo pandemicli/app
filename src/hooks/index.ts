@@ -1,4 +1,5 @@
 export { useContacts } from './contacts'
+export { useDebounce } from './debounce'
 export { usePlaces } from './places'
 export { useToggleCheckIn } from './toggle-check-in'
 export { useToggleInteraction } from './toggle-interaction'

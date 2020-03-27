@@ -12,6 +12,22 @@ export const CREATE_CONTACT = gql`
   }
 }
     `;
+export const CREATE_PLACE = gql`
+    mutation createPlace($place: PlaceInput!) {
+  createPlace(place: $place) {
+    id
+    favorite
+    googlePlaceId
+    location {
+      latitude
+      longitude
+    }
+    name
+    checkedInToday
+    createdAt
+  }
+}
+    `;
 export const REMOVE_CONTACT = gql`
     mutation removeContact($id: String!) {
   removeContact(id: $id)
@@ -71,6 +87,22 @@ export const UPDATE_CONTACT = gql`
   }
 }
     `;
+export const UPDATE_PLACE = gql`
+    mutation updatePlace($id: String!, $place: PlaceInput!) {
+  updatePlace(id: $id, place: $place) {
+    id
+    favorite
+    googlePlaceId
+    location {
+      latitude
+      longitude
+    }
+    name
+    checkedInToday
+    createdAt
+  }
+}
+    `;
 export const VERIFY = gql`
     mutation verify($code: String!) {
   verify(code: $code) {
@@ -99,7 +131,10 @@ export const PLACES = gql`
     id
     favorite
     googlePlaceId
-    location
+    location {
+      latitude
+      longitude
+    }
     name
     checkedInToday
     createdAt
@@ -114,6 +149,16 @@ export const PROFILE = gql`
     email
     phone
     createdAt
+  }
+}
+    `;
+export const SEARCH_PLACES = gql`
+    query searchPlaces($query: String!, $location: LocationPointInput!) {
+  searchPlaces(query: $query, location: $location) {
+    id
+    name
+    latitude
+    longitude
   }
 }
     `;

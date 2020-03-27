@@ -1,5 +1,5 @@
-query places($date: String) {
-  places(date: $date) {
+mutation createPlace($place: PlaceInput!) {
+  createPlace(place: $place) {
     id
     favorite
     googlePlaceId

@@ -44,6 +44,14 @@ export type ContactInput = {
 };
 
 
+export type GooglePlace = {
+   __typename?: 'GooglePlace';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+};
+
 export type Interaction = {
    __typename?: 'Interaction';
   contact: Contact;
@@ -51,6 +59,17 @@ export type Interaction = {
   interactedAt: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type LocationPoint = {
+   __typename?: 'LocationPoint';
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+};
+
+export type LocationPointInput = {
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
 };
 
 export type Mutation = {
@@ -78,8 +97,8 @@ export type MutationCreateContactArgs = {
 
 
 export type MutationUpdateContactArgs = {
-  id: Scalars['String'];
   contact: ContactInput;
+  id: Scalars['String'];
 };
 
 
@@ -94,8 +113,8 @@ export type MutationToggleFavoriteContactArgs = {
 
 
 export type MutationToggleInteractionArgs = {
-  id: Scalars['String'];
   date: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
@@ -110,8 +129,8 @@ export type MutationCreatePlaceArgs = {
 
 
 export type MutationUpdatePlaceArgs = {
-  id: Scalars['String'];
   place: PlaceInput;
+  id: Scalars['String'];
 };
 
 
@@ -126,8 +145,8 @@ export type MutationToggleFavoritePlaceArgs = {
 
 
 export type MutationToggleCheckInArgs = {
-  id: Scalars['String'];
   date: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
@@ -137,9 +156,9 @@ export type MutationSignInArgs = {
 
 
 export type MutationSignUpArgs = {
-  email: Scalars['String'];
-  name: Scalars['String'];
   phone: Scalars['String'];
+  name: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
@@ -152,7 +171,7 @@ export type Place = {
   id: Scalars['ID'];
   name: Scalars['String'];
   favorite: Scalars['Boolean'];
-  location?: Maybe<Array<Scalars['Float']>>;
+  location?: Maybe<LocationPoint>;
   googlePlaceId?: Maybe<Scalars['String']>;
   user: User;
   checkedInToday: Scalars['Boolean'];
@@ -162,7 +181,7 @@ export type Place = {
 
 export type PlaceInput = {
   name: Scalars['String'];
-  location?: Maybe<Array<Scalars['Float']>>;
+  location?: Maybe<LocationPointInput>;
   googlePlaceId?: Maybe<Scalars['String']>;
 };
 
@@ -170,6 +189,7 @@ export type Query = {
    __typename?: 'Query';
   contacts: Array<Contact>;
   places: Array<Place>;
+  searchPlaces: Array<GooglePlace>;
   todayFeed: TodayFeed;
   profile: User;
 };
@@ -182,6 +202,13 @@ export type QueryContactsArgs = {
 
 export type QueryPlacesArgs = {
   date?: Maybe<Scalars['String']>;
+};
+
+
+export type QuerySearchPlacesArgs = {
+  location?: Maybe<LocationPointInput>;
+  language?: Maybe<Scalars['String']>;
+  query: Scalars['String'];
 };
 
 

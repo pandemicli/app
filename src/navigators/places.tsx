@@ -6,7 +6,7 @@ import { useSafeArea } from 'react-native-safe-area-context'
 import { img_dark_add, img_light_add } from '../assets'
 import { Header, HeaderButton } from '../components/common'
 import { Place } from '../graphql/types'
-import { Places } from '../scenes/places'
+import { AddPlace, EditPlace, Places } from '../scenes/places'
 import { layout } from '../styles'
 
 export type PlacesParamList = {
@@ -45,7 +45,7 @@ export const PlacesNavigator = () => {
         })}
       />
       <Screen
-        component={Places}
+        component={AddPlace}
         name="AddPlace"
         options={{
           header: (props) => <Header {...props} />,
@@ -56,7 +56,7 @@ export const PlacesNavigator = () => {
         }}
       />
       <Screen
-        component={Places}
+        component={EditPlace}
         name="EditPlace"
         options={{
           header: (props) => <Header {...props} />,

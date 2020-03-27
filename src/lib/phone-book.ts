@@ -11,7 +11,7 @@ class PhoneBook {
       await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
         {
-          buttonPositive: 'Yes',
+          buttonPositive: 'Okay',
           message:
             "Sync your contacts so you can track who you've met with recently.",
           title: 'Contacts'

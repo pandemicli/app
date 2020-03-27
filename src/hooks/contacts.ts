@@ -45,6 +45,7 @@ export const useContacts = () => {
     MutationRemoveContactPayload,
     MutationRemoveContactArgs
   >(REMOVE_CONTACT)
+
   const [toggleFavoriteContact, toggleFavoriteContactMutation] = useMutation<
     MutationToggleFavoriteContactPayload,
     MutationToggleFavoriteContactArgs

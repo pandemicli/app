@@ -33,13 +33,23 @@ export const EditContact: FunctionComponent<Props> = ({
 }) => {
   const { update, updating } = useContacts()
 
-  const [name, setName] = useState(contact.name)
-  const [phone, setPhone] = useState(contact.phone ?? '')
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
 
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
   const save = useDynamicValue(img_dark_save, img_light_save)
+
+  useEffect(() => {
+    const { name, phone } = contact
+
+    setName(name)
+
+    if (phone) {
+      setPhone(phone)
+    }
+  }, [contact])
 
   useEffect(() => {
     setOptions({

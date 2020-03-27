@@ -1,0 +1,8 @@
+query searchPlaces($query: String!, $location: LocationPointInput!) {
+  searchPlaces(query: $query, location: $location) {
+    id
+    name
+    latitude
+    longitude
+  }
+}

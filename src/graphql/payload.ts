@@ -1,10 +1,6 @@
-import { AuthResult, Contact, Place, User } from './types'
+import { AuthResult, Contact, GooglePlace, Place, User } from './types'
 
 // queries
-
-export type QueryProfilePayload = {
-  profile: User
-}
 
 export type QueryTodayFeedPayload = {
   todayFeed: {
@@ -21,43 +17,15 @@ export type QueryPlacesPayload = {
   places: Place[]
 }
 
+export type QueryProfilePayload = {
+  profile: User
+}
+
+export type QuerySearchPlacesPayload = {
+  searchPlaces: GooglePlace[]
+}
+
 // mutations
-
-export type MutationCreateContactPayload = {
-  createContact: Contact
-}
-
-export type MutationUpdateContactPayload = {
-  updateContact: Contact
-}
-
-export type MutationToggleInteractionPayload = {
-  toggleInteraction: boolean
-}
-
-export type MutationToggleCheckInPayload = {
-  toggleCheckIn: boolean
-}
-
-export type MutationSyncContactsPayload = {
-  syncContacts: Contact[]
-}
-
-export type MutationRemoveContactPayload = {
-  removeContact: boolean
-}
-
-export type MutationToggleFavoriteContactPayload = {
-  toggleFavoriteContact: boolean
-}
-
-export type MutationRemovePlacePayload = {
-  removePlace: boolean
-}
-
-export type MutationToggleFavoritePlacePayload = {
-  toggleFavoritePlace: boolean
-}
 
 export type MutationSignInPayload = {
   signIn: boolean
@@ -69,4 +37,48 @@ export type MutationSignUpPayload = {
 
 export type MutationVerifyPayload = {
   verify: AuthResult
+}
+
+export type MutationCreateContactPayload = {
+  createContact: Contact
+}
+
+export type MutationUpdateContactPayload = {
+  updateContact: Contact
+}
+
+export type MutationRemoveContactPayload = {
+  removeContact: boolean
+}
+
+export type MutationToggleInteractionPayload = {
+  toggleInteraction: boolean
+}
+
+export type MutationToggleFavoriteContactPayload = {
+  toggleFavoriteContact: boolean
+}
+
+export type MutationSyncContactsPayload = {
+  syncContacts: Contact[]
+}
+
+export type MutationCreatePlacePayload = {
+  createPlace: Place
+}
+
+export type MutationUpdatePlacePayload = {
+  updatePlace: Place
+}
+
+export type MutationRemovePlacePayload = {
+  removePlace: boolean
+}
+
+export type MutationToggleFavoritePlacePayload = {
+  toggleFavoritePlace: boolean
+}
+
+export type MutationToggleCheckInPayload = {
+  toggleCheckIn: boolean
 }
