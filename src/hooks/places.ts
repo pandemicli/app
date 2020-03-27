@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/react-hooks'
 import update from 'immutability-helper'
 import { SwipeRow } from 'react-native-swipe-list-view'
 
@@ -20,8 +20,6 @@ import {
 import { dialog } from '../lib'
 
 export const usePlaces = () => {
-  const { data, loading, refetch } = useQuery<QueryPlacesPayload>(PLACES)
-
   const [removePlace, removePlaceMutation] = useMutation<
     MutationRemovePlacePayload,
     MutationRemovePlaceArgs
@@ -101,10 +99,7 @@ export const usePlaces = () => {
     })
 
   return {
-    data,
     favoriting: toggleFavoritePlaceMutation.loading,
-    loading,
-    refetch,
     remove,
     removing: removePlaceMutation.loading,
     toggleFavorite

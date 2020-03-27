@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { orderBy } from 'lodash'
@@ -8,6 +9,8 @@ import { SwipeListView } from 'react-native-swipe-list-view'
 
 import { Refresher, Separator } from '../../components/common'
 import { ListActions, ListEmpty, ListItem } from '../../components/places'
+import { PLACES } from '../../graphql/documents'
+import { QueryPlacesPayload } from '../../graphql/payload'
 import { usePlaces } from '../../hooks'
 import { PlacesParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
@@ -20,15 +23,9 @@ interface Props {
 export const Places: FunctionComponent<Props> = ({
   navigation: { navigate }
 }) => {
-  const {
-    data,
-    favoriting,
-    loading,
-    refetch,
-    remove,
-    removing,
-    toggleFavorite
-  } = usePlaces()
+  const { data, loading, refetch } = useQuery<QueryPlacesPayload>(PLACES)
+
+  const { favoriting, remove, removing, toggleFavorite } = usePlaces()
 
   const styles = useDynamicStyleSheet(stylesheet)
 

@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { orderBy } from 'lodash'
@@ -23,6 +24,8 @@ import {
   Separator
 } from '../../components/common'
 import { ListActions, ListEmpty, ListItem } from '../../components/contacts'
+import { CONTACTS } from '../../graphql/documents'
+import { QueryContactsPayload } from '../../graphql/payload'
 import { useContacts } from '../../hooks'
 import { phoneBook } from '../../lib'
 import { ContactsParamList } from '../../navigators'
@@ -36,11 +39,10 @@ interface Props {
 export const Contacts: FunctionComponent<Props> = ({
   navigation: { navigate, setOptions }
 }) => {
+  const { data, loading, refetch } = useQuery<QueryContactsPayload>(CONTACTS)
+
   const {
-    data,
     favoriting,
-    loading,
-    refetch,
     remove,
     removing,
     sync,

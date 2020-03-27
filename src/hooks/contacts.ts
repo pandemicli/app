@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/react-hooks'
 import update from 'immutability-helper'
 import { SwipeRow } from 'react-native-swipe-list-view'
 
@@ -24,8 +24,6 @@ import { dialog } from '../lib'
 import { PhoneContact } from '../types'
 
 export const useContacts = () => {
-  const { data, loading, refetch } = useQuery<QueryContactsPayload>(CONTACTS)
-
   const [syncContacts, syncContactsMutation] = useMutation<
     MutationSyncContactsPayload,
     MutationSyncContactsArgs
@@ -138,10 +136,7 @@ export const useContacts = () => {
     })
 
   return {
-    data,
     favoriting: toggleFavoriteContactMutation.loading,
-    loading,
-    refetch,
     remove,
     removing: removeContactMutation.loading,
     sync,
