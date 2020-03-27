@@ -45,9 +45,6 @@
 	<string>Share your location to find places near you.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Inter-V.otf</string>
-		<string>Inter.otf</string>
-		<string>Inter-Bold.otf</string>
 		<string>Inter-Medium.otf</string>
 		<string>Inter-Regular.otf</string>
 		<string>Inter-SemiBold.otf</string>
