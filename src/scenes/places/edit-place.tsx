@@ -219,7 +219,7 @@ const stylesheet = new DynamicStyleSheet({
     padding: layout.margin
   },
   buttonGoogle: {
-    backgroundColor: colors.primaryDark,
+    backgroundColor: colors.accent,
     flex: 1,
     marginLeft: layout.margin
   },

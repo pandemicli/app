@@ -62,7 +62,7 @@ const stylesheet = new DynamicStyleSheet({
     alignItems: 'center'
   },
   carousel: {
-    marginVertical: layout.margin * 2
+    marginVertical: layout.margin * 4
   },
   footer: {
     flexDirection: 'row'
@@ -80,6 +80,7 @@ const stylesheet = new DynamicStyleSheet({
   message: {
     ...typography.paragraph,
     color: colors.foreground,
+    marginHorizontal: layout.margin,
     marginTop: layout.padding,
     textAlign: 'center'
   },
@@ -89,7 +90,8 @@ const stylesheet = new DynamicStyleSheet({
   },
   subtitle: {
     ...typography.subtitle,
-    color: colors.primaryDark
+    color: colors.primary,
+    marginHorizontal: layout.margin
   },
   title: {
     ...typography.title,

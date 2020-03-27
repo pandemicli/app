@@ -60,7 +60,7 @@ export const Modal: FunctionComponent<Props> = ({
 
 const stylesheet = new DynamicStyleSheet({
   header: {
-    backgroundColor: colors.primaryDark,
+    backgroundColor: colors.accent,
     borderTopLeftRadius: layout.radius,
     borderTopRightRadius: layout.radius,
     flexDirection: 'row'
