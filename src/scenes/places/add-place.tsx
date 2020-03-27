@@ -176,7 +176,8 @@ export const AddPlace: FunctionComponent<Props> = ({
       </ScrollView>
       <LocationPicker
         location={location}
-        onChange={({ id, latitude, longitude }) => {
+        onChange={({ id, latitude, longitude, name }) => {
+          setName(name)
           setGooglePlaceId(id)
           setCoordinates({
             latitude,
