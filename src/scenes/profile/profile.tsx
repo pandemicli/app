@@ -2,13 +2,28 @@ import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
-import { Dimensions, ScrollView, Text, View } from 'react-native'
-import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
+import { Dimensions, FlatList, Image, Text, View } from 'react-native'
+import {
+  DynamicStyleSheet,
+  useDynamicStyleSheet,
+  useDynamicValue
+} from 'react-native-dark-mode'
 import QRCode from 'react-native-qrcode-svg'
 
-import { Button, Refresher } from '../../components/common'
+import {
+  img_dark_about,
+  img_dark_help,
+  img_dark_link,
+  img_dark_sign_out,
+  img_light_about,
+  img_light_help,
+  img_light_link,
+  img_light_sign_out
+} from '../../assets'
+import { Refresher, Separator, Touchable } from '../../components/common'
 import { PROFILE } from '../../graphql/documents'
 import { QueryProfilePayload } from '../../graphql/payload'
+import { browser } from '../../lib'
 import { ProfileParamList } from '../../navigators'
 import { useAuth } from '../../store'
 import { colors, layout, typography } from '../../styles'
@@ -26,16 +41,37 @@ export const Profile: FunctionComponent<Props> = () => {
   const { width } = Dimensions.get('window')
 
   const styles = useDynamicStyleSheet(stylesheet)
+  const img_about = useDynamicValue(img_dark_about, img_light_about)
+  const img_help = useDynamicValue(img_dark_help, img_light_help)
+  const img_link = useDynamicValue(img_dark_link, img_light_link)
+  const img_sign_out = useDynamicValue(img_dark_sign_out, img_light_sign_out)
 
   return (
-    <>
-      <ScrollView
-        contentContainerStyle={styles.main}
-        refreshControl={
-          <Refresher onRefresh={() => refetch()} refreshing={loading} />
-        }>
-        {data && (
-          <View style={styles.content}>
+    <FlatList
+      data={[
+        {
+          icon: img_about,
+          label: 'About',
+          link: true,
+          onPress: () => browser.open('https://pandemic.li')
+        },
+        {
+          icon: img_help,
+          label: 'Help',
+          link: true,
+          onPress: () => browser.open('https://pandemic.li/help')
+        },
+        {
+          icon: img_sign_out,
+          label: 'Sign out',
+          onPress: () => signOut()
+        }
+      ]}
+      ItemSeparatorComponent={Separator}
+      keyExtractor={(item) => item.label}
+      ListHeaderComponent={
+        data?.profile ? (
+          <View style={styles.main}>
             <View style={styles.qr}>
               <QRCode
                 backgroundColor="#fff"
@@ -58,34 +94,57 @@ export const Profile: FunctionComponent<Props> = () => {
               contact.
             </Text>
           </View>
-        )}
-      </ScrollView>
-      <Button
-        label="Sign out"
-        onPress={() => signOut()}
-        style={styles.signOut}
-        styleLabel={styles.signOutLabel}
-      />
-    </>
+        ) : null
+      }
+      refreshControl={
+        <Refresher onRefresh={() => refetch()} refreshing={loading} />
+      }
+      renderItem={({ item }) => (
+        <Touchable onPress={item.onPress} style={styles.item}>
+          <Image source={item.icon} style={styles.icon} />
+          <Text style={styles.label}>{item.label}</Text>
+          {item.link && (
+            <Image source={img_link} style={[styles.icon, styles.iconSmall]} />
+          )}
+        </Touchable>
+      )}
+    />
   )
 }
 
 const stylesheet = new DynamicStyleSheet({
-  content: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: layout.margin * 2
-  },
   greeting: {
     ...typography.title,
     color: colors.primary,
     marginTop: layout.margin * 2,
     textAlign: 'center'
   },
-  main: {
-    flex: 1,
+  icon: {
+    height: layout.icon,
+    width: layout.icon
+  },
+  iconSmall: {
+    height: layout.icon * 0.75,
+    opacity: 0.5,
+    width: layout.icon * 0.75
+  },
+  item: {
+    alignItems: 'center',
+    flexDirection: 'row',
     padding: layout.margin
+  },
+  label: {
+    ...typography.small,
+    color: colors.foreground,
+    flex: 1,
+    marginHorizontal: layout.margin
+  },
+  main: {
+    alignItems: 'center',
+    borderBottomColor: colors.border,
+    borderBottomWidth: 1,
+    justifyContent: 'center',
+    padding: layout.margin * 2
   },
   message: {
     ...typography.footnote,
@@ -98,14 +157,5 @@ const stylesheet = new DynamicStyleSheet({
     backgroundColor: '#fff',
     borderRadius: layout.radius * 4,
     padding: layout.margin
-  },
-  signOut: {
-    backgroundColor: 'transparent',
-    borderColor: colors.state.error,
-    borderWidth: 2,
-    margin: layout.margin
-  },
-  signOutLabel: {
-    color: colors.state.error
   }
 })

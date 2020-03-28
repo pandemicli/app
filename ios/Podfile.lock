@@ -266,6 +266,8 @@ PODS:
     - React
   - RNGestureHandler (1.6.1):
     - React
+  - RNInAppBrowser (3.3.4):
+    - React
   - RNReanimated (1.7.1):
     - React
   - RNScreens (2.4.0):
@@ -314,6 +316,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -394,6 +397,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/masked-view"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNInAppBrowser:
+    :path: "../node_modules/react-native-inappbrowser-reborn"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -441,6 +446,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: e0dd7c8a36543b4ef84969acd9f8aceba3a92dc2
   RNCMaskedView: 76c40a1d41c3e2535df09246a2b5487f04de0814
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNInAppBrowser: 9936b2e23ab7ed9b6ac938eb1c4a656b95292e11
   RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48
   RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
   RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4

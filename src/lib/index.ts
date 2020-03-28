@@ -1,3 +1,4 @@
+export { browser } from './browser'
 export { dialog } from './dialog'
 export { geo } from './geo'
 export { mitter } from './mitter'
