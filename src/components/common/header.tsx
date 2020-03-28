@@ -60,6 +60,7 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
         styles.main,
         {
           backgroundColor: color_background,
+          height: layout.header + top,
           opacity,
           paddingTop: top
         }
