@@ -9,6 +9,7 @@ import { Button, Message, PhoneNumber } from '../../components/common'
 import { SIGN_IN } from '../../graphql/documents'
 import { MutationSignInPayload } from '../../graphql/payload'
 import { MutationSignInArgs } from '../../graphql/types'
+import { i18n } from '../../i18n'
 import { AuthParamList } from '../../navigators'
 import { layout } from '../../styles'
 
@@ -50,7 +51,7 @@ export const SignIn: FunctionComponent<Props> = ({
       )}
       <PhoneNumber onChange={(phone) => setPhone(phone)} style={styles.item} />
       <Button
-        label="Sign in"
+        label={i18n.t('label__sign_in')}
         loading={loading}
         onPress={() => {
           if (phone) {

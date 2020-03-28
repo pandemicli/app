@@ -11,6 +11,7 @@ import { TODAY_FEED } from '../../graphql/documents'
 import { QueryTodayFeedPayload } from '../../graphql/payload'
 import { Contact, Place, QueryTodayFeedArgs } from '../../graphql/types'
 import { useToggleCheckIn, useToggleInteraction } from '../../hooks'
+import { i18n } from '../../i18n'
 import { TodayParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 
@@ -64,8 +65,9 @@ export const Feed: FunctionComponent<Props> = ({
       ItemSeparatorComponent={Separator}
       ListHeaderComponent={
         <Text style={styles.message}>
-          You can tap <Text style={styles.more}>More</Text> to view the full
-          list.
+          {i18n.t('feed__message__tap__1')}
+          <Text style={styles.more}>{i18n.t('label__more')}</Text>
+          {i18n.t('feed__message__tap__3')}
         </Text>
       }
       ref={list}

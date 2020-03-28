@@ -1,7 +1,7 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { CommonActions } from '@react-navigation/native'
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Image, ImageSourcePropType, Keyboard, View } from 'react-native'
+import { Keyboard, View } from 'react-native'
 import {
   DynamicStyleSheet,
   DynamicValue,
@@ -9,6 +9,7 @@ import {
   useDynamicStyleSheet,
   useDynamicValue
 } from 'react-native-dark-mode'
+import { Source } from 'react-native-fast-image'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import {
@@ -26,16 +27,17 @@ import {
   img_nav_light_today
 } from '../../assets'
 import { colors, layout } from '../../styles'
+import { Image } from './image'
 import { Touchable } from './touchable'
 
-const icons: Record<string, DynamicValue<ImageSourcePropType>> = {
+const icons: Record<string, DynamicValue<Source>> = {
   Contacts: new DynamicValue(img_nav_dark_contacts, img_nav_light_contacts),
   Places: new DynamicValue(img_nav_dark_places, img_nav_light_places),
   Profile: new DynamicValue(img_nav_dark_profile, img_nav_light_profile),
   Today: new DynamicValue(img_nav_dark_today, img_nav_light_today)
 }
 
-const iconsActive: Record<string, ImageSourcePropType> = {
+const iconsActive: Record<string, Source> = {
   Contacts: img_nav_active_contacts,
   Places: img_nav_active_places,
   Profile: img_nav_active_profile,

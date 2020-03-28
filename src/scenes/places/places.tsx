@@ -12,6 +12,7 @@ import { ListActions, ListEmpty, ListItem } from '../../components/places'
 import { PLACES } from '../../graphql/documents'
 import { QueryPlacesPayload } from '../../graphql/payload'
 import { usePlaces } from '../../hooks'
+import { i18n } from '../../i18n'
 import { PlacesParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 
@@ -37,11 +38,11 @@ export const Places: FunctionComponent<Props> = ({
   const sections = [
     {
       data: favorites,
-      title: 'Favorites'
+      title: i18n.t('title__favorites')
     },
     {
       data: others,
-      title: 'Others'
+      title: i18n.t('title__others')
     }
   ]
 
@@ -59,7 +60,7 @@ export const Places: FunctionComponent<Props> = ({
           <>
             <Separator />
             <Text style={styles.message}>
-              Swipe right to view more options for a place.
+              {i18n.t('places__message__swipe')}
             </Text>
           </>
         ) : null

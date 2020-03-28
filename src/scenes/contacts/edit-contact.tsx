@@ -18,6 +18,7 @@ import {
   TextBox
 } from '../../components/common'
 import { useContacts } from '../../hooks'
+import { i18n } from '../../i18n'
 import { ContactsParamList } from '../../navigators'
 import { colors, layout } from '../../styles'
 
@@ -27,7 +28,7 @@ interface Props {
 }
 
 export const EditContact: FunctionComponent<Props> = ({
-  navigation: { replace, setOptions },
+  navigation: { setOptions },
   route: {
     params: { contact }
   }
@@ -106,7 +107,7 @@ export const EditContact: FunctionComponent<Props> = ({
         autoCorrect={false}
         onChangeText={(name) => setName(name)}
         onSubmitEditing={() => phoneRef.current?.focus()}
-        placeholder="Name"
+        placeholder={i18n.t('label__name')}
         returnKeyType="next"
         style={styles.item}
         value={name}

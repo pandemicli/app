@@ -27,6 +27,7 @@ import { ListActions, ListEmpty, ListItem } from '../../components/contacts'
 import { CONTACTS } from '../../graphql/documents'
 import { QueryContactsPayload } from '../../graphql/payload'
 import { useContacts } from '../../hooks'
+import { i18n } from '../../i18n'
 import { phoneBook } from '../../lib'
 import { ContactsParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
@@ -96,11 +97,11 @@ export const Contacts: FunctionComponent<Props> = ({
   const sections = [
     {
       data: favorites,
-      title: 'Favorites'
+      title: i18n.t('title__favorites')
     },
     {
       data: others,
-      title: 'Others'
+      title: i18n.t('title__others')
     }
   ]
 
@@ -118,16 +119,13 @@ export const Contacts: FunctionComponent<Props> = ({
           <>
             <Separator />
             <Text style={styles.message}>
-              Swipe right to view more options for a contact.
+              {i18n.t('contacts__message__swipe')}
             </Text>
           </>
         ) : null
       }
       ListHeaderComponent={
-        <Text style={styles.message}>
-          You can tap the sync icon on the top right{'\n'}to sync all your phone
-          contacts.
-        </Text>
+        <Text style={styles.message}>{i18n.t('contacts__message__tap')}</Text>
       }
       recalculateHiddenLayout
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}

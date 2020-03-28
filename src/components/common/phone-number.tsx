@@ -1,6 +1,6 @@
 import phone from 'phone'
 import React, { forwardRef, useEffect, useState } from 'react'
-import { Image, Text, TextInput, View, ViewStyle } from 'react-native'
+import { Text, TextInput, View, ViewStyle } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -9,7 +9,9 @@ import {
 
 import { img_dark_expand, img_light_expand } from '../../assets'
 import { countries } from '../../data'
+import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
+import { Image } from './image'
 import { Picker } from './picker'
 import { TextBox } from './text-box'
 import { Touchable } from './touchable'
@@ -67,7 +69,7 @@ export const PhoneNumber = forwardRef<TextInput, Props>(
 
               onChange(value ?? '')
             }}
-            placeholder="Phone"
+            placeholder={i18n.t('label__phone')}
             ref={ref}
             returnKeyType="done"
             style={[styles.number, valid ? styles.valid : styles.invalid]}
@@ -94,7 +96,7 @@ export const PhoneNumber = forwardRef<TextInput, Props>(
             }
           }}
           onClose={() => setVisible(false)}
-          title="Select country"
+          title={i18n.t('component__phone_number__title')}
           visible={visible}
         />
       </>
@@ -106,12 +108,10 @@ const stylesheet = new DynamicStyleSheet({
   code: {
     alignItems: 'center',
     backgroundColor: colors.backgroundDark,
-    borderBottomLeftRadius: layout.radius,
-    borderTopLeftRadius: layout.radius,
     flexDirection: 'row',
     height: layout.textBox,
     justifyContent: 'center',
-    paddingLeft: layout.margin * (3 / 4)
+    paddingStart: layout.margin * (3 / 4)
   },
   codeLabel: {
     ...typography.regular,
@@ -120,7 +120,7 @@ const stylesheet = new DynamicStyleSheet({
   },
   icon: {
     height: layout.icon,
-    marginLeft: layout.padding / 2,
+    marginStart: layout.padding / 2,
     width: layout.icon
   },
   invalid: {
@@ -132,11 +132,12 @@ const stylesheet = new DynamicStyleSheet({
     color: colors.foreground
   },
   main: {
-    flexDirection: 'row'
+    backgroundColor: colors.backgroundDark,
+    borderRadius: layout.radius,
+    flexDirection: 'row',
+    overflow: 'hidden'
   },
   number: {
-    borderBottomLeftRadius: 0,
-    borderTopLeftRadius: 0,
     flex: 1
   },
   valid: {

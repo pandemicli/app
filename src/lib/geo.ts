@@ -3,6 +3,7 @@ import Geolocation from '@react-native-community/geolocation'
 import { PermissionsAndroid, Platform } from 'react-native'
 
 import { LocationPoint } from '../graphql/types'
+import { i18n } from '../i18n'
 import { dialog } from './dialog'
 
 class Location {
@@ -11,9 +12,9 @@ class Location {
       await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          buttonPositive: 'Okay',
-          message: 'Share your location to find places near you.',
-          title: 'Places'
+          buttonPositive: i18n.t('lib__geo__get__okay'),
+          message: i18n.t('lib__geo__get__message'),
+          title: i18n.t('lib__geo__get__title')
         }
       )
     }

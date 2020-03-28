@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
-import { Dimensions, FlatList, Image, Text, View } from 'react-native'
+import { Dimensions, FlatList, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -20,9 +20,10 @@ import {
   img_light_link,
   img_light_sign_out
 } from '../../assets'
-import { Refresher, Separator, Touchable } from '../../components/common'
+import { Image, Refresher, Separator, Touchable } from '../../components/common'
 import { PROFILE } from '../../graphql/documents'
 import { QueryProfilePayload } from '../../graphql/payload'
+import { i18n } from '../../i18n'
 import { browser } from '../../lib'
 import { ProfileParamList } from '../../navigators'
 import { useAuth } from '../../store'
@@ -51,19 +52,19 @@ export const Profile: FunctionComponent<Props> = () => {
       data={[
         {
           icon: img_about,
-          label: 'About',
+          label: i18n.t('profile__menu__about'),
           link: true,
           onPress: () => browser.open('https://pandemic.li')
         },
         {
           icon: img_help,
-          label: 'Help',
+          label: i18n.t('profile__menu__help'),
           link: true,
           onPress: () => browser.open('https://pandemic.li/help')
         },
         {
           icon: img_sign_out,
-          label: 'Sign out',
+          label: i18n.t('profile__menu__sign_out'),
           onPress: () => signOut()
         }
       ]}
@@ -80,19 +81,13 @@ export const Profile: FunctionComponent<Props> = () => {
               />
             </View>
             <Text style={styles.greeting}>
-              Hello, {data.profile.name.split(' ').shift()}
+              {i18n.t('profile__message__1', {
+                name: data.profile.name.split(' ')[0]
+              })}
             </Text>
-            <Text style={styles.message}>
-              This is your Pandemic.li QR code.
-            </Text>
-            <Text style={styles.message}>
-              Other people can scan this code to add you as a contact on the
-              app.
-            </Text>
-            <Text style={styles.message}>
-              You can scan other codes from the top left button to add them as a
-              contact.
-            </Text>
+            <Text style={styles.message}>{i18n.t('profile__message__2')}</Text>
+            <Text style={styles.message}>{i18n.t('profile__message__3')}</Text>
+            <Text style={styles.message}>{i18n.t('profile__message__4')}</Text>
           </View>
         ) : null
       }

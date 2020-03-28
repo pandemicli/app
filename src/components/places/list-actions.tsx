@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { ActivityIndicator, Image, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import {
@@ -8,7 +8,7 @@ import {
   img_action_remove
 } from '../../assets'
 import { colors, layout } from '../../styles'
-import { Touchable } from '../common'
+import { Image, Touchable } from '../common'
 
 interface Props {
   favoriting: boolean

@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useState } from 'react'
-import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -17,6 +17,7 @@ import {
 } from '../../assets'
 import {
   Button,
+  Image,
   Refresher,
   Separator,
   Touchable
@@ -26,6 +27,7 @@ import { CONTACTS } from '../../graphql/documents'
 import { QueryContactsPayload } from '../../graphql/payload'
 import { QueryContactsArgs } from '../../graphql/types'
 import { useToggleInteraction } from '../../hooks'
+import { i18n } from '../../i18n'
 import { TodayParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 
@@ -75,7 +77,7 @@ export const Interactions: FunctionComponent<Props> = ({
       ListFooterComponent={
         <View style={styles.footer}>
           <Button
-            label="Add more contacts"
+            label={i18n.t('label__add_more_contacts')}
             onPress={() => {
               navigate('Contacts')
 
@@ -97,6 +99,7 @@ export const Interactions: FunctionComponent<Props> = ({
           ) : (
             <Touchable onPress={() => toggleInteraction(item.id)}>
               <Image
+                reverse={false}
                 source={item.interactedToday ? checked : unchecked}
                 style={styles.icon}
               />

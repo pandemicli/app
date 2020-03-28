@@ -1,15 +1,10 @@
 import React, { FunctionComponent } from 'react'
-import {
-  Image,
-  Modal as ReactNativeModal,
-  Text,
-  View,
-  ViewStyle
-} from 'react-native'
+import { Modal as ReactNativeModal, Text, View, ViewStyle } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { img_dark_close } from '../../assets'
 import { colors, layout, typography } from '../../styles'
+import { Image } from './image'
 import { KeyboardView } from './keyboard-view'
 import { Touchable } from './touchable'
 
@@ -56,8 +51,8 @@ export const Modal: FunctionComponent<Props> = ({
 const stylesheet = new DynamicStyleSheet({
   header: {
     backgroundColor: colors.accent,
-    borderTopLeftRadius: layout.radius,
-    borderTopRightRadius: layout.radius,
+    borderTopEndRadius: layout.radius,
+    borderTopStartRadius: layout.radius,
     flexDirection: 'row'
   },
   icon: {

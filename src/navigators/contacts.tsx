@@ -4,6 +4,7 @@ import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Header } from '../components/common'
 import { Contact } from '../graphql/types'
+import { i18n } from '../i18n'
 import { AddContact, Contacts, EditContact } from '../scenes/contacts'
 import { layout } from '../styles'
 
@@ -30,7 +31,7 @@ export const ContactsNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Contacts'
+          title: i18n.t('contacts__title__contacts')
         }}
       />
       <Screen
@@ -41,7 +42,7 @@ export const ContactsNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Add contact'
+          title: i18n.t('contacts__title__add_contact')
         }}
       />
       <Screen
@@ -52,7 +53,7 @@ export const ContactsNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Edit contact'
+          title: i18n.t('contacts__title__edit_contact')
         }}
       />
     </Navigator>

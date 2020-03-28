@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { Text, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
+import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
 import { Button } from '../common'
 
@@ -15,9 +16,13 @@ export const ListEmpty: FunctionComponent<Props> = ({ onPress }) => {
   return (
     <View style={styles.empty}>
       <Text style={styles.message}>
-        You haven't added any contacts right now.
+        {i18n.t('contacts__list__empty__message')}
       </Text>
-      <Button label="Add contact" onPress={onPress} small />
+      <Button
+        label={i18n.t('contacts__list__empty__label')}
+        onPress={onPress}
+        small
+      />
     </View>
   )
 }

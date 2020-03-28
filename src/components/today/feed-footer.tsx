@@ -3,6 +3,7 @@ import { SectionListData, Text, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { Contact, Place } from '../../graphql/types'
+import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
 import { Button } from '../common'
 
@@ -24,16 +25,24 @@ export const FeedFooter: FunctionComponent<Props> = ({
     section.title === 'Contacts' ? (
       <View style={styles.empty}>
         <Text style={styles.message}>
-          You haven't favorited any contacts right now.
+          {i18n.t('today__footer__empty_contacts__message')}
         </Text>
-        <Button label="Add favorite contacts" onPress={onAddContact} small />
+        <Button
+          label={i18n.t('today__footer__empty_contacts__label')}
+          onPress={onAddContact}
+          small
+        />
       </View>
     ) : (
       <View style={styles.empty}>
         <Text style={styles.message}>
-          You haven't favorited any places right now.
+          {i18n.t('today__footer__empty_places__message')}
         </Text>
-        <Button label="Add favorite places" onPress={onAddPlace} small />
+        <Button
+          label={i18n.t('today__footer__empty_places__label')}
+          onPress={onAddPlace}
+          small
+        />
       </View>
     )
   ) : null

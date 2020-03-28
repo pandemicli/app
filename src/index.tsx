@@ -22,7 +22,7 @@ import { colors } from './styles'
 export const Pandemic: FunctionComponent = () => {
   const isDarkMode = useDarkMode()
 
-  const [{ loading, token }, { init, signOut }] = useAuth()
+  const [{ loading, userId }, { init, signOut }] = useAuth()
 
   useEffect(() => {
     init()
@@ -58,7 +58,7 @@ export const Pandemic: FunctionComponent = () => {
         <KeyboardView>
           <DarkModeProvider>
             <NavigationContainer theme={theme}>
-              {token ? <MainNavigator /> : <AuthNavigator />}
+              {userId ? <MainNavigator /> : <AuthNavigator />}
             </NavigationContainer>
           </DarkModeProvider>
         </KeyboardView>

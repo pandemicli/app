@@ -24,6 +24,7 @@ import {
   Place,
   PlaceInput
 } from '../graphql/types'
+import { i18n } from '../i18n'
 import { dialog } from '../lib'
 
 export const usePlaces = () => {
@@ -35,11 +36,7 @@ export const usePlaces = () => {
   const [updatePlace, updatePlaceMutation] = useMutation<
     MutationUpdatePlacePayload,
     MutationUpdatePlaceArgs
-  >(UPDATE_PLACE, {
-    onError(error) {
-      console.log(JSON.stringify(error, null, 2))
-    }
-  })
+  >(UPDATE_PLACE)
 
   const [removePlace, removePlaceMutation] = useMutation<
     MutationRemovePlacePayload,
@@ -113,7 +110,9 @@ export const usePlaces = () => {
     })
 
   const remove = async (id: string, row: SwipeRow<Place>) => {
-    const yes = await dialog.confirm('Do you want to remove this place?')
+    const yes = await dialog.confirm(
+      i18n.t('lib__dialog__confirm__remove_place')
+    )
 
     if (!yes) {
       return

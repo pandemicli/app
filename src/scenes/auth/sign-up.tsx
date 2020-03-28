@@ -9,6 +9,7 @@ import { Button, Message, PhoneNumber, TextBox } from '../../components/common'
 import { SIGN_UP } from '../../graphql/documents'
 import { MutationSignUpPayload } from '../../graphql/payload'
 import { MutationSignUpArgs } from '../../graphql/types'
+import { i18n } from '../../i18n'
 import { AuthParamList } from '../../navigators'
 import { layout } from '../../styles'
 
@@ -58,7 +59,7 @@ export const SignUp: FunctionComponent<Props> = ({
       <TextBox
         onChangeText={(name) => setName(name)}
         onSubmitEditing={() => emailRef.current?.focus()}
-        placeholder="Name"
+        placeholder={i18n.t('label__name')}
         returnKeyType="next"
         style={styles.item}
         value={name}
@@ -69,7 +70,7 @@ export const SignUp: FunctionComponent<Props> = ({
         keyboardType="email-address"
         onChangeText={(email) => setEmail(email)}
         onSubmitEditing={() => phoneRef.current?.focus()}
-        placeholder="Email"
+        placeholder={i18n.t('label__email')}
         ref={emailRef}
         returnKeyType="next"
         style={styles.item}
@@ -81,7 +82,7 @@ export const SignUp: FunctionComponent<Props> = ({
         style={styles.item}
       />
       <Button
-        label="Sign up"
+        label={i18n.t('label__sign_up')}
         loading={loading}
         onPress={() => {
           if (name && email && phone) {

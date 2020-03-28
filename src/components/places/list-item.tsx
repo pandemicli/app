@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Image, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -9,6 +9,7 @@ import {
 import { img_dark_star, img_light_star } from '../../assets'
 import { Place } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
+import { Image } from '../common'
 
 interface Props {
   item: Place

@@ -1,13 +1,7 @@
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { createRef, FunctionComponent, useEffect, useState } from 'react'
-import {
-  ActivityIndicator,
-  Image,
-  ScrollView,
-  Text,
-  TextInput
-} from 'react-native'
+import { ActivityIndicator, ScrollView, Text, TextInput } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -23,6 +17,7 @@ import {
 import {
   Header,
   HeaderButton,
+  Image,
   LocationPicker,
   Map,
   Message,
@@ -31,6 +26,7 @@ import {
 } from '../../components/common'
 import { LocationPoint } from '../../graphql/types'
 import { usePlaces } from '../../hooks'
+import { i18n } from '../../i18n'
 import { geo } from '../../lib'
 import { PlacesParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
@@ -59,12 +55,12 @@ export const EditPlace: FunctionComponent<Props> = ({
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
+  const color_foreground = useDynamicValue(colors.white, colors.black)
   const img_save = useDynamicValue(img_dark_save, img_light_save)
   const img_google_maps = useDynamicValue(
     img_light_google_maps,
     img_dark_google_maps
   )
-  const color_foreground = useDynamicValue(colors.white, colors.black)
 
   useEffect(() => {
     const { googlePlaceId, location, name } = place
@@ -144,7 +140,7 @@ export const EditPlace: FunctionComponent<Props> = ({
           autoCorrect={false}
           onChangeText={(name) => setName(name)}
           onSubmitEditing={() => phoneRef.current?.focus()}
-          placeholder="Name"
+          placeholder={i18n.t('label__name')}
           returnKeyType="next"
           value={name}
         />
@@ -165,7 +161,7 @@ export const EditPlace: FunctionComponent<Props> = ({
                 color: color_foreground
               }
             ]}>
-            Find on Google Places
+            {i18n.t('places__find_on_google_places')}
           </Text>
         </Touchable>
       </ScrollView>
@@ -205,7 +201,7 @@ const stylesheet = new DynamicStyleSheet({
     ...typography.regular,
     color: colors.black,
     flex: 1,
-    marginLeft: layout.margin
+    marginStart: layout.margin
   },
   main: {
     padding: layout.margin

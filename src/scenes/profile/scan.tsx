@@ -27,8 +27,6 @@ export const Scan: FunctionComponent<Props> = () => {
         return
       }
 
-      console.log('code', code)
-
       add(code)
 
       const next = new Map(added)

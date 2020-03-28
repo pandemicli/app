@@ -1,11 +1,12 @@
 import { StackHeaderProps } from '@react-navigation/stack'
 import React, { FunctionComponent, ReactChild } from 'react'
-import { Animated, Image, ImageSourcePropType, Text, View } from 'react-native'
+import { Animated, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
   useDynamicValue
 } from 'react-native-dark-mode'
+import { Source } from 'react-native-fast-image'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import {
@@ -15,6 +16,7 @@ import {
   img_light_next
 } from '../../assets'
 import { colors, layout, typography } from '../../styles'
+import { Image } from './image'
 import { Touchable } from './touchable'
 
 interface Props {
@@ -89,7 +91,7 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
 }
 
 interface HeaderButtonProps {
-  icon: ImageSourcePropType
+  icon: Source
 
   onPress: () => void
 }
@@ -117,7 +119,7 @@ const stylesheet = new DynamicStyleSheet({
     bottom: 0,
     flexDirection: 'row',
     left: -layout.margin,
-    marginLeft: layout.margin,
+    marginStart: layout.margin,
     position: 'absolute'
   },
   main: {
@@ -131,7 +133,7 @@ const stylesheet = new DynamicStyleSheet({
   right: {
     bottom: 0,
     flexDirection: 'row',
-    marginRight: layout.margin,
+    marginEnd: layout.margin,
     position: 'absolute',
     right: -layout.margin
   },

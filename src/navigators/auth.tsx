@@ -3,6 +3,7 @@ import React from 'react'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Header } from '../components/common'
+import { i18n } from '../i18n'
 import { Landing, SignIn, SignUp, Verify } from '../scenes/auth'
 import { layout } from '../styles'
 
@@ -35,7 +36,7 @@ export const AuthNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Sign up'
+          title: i18n.t('auth__title__sign_up')
         }}
       />
       <Screen
@@ -46,7 +47,7 @@ export const AuthNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Sign in'
+          title: i18n.t('auth__title__sign_in')
         }}
       />
       <Screen
@@ -57,7 +58,7 @@ export const AuthNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Verify'
+          title: i18n.t('auth__title__verify')
         }}
       />
     </Navigator>

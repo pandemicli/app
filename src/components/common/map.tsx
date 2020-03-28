@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react'
-import { Dimensions, Image, View, ViewStyle } from 'react-native'
+import { Dimensions, View, ViewStyle } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import MapView, { Region } from 'react-native-maps'
 
 import { img_marker } from '../../assets'
 import { LocationPoint } from '../../graphql/types'
 import { layout } from '../../styles'
+import { Image } from './image'
 
 interface Props {
   location?: LocationPoint
@@ -59,8 +60,8 @@ const { height } = Dimensions.get('window')
 
 const stylesheet = new DynamicStyleSheet({
   button: {
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0
+    borderTopEndRadius: 0,
+    borderTopStartRadius: 0
   },
   icon: {
     height: 30,
@@ -72,7 +73,7 @@ const stylesheet = new DynamicStyleSheet({
   },
   marker: {
     left: '50%',
-    marginLeft: 1,
+    marginStart: 1,
     marginTop: -15,
     position: 'absolute',
     top: '50%'

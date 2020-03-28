@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/react-hooks'
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -21,7 +21,9 @@ import {
   QuerySearchPlacesArgs
 } from '../../graphql/types'
 import { useDebounce } from '../../hooks'
+import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
+import { Image } from './image'
 import { Modal } from './modal'
 import { TextBox } from './text-box'
 import { Touchable } from './touchable'
@@ -60,6 +62,7 @@ export const LocationPicker: FunctionComponent<Props> = ({
     if (debounced) {
       searchPlaces({
         variables: {
+          language: i18n.language,
           location,
           query: debounced
         }
@@ -75,13 +78,13 @@ export const LocationPicker: FunctionComponent<Props> = ({
     <Modal
       onClose={onClose}
       style={styles.modal}
-      title="Find places"
+      title={i18n.t('component__location_picker__title')}
       visible={visible}>
       <View style={styles.search}>
         <Image source={img_search} style={styles.icon} />
         <TextBox
           onChangeText={(query) => setQuery(query)}
-          placeholder="Search"
+          placeholder={i18n.t('label__search')}
           style={styles.query}
           value={query}
         />
@@ -137,7 +140,7 @@ const stylesheet = new DynamicStyleSheet({
     backgroundColor: 'transparent',
     borderRadius: 0,
     flex: 1,
-    paddingLeft: 0
+    paddingStart: 0
   },
   search: {
     backgroundColor: colors.background,

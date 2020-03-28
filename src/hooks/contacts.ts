@@ -30,6 +30,7 @@ import {
   MutationToggleFavoriteContactArgs,
   MutationUpdateContactArgs
 } from '../graphql/types'
+import { i18n } from '../i18n'
 import { dialog } from '../lib'
 import { PhoneContact } from '../types'
 
@@ -140,7 +141,9 @@ export const useContacts = () => {
     })
 
   const remove = async (id: string, row: SwipeRow<Contact>) => {
-    const yes = await dialog.confirm('Do you want to remove this contact?')
+    const yes = await dialog.confirm(
+      i18n.t('lib__dialog__confirm__remove_contact')
+    )
 
     if (!yes) {
       return
@@ -234,6 +237,8 @@ export const useContacts = () => {
           return
         }
 
+        // in case user never went to the contacts screen
+        // and the contacts query was never run
         try {
           const previous = proxy.readQuery<QueryContactsPayload>({
             query: CONTACTS

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Image, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -9,6 +9,7 @@ import {
 import { img_dark_star, img_light_star } from '../../assets'
 import { Contact } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
+import { Image } from '../common'
 
 interface Props {
   item: Contact
@@ -22,7 +23,7 @@ export const ListItem: FunctionComponent<Props> = ({ item }) => {
     <View style={styles.main}>
       <View style={styles.details}>
         <Text style={styles.name}>{item.name}</Text>
-        {!!item.phone && <Text style={styles.phone}>{[item.phone]}</Text>}
+        {!!item.phone && <Text style={styles.phone}>{item.phone}</Text>}
       </View>
       {item.favorite && <Image source={img_star} style={styles.icon} />}
     </View>

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { FlatList, Image, Text, View } from 'react-native'
+import { FlatList, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -12,7 +12,9 @@ import {
   img_light_clear,
   img_light_search
 } from '../../assets'
+import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
+import { Image } from './image'
 import { Modal } from './modal'
 import { TextBox } from './text-box'
 import { Touchable } from './touchable'
@@ -59,7 +61,7 @@ export const Picker: FunctionComponent<Props> = ({
           <Image source={img_search} style={styles.icon} />
           <TextBox
             onChangeText={(query) => setQuery(query)}
-            placeholder="Filter"
+            placeholder={i18n.t('label__filter')}
             style={styles.query}
             value={query}
           />
@@ -115,7 +117,7 @@ const stylesheet = new DynamicStyleSheet({
     backgroundColor: 'transparent',
     borderRadius: 0,
     flex: 1,
-    paddingLeft: 0
+    paddingStart: 0
   },
   search: {
     backgroundColor: colors.background,

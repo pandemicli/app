@@ -6,6 +6,7 @@ import { useSafeArea } from 'react-native-safe-area-context'
 import { img_dark_add, img_light_add } from '../assets'
 import { Header, HeaderButton } from '../components/common'
 import { Place } from '../graphql/types'
+import { i18n } from '../i18n'
 import { AddPlace, EditPlace, Places } from '../scenes/places'
 import { layout } from '../styles'
 
@@ -44,7 +45,7 @@ export const PlacesNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Places'
+          title: i18n.t('places__title__places')
         })}
       />
       <Screen
@@ -55,7 +56,7 @@ export const PlacesNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Add place'
+          title: i18n.t('places__title__add_place')
         }}
       />
       <Screen
@@ -66,7 +67,7 @@ export const PlacesNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Edit place'
+          title: i18n.t('places__title__edit_place')
         }}
       />
     </Navigator>

@@ -9,6 +9,7 @@ import { Button, Message, TextBox } from '../../components/common'
 import { VERIFY } from '../../graphql/documents'
 import { MutationVerifyPayload } from '../../graphql/payload'
 import { MutationVerifyArgs } from '../../graphql/types'
+import { i18n } from '../../i18n'
 import { AuthParamList } from '../../navigators'
 import { useAuth } from '../../store'
 import { layout } from '../../styles'
@@ -57,13 +58,13 @@ export const Verify: FunctionComponent<Props> = () => {
       <TextBox
         keyboardType="number-pad"
         onChangeText={(code) => setCode(code)}
-        placeholder="Code"
+        placeholder={i18n.t('label__code')}
         returnKeyType="done"
         style={styles.item}
         value={code}
       />
       <Button
-        label="Verify"
+        label={i18n.t('label__verify')}
         loading={loading}
         onPress={() => {
           if (code) {

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -12,8 +12,9 @@ import {
   img_light_clear,
   img_light_search
 } from '../../assets'
+import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
-import { TextBox, Touchable } from '../common'
+import { Image, TextBox, Touchable } from '../common'
 
 interface Props {
   query: string
@@ -31,7 +32,7 @@ export const Filter: FunctionComponent<Props> = ({ onChange, query }) => {
       <Image source={img_search} style={styles.icon} />
       <TextBox
         onChangeText={(query) => onChange(query)}
-        placeholder="Filter"
+        placeholder={i18n.t('label__filter')}
         style={styles.query}
         value={query}
       />
@@ -61,6 +62,6 @@ const stylesheet = new DynamicStyleSheet({
     borderRadius: 0,
     flex: 1,
     height: layout.icon + layout.margin * 2,
-    paddingLeft: 0
+    paddingStart: 0
   }
 })

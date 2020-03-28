@@ -1,10 +1,11 @@
 import { NavigationProp } from '@react-navigation/native'
 import React, { FunctionComponent } from 'react'
-import { Image, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { img_pandemicli } from '../../assets'
-import { Button, Carousel } from '../../components/common'
+import { Button, Carousel, Image } from '../../components/common'
+import { i18n } from '../../i18n'
 import { AuthParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 
@@ -20,35 +21,40 @@ export const Landing: FunctionComponent<Props> = ({
   return (
     <View style={styles.main}>
       <Image source={img_pandemicli} style={styles.logo} />
-      <Text style={styles.title}>Pandemic.li</Text>
+      <Text style={styles.title}>{i18n.t('pandemicli')}</Text>
       <Carousel style={styles.carousel}>
         <View style={styles.card}>
-          <Text style={styles.subtitle}>Track contacts</Text>
+          <Text style={styles.subtitle}>
+            {i18n.t('auth__landing__track_contacts__title')}
+          </Text>
           <Text style={styles.message}>
-            Keep a track of people you see regularly. Log whenever you meet
-            them.
+            {i18n.t('auth__landing__track_contacts__message')}
           </Text>
         </View>
         <View style={styles.card}>
-          <Text style={styles.subtitle}>Track places</Text>
+          <Text style={styles.subtitle}>
+            {i18n.t('auth__landing__track_places__title')}
+          </Text>
           <Text style={styles.message}>
-            Keep a track of places you visit regularly. Log whenever you visit
-            them.
+            {i18n.t('auth__landing__track_places__message')}
           </Text>
         </View>
         <View style={styles.card}>
-          <Text style={styles.subtitle}>Track symptoms</Text>
+          <Text style={styles.subtitle}>
+            {i18n.t('auth__landing__track_symptoms__title')}
+          </Text>
           <Text style={styles.message}>
-            Keep track of your symptoms and log if you have been diagnosed with
-            Corona. The app will notify all people you have met recently to get
-            tested.
+            {i18n.t('auth__landing__track_symptoms__message')}
           </Text>
         </View>
       </Carousel>
       <View style={styles.footer}>
-        <Button label="Sign in" onPress={() => navigate('SignIn')} />
         <Button
-          label="Sign up"
+          label={i18n.t('label__sign_in')}
+          onPress={() => navigate('SignIn')}
+        />
+        <Button
+          label={i18n.t('label__sign_up')}
           onPress={() => navigate('SignUp')}
           style={styles.signUp}
         />
@@ -86,7 +92,7 @@ const stylesheet = new DynamicStyleSheet({
   },
   signUp: {
     backgroundColor: colors.accent,
-    marginLeft: layout.margin
+    marginStart: layout.margin
   },
   subtitle: {
     ...typography.subtitle,

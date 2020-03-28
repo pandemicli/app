@@ -3,6 +3,7 @@ import phone from 'phone'
 import { Alert, PermissionsAndroid, Platform } from 'react-native'
 import Contacts, { PhoneNumber } from 'react-native-contacts'
 
+import { i18n } from '../i18n'
 import { PhoneContact } from '../types'
 
 class PhoneBook {
@@ -11,10 +12,9 @@ class PhoneBook {
       await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
         {
-          buttonPositive: 'Okay',
-          message:
-            "Sync your contacts so you can track who you've met with recently.",
-          title: 'Contacts'
+          buttonPositive: i18n.t('lib__phone_book__get__okay'),
+          message: i18n.t('lib__phone_book__get__message'),
+          title: i18n.t('lib__phone_book__get__title')
         }
       )
     }

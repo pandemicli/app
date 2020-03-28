@@ -5,6 +5,7 @@ import { useSafeArea } from 'react-native-safe-area-context'
 
 import { img_dark_camera, img_light_camera } from '../assets'
 import { Header, HeaderButton } from '../components/common'
+import { i18n } from '../i18n'
 import { Profile, Scan } from '../scenes/profile'
 import { layout } from '../styles'
 
@@ -40,7 +41,7 @@ export const ProfileNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Profile'
+          title: i18n.t('profile__title__profile')
         })}
       />
       <Screen
@@ -51,7 +52,7 @@ export const ProfileNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Scan'
+          title: i18n.t('profile__title__scan')
         }}
       />
     </Navigator>

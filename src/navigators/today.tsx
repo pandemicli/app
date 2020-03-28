@@ -4,6 +4,7 @@ import React from 'react'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Header } from '../components/common'
+import { i18n } from '../i18n'
 import { CheckIns, Feed, Interactions } from '../scenes/today'
 import { layout } from '../styles'
 
@@ -57,7 +58,7 @@ export const TodayNavigator = () => {
             height: layout.header + top
           },
           title: moment().isSame(date, 'day')
-            ? 'Today'
+            ? i18n.t('today__title__today')
             : moment(date).format('MMM D')
         })}
       />
@@ -69,7 +70,7 @@ export const TodayNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Have you met anyone today?'
+          title: i18n.t('today__title__interactions')
         }}
       />
       <Screen
@@ -80,7 +81,7 @@ export const TodayNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: 'Have you been anywhere today?'
+          title: i18n.t('today__title__checkins')
         }}
       />
     </Navigator>

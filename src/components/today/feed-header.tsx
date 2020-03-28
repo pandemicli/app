@@ -3,6 +3,7 @@ import { SectionListData, Text, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { Contact, Place } from '../../graphql/types'
+import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
 import { Touchable } from '../common'
 
@@ -19,11 +20,11 @@ export const FeedHeader: FunctionComponent<Props> = ({ onPress, section }) => {
     <View style={styles.header}>
       <Text style={styles.title}>
         {section.title === 'Contacts'
-          ? 'Have you met these people today?'
-          : 'Have you been to these places today?'}
+          ? i18n.t('today__header__contacts__title')
+          : i18n.t('today__header__places__title')}
       </Text>
       <Touchable onPress={onPress}>
-        <Text style={styles.more}>More</Text>
+        <Text style={styles.more}>{i18n.t('label__more')}</Text>
       </Touchable>
     </View>
   )

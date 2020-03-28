@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { ActivityIndicator, Image, Text, View } from 'react-native'
+import { ActivityIndicator, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -14,7 +14,7 @@ import {
 } from '../../assets'
 import { Contact, Place } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
-import { Touchable } from '../common'
+import { Image, Touchable } from '../common'
 
 interface Props {
   item: Contact | Place
@@ -61,6 +61,7 @@ export const FeedItem: FunctionComponent<Props> = ({
       ) : (
         <Touchable onPress={onPress}>
           <Image
+            reverse={false}
             source={item.checkedInToday ? checked : unchecked}
             style={styles.icon}
           />

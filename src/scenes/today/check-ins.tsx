@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useState } from 'react'
-import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Text, View } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -17,6 +17,7 @@ import {
 } from '../../assets'
 import {
   Button,
+  Image,
   Refresher,
   Separator,
   Touchable
@@ -26,6 +27,7 @@ import { PLACES } from '../../graphql/documents'
 import { QueryPlacesPayload } from '../../graphql/payload'
 import { QueryPlacesArgs } from '../../graphql/types'
 import { useToggleCheckIn } from '../../hooks'
+import { i18n } from '../../i18n'
 import { TodayParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 
@@ -75,7 +77,7 @@ export const CheckIns: FunctionComponent<Props> = ({
       ListFooterComponent={
         <View style={styles.footer}>
           <Button
-            label="Add more places"
+            label={i18n.t('label__add_more_places')}
             onPress={() => {
               navigate('Places')
 
@@ -97,6 +99,7 @@ export const CheckIns: FunctionComponent<Props> = ({
           ) : (
             <Touchable onPress={() => toggleCheckIn(item.id)}>
               <Image
+                reverse={false}
                 source={item.checkedInToday ? checked : unchecked}
                 style={styles.icon}
               />
