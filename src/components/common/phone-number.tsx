@@ -45,7 +45,7 @@ export const PhoneNumber = forwardRef<TextInput, Props>(
     const [visible, setVisible] = useState(false)
 
     const styles = useDynamicStyleSheet(stylesheet)
-    const expand = useDynamicValue(img_dark_expand, img_light_expand)
+    const img_expand = useDynamicValue(img_dark_expand, img_light_expand)
 
     const country = countries.find((country) => country.id === id)
 
@@ -54,7 +54,7 @@ export const PhoneNumber = forwardRef<TextInput, Props>(
         <View style={[styles.main, style]}>
           <Touchable onPress={() => setVisible(true)} style={styles.code}>
             <Text style={styles.codeLabel}>+{country?.code}</Text>
-            <Image source={expand} style={styles.icon} />
+            <Image source={img_expand} style={styles.icon} />
           </Touchable>
           <TextBox
             keyboardType="number-pad"

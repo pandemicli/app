@@ -20,7 +20,7 @@
     "@typescript-eslint/camelcase": [
       "error",
       {
-        "allow": ["img_*"]
+        "allow": ["color_*", "img_*"]
       }
     ],
     "@typescript-eslint/explicit-function-return-type": "off",

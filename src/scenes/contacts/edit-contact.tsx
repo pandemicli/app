@@ -40,7 +40,7 @@ export const EditContact: FunctionComponent<Props> = ({
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
-  const save = useDynamicValue(img_dark_save, img_light_save)
+  const img_save = useDynamicValue(img_dark_save, img_light_save)
 
   useEffect(() => {
     const { name, phone } = contact
@@ -65,7 +65,7 @@ export const EditContact: FunctionComponent<Props> = ({
               />
             ) : (
               <HeaderButton
-                icon={save}
+                icon={img_save}
                 onPress={() => {
                   if (name) {
                     update(contact.id, {
@@ -81,15 +81,14 @@ export const EditContact: FunctionComponent<Props> = ({
       )
     })
   }, [
-    update,
-    updating,
+    contact.id,
+    img_save,
     name,
     phone,
-    replace,
-    save,
     setOptions,
     styles.spinner,
-    contact.id
+    update,
+    updating
   ])
 
   return (

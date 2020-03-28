@@ -16,7 +16,7 @@ interface Props {
 
 export const ListItem: FunctionComponent<Props> = ({ item }) => {
   const styles = useDynamicStyleSheet(stylesheet)
-  const star = useDynamicValue(img_dark_star, img_light_star)
+  const img_star = useDynamicValue(img_dark_star, img_light_star)
 
   return (
     <View style={styles.main}>
@@ -24,7 +24,7 @@ export const ListItem: FunctionComponent<Props> = ({ item }) => {
         <Text style={styles.name}>{item.name}</Text>
         {!!item.phone && <Text style={styles.phone}>{[item.phone]}</Text>}
       </View>
-      {item.favorite && <Image source={star} style={styles.icon} />}
+      {item.favorite && <Image source={img_star} style={styles.icon} />}
     </View>
   )
 }

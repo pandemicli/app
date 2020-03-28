@@ -36,7 +36,7 @@ export const AddContact: FunctionComponent<Props> = ({
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
-  const save = useDynamicValue(img_dark_save, img_light_save)
+  const img_save = useDynamicValue(img_dark_save, img_light_save)
 
   useEffect(() => {
     setOptions({
@@ -51,7 +51,7 @@ export const AddContact: FunctionComponent<Props> = ({
               />
             ) : (
               <HeaderButton
-                icon={save}
+                icon={img_save}
                 onPress={() => {
                   if (name) {
                     create(
@@ -72,7 +72,16 @@ export const AddContact: FunctionComponent<Props> = ({
         />
       )
     })
-  }, [create, creating, name, phone, replace, save, setOptions, styles.spinner])
+  }, [
+    create,
+    creating,
+    img_save,
+    name,
+    phone,
+    replace,
+    setOptions,
+    styles.spinner
+  ])
 
   return (
     <ScrollView

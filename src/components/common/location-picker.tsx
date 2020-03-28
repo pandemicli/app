@@ -68,8 +68,8 @@ export const LocationPicker: FunctionComponent<Props> = ({
   }, [debounced, location, searchPlaces])
 
   const styles = useDynamicStyleSheet(stylesheet)
-  const search = useDynamicValue(img_dark_search, img_light_search)
-  const clear = useDynamicValue(img_dark_clear, img_light_clear)
+  const img_clear = useDynamicValue(img_dark_clear, img_light_clear)
+  const img_search = useDynamicValue(img_dark_search, img_light_search)
 
   return (
     <Modal
@@ -78,7 +78,7 @@ export const LocationPicker: FunctionComponent<Props> = ({
       title="Find places"
       visible={visible}>
       <View style={styles.search}>
-        <Image source={search} style={styles.icon} />
+        <Image source={img_search} style={styles.icon} />
         <TextBox
           onChangeText={(query) => setQuery(query)}
           placeholder="Search"
@@ -87,7 +87,7 @@ export const LocationPicker: FunctionComponent<Props> = ({
         />
         {query.length > 0 && (
           <Touchable onPress={() => setQuery('')}>
-            <Image source={clear} style={styles.icon} />
+            <Image source={img_clear} style={styles.icon} />
           </Touchable>
         )}
       </View>

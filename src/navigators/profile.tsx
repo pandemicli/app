@@ -18,7 +18,7 @@ const { Navigator, Screen } = createStackNavigator<ProfileParamList>()
 export const ProfileNavigator = () => {
   const { top } = useSafeArea()
 
-  const camera = useDynamicValue(img_dark_camera, img_light_camera)
+  const img_camera = useDynamicValue(img_dark_camera, img_light_camera)
 
   return (
     <Navigator>
@@ -30,7 +30,10 @@ export const ProfileNavigator = () => {
             <Header
               {...props}
               left={
-                <HeaderButton icon={camera} onPress={() => navigate('Scan')} />
+                <HeaderButton
+                  icon={img_camera}
+                  onPress={() => navigate('Scan')}
+                />
               }
             />
           ),

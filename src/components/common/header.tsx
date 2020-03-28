@@ -42,23 +42,22 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
   const { top } = useSafeArea()
 
   const styles = useDynamicStyleSheet(stylesheet)
-  const back = useDynamicValue(img_dark_back, img_light_back)
-  const background = useDynamicValue('#f6f7f8', '#111')
+  const color_background = useDynamicValue('#f6f7f8', '#111')
+  const img_back = useDynamicValue(img_dark_back, img_light_back)
+  const img_next = useDynamicValue(img_dark_next, img_light_next)
+  const img_previous = useDynamicValue(img_dark_back, img_light_back)
 
   const opacity = Animated.add(current, next ? next : 0).interpolate({
     inputRange: [0, 1, 2],
     outputRange: [0, 1, 0]
   })
 
-  const previousIcon = useDynamicValue(img_dark_back, img_light_back)
-  const nextIcon = useDynamicValue(img_dark_next, img_light_next)
-
   return (
     <Animated.View
       style={[
         styles.main,
         {
-          backgroundColor: background,
+          backgroundColor: color_background,
           opacity,
           paddingTop: top
         }
@@ -67,7 +66,7 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
         <View style={styles.left}>
           {previous && (
             <Touchable onPress={goBack}>
-              <Image source={back} style={styles.icon} />
+              <Image source={img_back} style={styles.icon} />
             </Touchable>
           )}
           {left}
@@ -75,13 +74,13 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
       )}
       {onPrevious && (
         <Touchable onPress={onPrevious}>
-          <Image source={previousIcon} style={styles.icon} />
+          <Image source={img_previous} style={styles.icon} />
         </Touchable>
       )}
       <Text style={styles.title}>{title}</Text>
       {onNext && (
         <Touchable onPress={onNext}>
-          <Image source={nextIcon} style={styles.icon} />
+          <Image source={img_next} style={styles.icon} />
         </Touchable>
       )}
       {right && <View style={styles.right}>{right}</View>}

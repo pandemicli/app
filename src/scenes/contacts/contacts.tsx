@@ -51,8 +51,8 @@ export const Contacts: FunctionComponent<Props> = ({
   } = useContacts()
 
   const styles = useDynamicStyleSheet(stylesheet)
-  const add = useDynamicValue(img_dark_add, img_light_add)
-  const syncIcon = useDynamicValue(img_dark_sync, img_light_sync)
+  const img_add = useDynamicValue(img_dark_add, img_light_add)
+  const img_sync = useDynamicValue(img_dark_sync, img_light_sync)
 
   useEffect(() => {
     setOptions({
@@ -62,7 +62,7 @@ export const Contacts: FunctionComponent<Props> = ({
           right={
             <>
               <HeaderButton
-                icon={syncIcon}
+                icon={img_sync}
                 onPress={async () => {
                   if (syncing) {
                     return
@@ -73,13 +73,16 @@ export const Contacts: FunctionComponent<Props> = ({
                   sync(contacts)
                 }}
               />
-              <HeaderButton icon={add} onPress={() => navigate('AddContact')} />
+              <HeaderButton
+                icon={img_add}
+                onPress={() => navigate('AddContact')}
+              />
             </>
           }
         />
       )
     })
-  }, [add, navigate, setOptions, sync, syncIcon, syncing])
+  }, [img_add, img_sync, navigate, setOptions, sync, syncing])
 
   const contacts = orderBy(
     data?.contacts,

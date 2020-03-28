@@ -64,7 +64,7 @@ export const EditPlace: FunctionComponent<Props> = ({
     img_light_google_maps,
     img_dark_google_maps
   )
-  const foreground = useDynamicValue(colors.white, colors.black)
+  const color_foreground = useDynamicValue(colors.white, colors.black)
 
   useEffect(() => {
     const { googlePlaceId, location, name } = place
@@ -162,7 +162,7 @@ export const EditPlace: FunctionComponent<Props> = ({
             style={[
               styles.label,
               {
-                color: foreground
+                color: color_foreground
               }
             ]}>
             Find on Google Places

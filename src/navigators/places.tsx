@@ -22,7 +22,7 @@ const { Navigator, Screen } = createStackNavigator<PlacesParamList>()
 export const PlacesNavigator = () => {
   const { top } = useSafeArea()
 
-  const add = useDynamicValue(img_dark_add, img_light_add)
+  const img_add = useDynamicValue(img_dark_add, img_light_add)
 
   return (
     <Navigator>
@@ -34,7 +34,10 @@ export const PlacesNavigator = () => {
             <Header
               {...props}
               right={
-                <HeaderButton icon={add} onPress={() => navigate('AddPlace')} />
+                <HeaderButton
+                  icon={img_add}
+                  onPress={() => navigate('AddPlace')}
+                />
               }
             />
           ),

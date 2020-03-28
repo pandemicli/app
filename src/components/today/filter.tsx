@@ -23,12 +23,12 @@ interface Props {
 
 export const Filter: FunctionComponent<Props> = ({ onChange, query }) => {
   const styles = useDynamicStyleSheet(stylesheet)
-  const search = useDynamicValue(img_dark_search, img_light_search)
-  const clear = useDynamicValue(img_dark_clear, img_light_clear)
+  const img_clear = useDynamicValue(img_dark_clear, img_light_clear)
+  const img_search = useDynamicValue(img_dark_search, img_light_search)
 
   return (
     <View style={styles.main}>
-      <Image source={search} style={styles.icon} />
+      <Image source={img_search} style={styles.icon} />
       <TextBox
         onChangeText={(query) => onChange(query)}
         placeholder="Filter"
@@ -37,7 +37,7 @@ export const Filter: FunctionComponent<Props> = ({ onChange, query }) => {
       />
       {query.length > 0 && (
         <Touchable onPress={() => onChange('')}>
-          <Image source={clear} style={styles.icon} />
+          <Image source={img_clear} style={styles.icon} />
         </Touchable>
       )}
     </View>
