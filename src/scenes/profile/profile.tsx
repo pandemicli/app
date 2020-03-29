@@ -1,8 +1,16 @@
 import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import React, { FunctionComponent } from 'react'
-import { Dimensions, FlatList, Text, View } from 'react-native'
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import {
+  Dimensions,
+  FlatList,
+  LayoutAnimation,
+  Platform,
+  Text,
+  UIManager,
+  View
+} from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -23,6 +31,7 @@ import {
 import { Image, Refresher, Separator, Touchable } from '../../components/common'
 import { PROFILE } from '../../graphql/documents'
 import { QueryProfilePayload } from '../../graphql/payload'
+import { User } from '../../graphql/types'
 import { i18n } from '../../i18n'
 import { browser } from '../../lib'
 import { ProfileParamList } from '../../navigators'
@@ -37,7 +46,23 @@ interface Props {
 export const Profile: FunctionComponent<Props> = () => {
   const [, { signOut }] = useAuth()
 
-  const { data, loading, refetch } = useQuery<QueryProfilePayload>(PROFILE)
+  const { loading, refetch } = useQuery<QueryProfilePayload>(PROFILE, {
+    onCompleted({ profile }) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+
+      setUser(profile)
+    }
+  })
+
+  const [user, setUser] = useState<User>()
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      if (UIManager.setLayoutAnimationEnabledExperimental) {
+        UIManager.setLayoutAnimationEnabledExperimental(true)
+      }
+    }
+  }, [])
 
   const { width } = Dimensions.get('window')
 
@@ -71,18 +96,18 @@ export const Profile: FunctionComponent<Props> = () => {
       ItemSeparatorComponent={Separator}
       keyExtractor={(item) => item.label}
       ListHeaderComponent={
-        data?.profile ? (
+        user ? (
           <View style={styles.main}>
             <View style={styles.qr}>
               <QRCode
                 backgroundColor="#fff"
                 size={width / 3}
-                value={data.profile.code}
+                value={user.code}
               />
             </View>
             <Text style={styles.greeting}>
               {i18n.t('profile__message__1', {
-                name: data.profile.name.split(' ')[0]
+                name: user.name.split(' ')[0]
               })}
             </Text>
             <Text style={styles.message}>{i18n.t('profile__message__2')}</Text>
