@@ -1,5 +1,7 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import set from 'immutability-helper'
+import { clone, cloneDeep, orderBy } from 'lodash'
+import { useEffect, useState } from 'react'
 import { SwipeRow } from 'react-native-swipe-list-view'
 
 import {
@@ -28,13 +30,57 @@ import {
   MutationRemoveContactArgs,
   MutationSyncContactsArgs,
   MutationToggleFavoriteContactArgs,
-  MutationUpdateContactArgs
+  MutationUpdateContactArgs,
+  QueryContactsArgs
 } from '../graphql/types'
 import { i18n } from '../i18n'
-import { dialog } from '../lib'
+import { crypto, dialog } from '../lib'
 import { PhoneContact } from '../types'
 
-export const useContacts = () => {
+export const useContacts = (date?: string) => {
+  const [contacts, setContacts] = useState<Contact[]>([])
+
+  const { data, loading, refetch } = useQuery<
+    QueryContactsPayload,
+    QueryContactsArgs
+  >(CONTACTS, {
+    variables: {
+      date
+    }
+  })
+
+  useEffect(() => {
+    !(async () => {
+      if (data?.contacts) {
+        const raw = cloneDeep(data.contacts)
+
+        const contacts = await Promise.all(
+          raw.map(async (contact) => {
+            contact.name = crypto.decrypt(contact.name)
+
+            if (contact.phone) {
+              contact.phone = crypto.decrypt(contact.phone)
+            }
+
+            return contact
+          })
+        )
+
+        const sorted = orderBy(contacts, ['favorite', 'name'], ['desc', 'asc'])
+
+        setContacts(sorted)
+      }
+    })()
+  }, [data])
+
+  return {
+    contacts,
+    loading,
+    refetch
+  }
+}
+
+export const useContactActions = () => {
   const [createContact, createContactMutation] = useMutation<
     MutationCreateContactPayload,
     MutationCreateContactArgs
@@ -72,110 +118,132 @@ export const useContacts = () => {
   const [addContact, addContactMutation] = useMutation<
     MutationAddContactPayload,
     MutationAddContactArgs
-  >(ADD_CONTACT)
+  >(ADD_CONTACT, {
+    async onCompleted({ addContact: { name, phone } }) {
+      const yes = await dialog.confirm(
+        i18n.t('lib__dialog__confirm__add_contact__message', {
+          name
+        }),
+        i18n.t('lib__dialog__confirm__add_contact__title'),
+        true
+      )
 
-  const create = (
-    contact: ContactInput,
-    callback: (contact: Contact) => void
-  ) =>
+      if (yes) {
+        create({
+          name,
+          phone
+        })
+      }
+    }
+  })
+
+  const create = async (
+    data: ContactInput,
+    callback?: (contact: Contact) => void
+  ) => {
+    const contact = clone(data)
+
+    contact.name = crypto.encrypt(contact.name)
+
+    if (contact.phone) {
+      contact.phoneHash = await crypto.hash(contact.phone)
+      contact.phone = crypto.encrypt(contact.phone)
+    }
+
     createContact({
-      update(proxy, response) {
+      async update(proxy, response) {
         if (!response.data) {
           return
         }
 
-        callback(response.data.createContact)
-
-        const previous = proxy.readQuery<QueryContactsPayload>({
-          query: CONTACTS
-        })
-
-        if (previous) {
-          proxy.writeQuery({
-            data: set(previous, {
-              contacts: {
-                $push: [response.data.createContact]
-              }
-            }),
+        // in case user never went to the contacts screen
+        // and the contacts query was never run
+        try {
+          const previous = proxy.readQuery<QueryContactsPayload>({
             query: CONTACTS
           })
+
+          if (previous) {
+            proxy.writeQuery({
+              data: set(previous, {
+                contacts: {
+                  $push: [response.data.createContact]
+                }
+              }),
+              query: CONTACTS
+            })
+          }
+        } catch (error) {}
+
+        if (callback) {
+          const contact = clone(response.data.createContact)
+
+          contact.name = crypto.decrypt(contact.name)
+
+          if (contact.phone) {
+            contact.phone = crypto.decrypt(contact.phone)
+          }
+
+          callback(contact)
         }
       },
       variables: {
         contact
       }
     })
+  }
 
-  const update = (id: string, contact: ContactInput) =>
+  const update = async (id: string, data: ContactInput) => {
+    const contact = clone(data)
+
+    contact.name = crypto.encrypt(contact.name)
+
+    if (contact.phone) {
+      contact.phone = crypto.encrypt(contact.phone)
+    }
+
     updateContact({
-      update(proxy, response) {
-        if (!response.data) {
-          return
-        }
-
-        const previous = proxy.readQuery<QueryContactsPayload>({
-          query: CONTACTS
-        })
-
-        if (previous) {
-          const index = previous.contacts.findIndex(
-            (contact) => contact.id === id
-          )
-
-          proxy.writeQuery({
-            data: set(previous, {
-              contacts: {
-                [index]: {
-                  $set: response.data.updateContact
-                }
-              }
-            }),
-            query: CONTACTS
-          })
-        }
-      },
       variables: {
         contact,
         id
       }
     })
+  }
 
   const remove = async (id: string, row: SwipeRow<Contact>) => {
     const yes = await dialog.confirm(
       i18n.t('lib__dialog__confirm__remove_contact')
     )
 
-    if (!yes) {
-      return
-    }
-
-    removeContact({
-      update(proxy) {
-        const previous = proxy.readQuery<QueryContactsPayload>({
-          query: CONTACTS
-        })
-
-        if (previous) {
-          const index = previous.contacts.findIndex(
-            (contact) => contact.id === id
-          )
-
-          proxy.writeQuery({
-            data: set(previous, {
-              contacts: {
-                $splice: [[index, 1]]
-              }
-            }),
+    if (yes) {
+      removeContact({
+        update(proxy) {
+          const previous = proxy.readQuery<QueryContactsPayload>({
             query: CONTACTS
           })
-        }
 
-        row.closeRow()
-      },
-      variables: {
-        id
-      }
-    })
+          if (previous) {
+            const index = previous.contacts.findIndex(
+              (contact) => contact.id === id
+            )
+
+            proxy.writeQuery({
+              data: set(previous, {
+                contacts: {
+                  $splice: [[index, 1]]
+                }
+              }),
+              query: CONTACTS
+            })
+          }
+
+          row.closeRow()
+        },
+        variables: {
+          id
+        }
+      })
+    }
   }
 
   const toggleFavorite = (id: string, row: SwipeRow<Contact>) =>
@@ -215,7 +283,22 @@ export const useContacts = () => {
       }
     })
 
-  const sync = (contacts: PhoneContact[]) =>
+  const sync = async (data: PhoneContact[]) => {
+    const contacts = await Promise.all(
+      cloneDeep(data).map(async (contact) => {
+        contact.name = crypto.encrypt(contact.name)
+
+        if (contact.phone) {
+          contact.phoneHash = await crypto.hash(contact.phone)
+          contact.phone = crypto.encrypt(contact.phone)
+        }
+
+        contact.deviceId = await crypto.hash(contact.deviceId)
+
+        return contact
+      })
+    )
+
     syncContacts({
       awaitRefetchQueries: true,
       refetchQueries() {
@@ -229,33 +312,10 @@ export const useContacts = () => {
         contacts
       }
     })
+  }
 
   const add = (code: string) =>
     addContact({
-      update(proxy, response) {
-        if (!response.data) {
-          return
-        }
-
-        // in case user never went to the contacts screen
-        // and the contacts query was never run
-        try {
-          const previous = proxy.readQuery<QueryContactsPayload>({
-            query: CONTACTS
-          })
-
-          if (previous) {
-            proxy.writeQuery({
-              data: set(previous, {
-                contacts: {
-                  $push: [response.data.addContact]
-                }
-              }),
-              query: CONTACTS
-            })
-          }
-        } catch (error) {}
-      },
       variables: {
         code
       }

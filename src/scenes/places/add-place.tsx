@@ -24,12 +24,12 @@ import {
   TextBox,
   Touchable
 } from '../../components/common'
-import { LocationPoint } from '../../graphql/types'
-import { usePlaces } from '../../hooks'
+import { usePlaceActions } from '../../hooks'
 import { i18n } from '../../i18n'
 import { geo } from '../../lib'
 import { PlacesParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
+import { LocationPoint } from '../../types'
 
 interface Props {
   navigation: StackNavigationProp<PlacesParamList, 'AddPlace'>
@@ -39,13 +39,14 @@ interface Props {
 export const AddPlace: FunctionComponent<Props> = ({
   navigation: { replace, setOptions }
 }) => {
-  const { create, creating, errors } = usePlaces()
+  const { create, creating, errors } = usePlaceActions()
 
   const [location, setLocation] = useState<LocationPoint>()
 
   const [name, setName] = useState('')
   const [googlePlaceId, setGooglePlaceId] = useState<string>()
-  const [coordinates, setCoordinates] = useState<LocationPoint>()
+  const [latitude, setLatitude] = useState<string>()
+  const [longitude, setLongitude] = useState<string>()
 
   const [useGoogle, setUseGoogle] = useState(false)
 
@@ -84,7 +85,8 @@ export const AddPlace: FunctionComponent<Props> = ({
                     create(
                       {
                         googlePlaceId,
-                        location: coordinates,
+                        latitude,
+                        longitude,
                         name
                       },
                       (place) =>
@@ -101,11 +103,12 @@ export const AddPlace: FunctionComponent<Props> = ({
       )
     })
   }, [
-    coordinates,
     create,
     creating,
     googlePlaceId,
     img_save,
+    latitude,
+    longitude,
     name,
     replace,
     setOptions,
@@ -133,9 +136,13 @@ export const AddPlace: FunctionComponent<Props> = ({
           value={name}
         />
         <Map
+          latitude={latitude}
           location={location}
-          onChange={(location) => {
-            setCoordinates(location)
+          longitude={longitude}
+          onChange={(latitude, longitude) => {
+            setLatitude(latitude)
+            setLongitude(longitude)
+
             setGooglePlaceId(undefined)
           }}
           style={styles.map}
@@ -156,12 +163,10 @@ export const AddPlace: FunctionComponent<Props> = ({
       <LocationPicker
         location={location}
         onChange={({ id, latitude, longitude, name }) => {
-          setName(name)
           setGooglePlaceId(id)
-          setCoordinates({
-            latitude,
-            longitude
-          })
+          setLatitude(String(latitude))
+          setLongitude(String(longitude))
+          setName(name)
         }}
         onClose={() => setUseGoogle(false)}
         selected={googlePlaceId}

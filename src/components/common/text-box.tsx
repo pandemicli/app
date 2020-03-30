@@ -11,12 +11,11 @@ import { colors, layout, typography } from '../../styles'
 export const TextBox = forwardRef<TextInput, TextInputProps>(
   ({ style, ...props }, ref) => {
     const styles = useDynamicStyleSheet(stylesheet)
-
-    const color = useDynamicValue(colors.foregroundLight)
+    const color_placeholder = useDynamicValue(colors.foregroundLight)
 
     return (
       <TextInput
-        placeholderTextColor={color}
+        placeholderTextColor={color_placeholder}
         ref={ref}
         style={[styles.main, style]}
         {...props}

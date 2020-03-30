@@ -33,6 +33,8 @@
   "label__sign_in": "Sign in",
   "label__sign_up": "Sign up",
   "label__verify": "Verify",
+  "lib__dialog__confirm__add_contact__message": "Do you want to add {{name}} as a contact?",
+  "lib__dialog__confirm__add_contact__title": "Add contact",
   "lib__dialog__confirm__no": "No",
   "lib__dialog__confirm__remove_contact": "Do you want to remove this contact?",
   "lib__dialog__confirm__remove_place": "Do you want to remove this place?",

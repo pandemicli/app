@@ -2,8 +2,8 @@ import Geolocation from '@react-native-community/geolocation'
 // eslint-disable-next-line react-native/split-platform-components
 import { PermissionsAndroid, Platform } from 'react-native'
 
-import { LocationPoint } from '../graphql/types'
 import { i18n } from '../i18n'
+import { LocationPoint } from '../types'
 import { dialog } from './dialog'
 
 class Location {

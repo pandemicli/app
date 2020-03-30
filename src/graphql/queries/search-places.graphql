@@ -1,5 +1,15 @@
-query searchPlaces($query: String!, $location: LocationPointInput!) {
-  searchPlaces(query: $query, location: $location) {
+query searchPlaces(
+  $query: String!
+  $language: String!
+  $latitude: Float!
+  $longitude: Float!
+) {
+  searchPlaces(
+    query: $query
+    language: $language
+    latitude: $latitude
+    longitude: $longitude
+  ) {
     id
     name
     latitude

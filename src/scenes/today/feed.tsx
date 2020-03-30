@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { createRef, FunctionComponent, useEffect } from 'react'
@@ -7,10 +6,8 @@ import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { Refresher, Separator } from '../../components/common'
 import { FeedFooter, FeedHeader, FeedItem } from '../../components/today'
-import { TODAY_FEED } from '../../graphql/documents'
-import { QueryTodayFeedPayload } from '../../graphql/payload'
-import { Contact, Place, QueryTodayFeedArgs } from '../../graphql/types'
-import { useToggleCheckIn, useToggleInteraction } from '../../hooks'
+import { Contact, Place } from '../../graphql/types'
+import { useToday, useToggleCheckIn, useToggleInteraction } from '../../hooks'
 import { i18n } from '../../i18n'
 import { TodayParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
@@ -26,14 +23,7 @@ export const Feed: FunctionComponent<Props> = ({
     params: { date }
   }
 }) => {
-  const { data, loading, refetch } = useQuery<
-    QueryTodayFeedPayload,
-    QueryTodayFeedArgs
-  >(TODAY_FEED, {
-    variables: {
-      date
-    }
-  })
+  const { contacts, loading, places, refetch } = useToday(date)
 
   useEffect(() => {
     refetch({
@@ -50,11 +40,11 @@ export const Feed: FunctionComponent<Props> = ({
 
   const sections = [
     {
-      data: data?.todayFeed.contacts ?? [],
+      data: contacts,
       title: 'Contacts'
     },
     {
-      data: data?.todayFeed.places ?? [],
+      data: places,
       title: 'Places'
     }
   ]

@@ -1,5 +1,7 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import set from 'immutability-helper'
+import { clone, cloneDeep, orderBy } from 'lodash'
+import { useEffect, useState } from 'react'
 import { SwipeRow } from 'react-native-swipe-list-view'
 
 import {
@@ -22,12 +24,64 @@ import {
   MutationToggleFavoritePlaceArgs,
   MutationUpdatePlaceArgs,
   Place,
-  PlaceInput
+  PlaceInput,
+  QueryPlacesArgs
 } from '../graphql/types'
 import { i18n } from '../i18n'
-import { dialog } from '../lib'
+import { crypto, dialog } from '../lib'
 
-export const usePlaces = () => {
+export const usePlaces = (date?: string) => {
+  const [places, setPlaces] = useState<Place[]>([])
+
+  const { data, loading, refetch } = useQuery<
+    QueryPlacesPayload,
+    QueryPlacesArgs
+  >(PLACES, {
+    variables: {
+      date
+    }
+  })
+
+  useEffect(() => {
+    !(async () => {
+      if (data?.places) {
+        const raw = cloneDeep(data.places)
+
+        const places = await Promise.all(
+          raw.map(async (place) => {
+            place.name = crypto.decrypt(place.name)
+
+            if (place.latitude) {
+              place.latitude = crypto.decrypt(place.latitude)
+            }
+
+            if (place.longitude) {
+              place.longitude = crypto.decrypt(place.longitude)
+            }
+
+            if (place.googlePlaceId) {
+              place.googlePlaceId = crypto.decrypt(place.googlePlaceId)
+            }
+
+            return place
+          })
+        )
+
+        const sorted = orderBy(places, ['favorite', 'name'], ['desc', 'asc'])
+
+        setPlaces(sorted)
+      }
+    })()
+  }, [data])
+
+  return {
+    loading,
+    places,
+    refetch
+  }
+}
+
+export const usePlaceActions = () => {
   const [createPlace, createPlaceMutation] = useMutation<
     MutationCreatePlacePayload,
     MutationCreatePlaceArgs
@@ -48,14 +102,31 @@ export const usePlaces = () => {
     MutationToggleFavoritePlaceArgs
   >(TOGGLE_FAVORITE_PLACE)
 
-  const create = (place: PlaceInput, callback: (place: Place) => void) =>
+  const create = async (data: PlaceInput, callback: (place: Place) => void) => {
+    const place = clone(data)
+
+    place.name = crypto.encrypt(place.name)
+
+    if (place.latitude) {
+      place.latitudeHash = await crypto.hash(place.latitude)
+      place.latitude = crypto.encrypt(place.latitude)
+    }
+
+    if (place.longitude) {
+      place.longitudeHash = await crypto.hash(place.longitude)
+      place.longitude = crypto.encrypt(place.longitude)
+    }
+
+    if (place.googlePlaceId) {
+      place.googlePlaceIdHash = await crypto.hash(place.googlePlaceId)
+      place.googlePlaceId = crypto.encrypt(place.googlePlaceId)
+    }
+
     createPlace({
-      update(proxy, response) {
+      async update(proxy, response) {
         if (!response.data) {
           return
         }
-
-        callback(response.data.createPlace)
 
         const previous = proxy.readQuery<QueryPlacesPayload>({
           query: PLACES
@@ -71,43 +142,58 @@ export const usePlaces = () => {
             query: PLACES
           })
         }
+
+        const place = clone(response.data.createPlace)
+
+        place.name = crypto.decrypt(place.name)
+
+        if (place.latitude) {
+          place.latitude = crypto.decrypt(place.latitude)
+        }
+
+        if (place.longitude) {
+          place.longitude = crypto.decrypt(place.longitude)
+        }
+
+        if (place.googlePlaceId) {
+          place.googlePlaceId = crypto.decrypt(place.googlePlaceId)
+        }
+
+        callback(place)
       },
       variables: {
         place
       }
     })
+  }
 
-  const update = (id: string, place: PlaceInput) =>
+  const update = async (id: string, data: PlaceInput) => {
+    const place = clone(data)
+
+    place.name = crypto.encrypt(place.name)
+
+    if (place.latitude) {
+      place.latitudeHash = await crypto.hash(place.latitude)
+      place.latitude = crypto.encrypt(place.latitude)
+    }
+
+    if (place.longitude) {
+      place.longitudeHash = await crypto.hash(place.longitude)
+      place.longitude = crypto.encrypt(place.longitude)
+    }
+
+    if (place.googlePlaceId) {
+      place.googlePlaceIdHash = await crypto.hash(place.googlePlaceId)
+      place.googlePlaceId = crypto.encrypt(place.googlePlaceId)
+    }
+
     updatePlace({
-      update(proxy, response) {
-        if (!response.data) {
-          return
-        }
-
-        const previous = proxy.readQuery<QueryPlacesPayload>({
-          query: PLACES
-        })
-
-        if (previous) {
-          const index = previous.places.findIndex((place) => place.id === id)
-
-          proxy.writeQuery({
-            data: set(previous, {
-              places: {
-                [index]: {
-                  $set: response.data.updatePlace
-                }
-              }
-            }),
-            query: PLACES
-          })
-        }
-      },
       variables: {
         id,
         place
       }
     })
+  }
 
   const remove = async (id: string, row: SwipeRow<Place>) => {
     const yes = await dialog.confirm(

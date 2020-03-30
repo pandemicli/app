@@ -3,10 +3,8 @@ mutation createPlace($place: PlaceInput!) {
     id
     favorite
     googlePlaceId
-    location {
-      latitude
-      longitude
-    }
+    latitude
+    longitude
     name
     checkedInToday
     createdAt

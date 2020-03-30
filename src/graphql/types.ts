@@ -29,8 +29,8 @@ export type Contact = {
   id: Scalars['ID'];
   name: Scalars['String'];
   phone?: Maybe<Scalars['String']>;
+  phoneHash?: Maybe<Scalars['String']>;
   favorite: Scalars['Boolean'];
-  deviceId?: Maybe<Scalars['String']>;
   user: User;
   interactedToday: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
@@ -40,6 +40,7 @@ export type Contact = {
 export type ContactInput = {
   name: Scalars['String'];
   phone?: Maybe<Scalars['String']>;
+  phoneHash?: Maybe<Scalars['String']>;
   deviceId?: Maybe<Scalars['String']>;
 };
 
@@ -61,17 +62,6 @@ export type Interaction = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type LocationPoint = {
-   __typename?: 'LocationPoint';
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
-};
-
-export type LocationPointInput = {
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
-};
-
 export type Mutation = {
    __typename?: 'Mutation';
   createContact: Contact;
@@ -80,7 +70,7 @@ export type Mutation = {
   toggleFavoriteContact: Scalars['Boolean'];
   toggleInteraction: Scalars['Boolean'];
   syncContacts: Array<Contact>;
-  addContact: Contact;
+  addContact: User;
   createPlace: Place;
   updatePlace: Place;
   removePlace: Scalars['Boolean'];
@@ -164,7 +154,6 @@ export type MutationSignInArgs = {
 export type MutationSignUpArgs = {
   phone: Scalars['String'];
   name: Scalars['String'];
-  email: Scalars['String'];
 };
 
 
@@ -177,8 +166,12 @@ export type Place = {
   id: Scalars['ID'];
   name: Scalars['String'];
   favorite: Scalars['Boolean'];
-  location?: Maybe<LocationPoint>;
+  latitude?: Maybe<Scalars['String']>;
+  latitudeHash?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  longitudeHash?: Maybe<Scalars['String']>;
   googlePlaceId?: Maybe<Scalars['String']>;
+  googlePlaceIdHash?: Maybe<Scalars['String']>;
   user: User;
   checkedInToday: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
@@ -187,8 +180,12 @@ export type Place = {
 
 export type PlaceInput = {
   name: Scalars['String'];
-  location?: Maybe<LocationPointInput>;
+  latitude?: Maybe<Scalars['String']>;
+  latitudeHash?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  longitudeHash?: Maybe<Scalars['String']>;
   googlePlaceId?: Maybe<Scalars['String']>;
+  googlePlaceIdHash?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -212,7 +209,8 @@ export type QueryPlacesArgs = {
 
 
 export type QuerySearchPlacesArgs = {
-  location?: Maybe<LocationPointInput>;
+  longitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
   language?: Maybe<Scalars['String']>;
   query: Scalars['String'];
 };
@@ -233,7 +231,6 @@ export type User = {
   id: Scalars['ID'];
   code: Scalars['String'];
   name: Scalars['String'];
-  email: Scalars['String'];
   phone: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];

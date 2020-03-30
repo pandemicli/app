@@ -28,8 +28,8 @@ export const Button: FunctionComponent<Props> = ({
   styleLabel
 }) => {
   const styles = useDynamicStyleSheet(stylesheet)
-  const color = useDynamicValue(colors.background)
-  const foreground = useDynamicValue(colors.white, colors.black)
+  const color_background = useDynamicValue(colors.background)
+  const color_foreground = useDynamicValue(colors.white, colors.black)
 
   return (
     <Touchable
@@ -41,7 +41,7 @@ export const Button: FunctionComponent<Props> = ({
           style={[
             styles.label,
             {
-              color: foreground
+              color: color_foreground
             },
             styleLabel,
             small && styles.smallLabel
@@ -49,7 +49,7 @@ export const Button: FunctionComponent<Props> = ({
           {label}
         </Text>
       )}
-      {loading && <ActivityIndicator color={color} size="small" />}
+      {loading && <ActivityIndicator color={color_background} size="small" />}
     </Touchable>
   )
 }

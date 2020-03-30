@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useState } from 'react'
@@ -23,10 +22,8 @@ import {
   Touchable
 } from '../../components/common'
 import { Filter } from '../../components/today'
-import { PLACES } from '../../graphql/documents'
-import { QueryPlacesPayload } from '../../graphql/payload'
-import { QueryPlacesArgs } from '../../graphql/types'
 import { useToggleCheckIn } from '../../hooks'
+import { usePlaces } from '../../hooks'
 import { i18n } from '../../i18n'
 import { TodayParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
@@ -42,37 +39,30 @@ export const CheckIns: FunctionComponent<Props> = ({
     params: { date }
   }
 }) => {
-  const { data, loading, refetch } = useQuery<
-    QueryPlacesPayload,
-    QueryPlacesArgs
-  >(PLACES, {
-    variables: {
-      date
-    }
-  })
+  const { loading, places, refetch } = usePlaces(date)
 
   const { toggleCheckIn, togglingCheckIn } = useToggleCheckIn(date)
 
   const [query, setQuery] = useState('')
 
   const styles = useDynamicStyleSheet(stylesheet)
-  const checked = useDynamicValue(
+  const color_spinner = useDynamicValue(colors.foreground)
+  const img_checked = useDynamicValue(
     img_dark_check_checked,
     img_light_check_checked
   )
-  const unchecked = useDynamicValue(
+  const img_unchecked = useDynamicValue(
     img_dark_check_unchecked,
     img_light_check_unchecked
   )
-  const spinner = useDynamicValue(colors.foreground)
 
-  const places = data?.places.filter(({ name }) =>
+  const data = places.filter(({ name }) =>
     name.toLowerCase().includes(query.toLowerCase())
   )
 
   return (
     <FlatList
-      data={places}
+      data={data}
       ItemSeparatorComponent={Separator}
       ListFooterComponent={
         <View style={styles.footer}>
@@ -95,12 +85,12 @@ export const CheckIns: FunctionComponent<Props> = ({
         <View style={styles.item}>
           <Text style={styles.name}>{item.name}</Text>
           {togglingCheckIn.get(item.id) ? (
-            <ActivityIndicator color={spinner} style={styles.icon} />
+            <ActivityIndicator color={color_spinner} style={styles.icon} />
           ) : (
             <Touchable onPress={() => toggleCheckIn(item.id)}>
               <Image
                 reverse={false}
-                source={item.checkedInToday ? checked : unchecked}
+                source={item.checkedInToday ? img_checked : img_unchecked}
                 style={styles.icon}
               />
             </Touchable>

@@ -1,4 +1,5 @@
 export { browser } from './browser'
+export { crypto } from './crypto'
 export { dialog } from './dialog'
 export { geo } from './geo'
 export { mitter } from './mitter'

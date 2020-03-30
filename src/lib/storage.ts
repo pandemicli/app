@@ -1,7 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage'
 
+type Keys = '@token' | '@userId'
+
 class Storage {
-  async get(key: string): Promise<string | null> {
+  async get(key: Keys): Promise<string | null> {
     const value = await AsyncStorage.getItem(key)
 
     if (value) {

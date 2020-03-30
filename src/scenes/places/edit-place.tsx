@@ -24,12 +24,12 @@ import {
   TextBox,
   Touchable
 } from '../../components/common'
-import { LocationPoint } from '../../graphql/types'
-import { usePlaces } from '../../hooks'
+import { usePlaceActions } from '../../hooks'
 import { i18n } from '../../i18n'
 import { geo } from '../../lib'
 import { PlacesParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
+import { LocationPoint } from '../../types'
 
 interface Props {
   navigation: StackNavigationProp<PlacesParamList, 'EditPlace'>
@@ -37,18 +37,19 @@ interface Props {
 }
 
 export const EditPlace: FunctionComponent<Props> = ({
-  navigation: { replace, setOptions },
+  navigation: { setOptions },
   route: {
     params: { place }
   }
 }) => {
-  const { errors, update, updating } = usePlaces()
+  const { errors, update, updating } = usePlaceActions()
 
   const [location, setLocation] = useState<LocationPoint>()
 
   const [name, setName] = useState('')
   const [googlePlaceId, setGooglePlaceId] = useState<string>()
-  const [coordinates, setCoordinates] = useState<LocationPoint>()
+  const [latitude, setLatitude] = useState<string>()
+  const [longitude, setLongitude] = useState<string>()
 
   const [useGoogle, setUseGoogle] = useState(false)
 
@@ -63,7 +64,7 @@ export const EditPlace: FunctionComponent<Props> = ({
   )
 
   useEffect(() => {
-    const { googlePlaceId, location, name } = place
+    const { googlePlaceId, latitude, longitude, name } = place
 
     setName(name)
 
@@ -71,8 +72,9 @@ export const EditPlace: FunctionComponent<Props> = ({
       setGooglePlaceId(googlePlaceId)
     }
 
-    if (location) {
-      setCoordinates(location)
+    if (latitude && longitude) {
+      setLatitude(latitude)
+      setLongitude(longitude)
     }
   }, [place])
 
@@ -100,7 +102,8 @@ export const EditPlace: FunctionComponent<Props> = ({
                   if (name) {
                     update(place.id, {
                       googlePlaceId,
-                      location: coordinates,
+                      latitude,
+                      longitude,
                       name
                     })
                   }
@@ -113,15 +116,15 @@ export const EditPlace: FunctionComponent<Props> = ({
     })
   }, [
     googlePlaceId,
-    coordinates,
-    name,
-    replace,
     img_save,
+    latitude,
+    longitude,
+    name,
+    place.id,
     setOptions,
     styles.spinner,
-    updating,
     update,
-    place.id
+    updating
   ])
 
   return (
@@ -145,9 +148,13 @@ export const EditPlace: FunctionComponent<Props> = ({
           value={name}
         />
         <Map
-          location={coordinates}
-          onChange={(location) => {
-            setCoordinates(location)
+          latitude={latitude}
+          location={location}
+          longitude={longitude}
+          onChange={(latitude, longitude) => {
+            setLatitude(latitude)
+            setLongitude(longitude)
+
             setGooglePlaceId(undefined)
           }}
           style={styles.map}
@@ -167,12 +174,11 @@ export const EditPlace: FunctionComponent<Props> = ({
       </ScrollView>
       <LocationPicker
         location={location}
-        onChange={({ id, latitude, longitude }) => {
+        onChange={({ id, latitude, longitude, name }) => {
           setGooglePlaceId(id)
-          setCoordinates({
-            latitude,
-            longitude
-          })
+          setLatitude(String(latitude))
+          setLongitude(String(longitude))
+          setName(name)
         }}
         onClose={() => setUseGoogle(false)}
         selected={googlePlaceId}

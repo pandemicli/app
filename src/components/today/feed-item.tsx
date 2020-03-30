@@ -29,6 +29,7 @@ export const FeedItem: FunctionComponent<Props> = ({
   onPress
 }) => {
   const styles = useDynamicStyleSheet(stylesheet)
+  const color_spinner = useDynamicValue(colors.foreground)
   const checked = useDynamicValue(
     img_dark_check_checked,
     img_light_check_checked
@@ -37,13 +38,12 @@ export const FeedItem: FunctionComponent<Props> = ({
     img_dark_check_unchecked,
     img_light_check_unchecked
   )
-  const spinner = useDynamicValue(colors.foreground)
 
   return item.__typename === 'Contact' ? (
     <View style={styles.main}>
       <Text style={styles.name}>{item.name}</Text>
       {loading ? (
-        <ActivityIndicator color={spinner} style={styles.icon} />
+        <ActivityIndicator color={color_spinner} style={styles.icon} />
       ) : (
         <Touchable onPress={onPress}>
           <Image
@@ -57,7 +57,7 @@ export const FeedItem: FunctionComponent<Props> = ({
     <View style={styles.main}>
       <Text style={styles.name}>{item.name}</Text>
       {loading ? (
-        <ActivityIndicator color={spinner} style={styles.icon} />
+        <ActivityIndicator color={color_spinner} style={styles.icon} />
       ) : (
         <Touchable onPress={onPress}>
           <Image

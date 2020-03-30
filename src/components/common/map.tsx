@@ -4,19 +4,23 @@ import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import MapView, { Region } from 'react-native-maps'
 
 import { img_marker } from '../../assets'
-import { LocationPoint } from '../../graphql/types'
 import { layout } from '../../styles'
+import { LocationPoint } from '../../types'
 import { Image } from './image'
 
 interface Props {
+  latitude?: string
   location?: LocationPoint
+  longitude?: string
   style?: ViewStyle
 
-  onChange: (location: LocationPoint) => void
+  onChange: (latitude: string, longitude: string) => void
 }
 
 export const Map: FunctionComponent<Props> = ({
+  latitude,
   location,
+  longitude,
   onChange,
   style
 }) => {
@@ -36,15 +40,17 @@ export const Map: FunctionComponent<Props> = ({
     region.longitude = longitude
   }
 
+  if (latitude && longitude) {
+    region.latitude = Number(latitude)
+    region.longitude = Number(longitude)
+  }
+
   return (
     <>
       <MapView
         initialRegion={region}
         onRegionChangeComplete={({ latitude, longitude }) =>
-          onChange({
-            latitude,
-            longitude
-          })
+          onChange(String(latitude), String(longitude))
         }
         provider="google"
         style={[styles.map, style]}

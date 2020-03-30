@@ -1,7 +1,7 @@
 import { createHook, createStore, StoreActionApi } from 'react-sweet-state'
 
 import { client } from '../graphql'
-import { storage } from '../lib'
+import { crypto, storage } from '../lib'
 
 interface State {
   loading: boolean
@@ -16,6 +16,8 @@ const actions = {
     const userId = await storage.get('@userId')
 
     if (token && userId) {
+      crypto.init(userId)
+
       setState({
         token,
         userId

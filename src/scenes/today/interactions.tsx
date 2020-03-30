@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useState } from 'react'
@@ -23,10 +22,7 @@ import {
   Touchable
 } from '../../components/common'
 import { Filter } from '../../components/today'
-import { CONTACTS } from '../../graphql/documents'
-import { QueryContactsPayload } from '../../graphql/payload'
-import { QueryContactsArgs } from '../../graphql/types'
-import { useToggleInteraction } from '../../hooks'
+import { useContacts, useToggleInteraction } from '../../hooks'
 import { i18n } from '../../i18n'
 import { TodayParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
@@ -42,37 +38,30 @@ export const Interactions: FunctionComponent<Props> = ({
     params: { date }
   }
 }) => {
-  const { data, loading, refetch } = useQuery<
-    QueryContactsPayload,
-    QueryContactsArgs
-  >(CONTACTS, {
-    variables: {
-      date
-    }
-  })
+  const { contacts, loading, refetch } = useContacts()
 
   const { toggleInteraction, togglingInteraction } = useToggleInteraction(date)
 
   const [query, setQuery] = useState('')
 
   const styles = useDynamicStyleSheet(stylesheet)
-  const checked = useDynamicValue(
+  const color_spinner = useDynamicValue(colors.foreground)
+  const img_checked = useDynamicValue(
     img_dark_check_checked,
     img_light_check_checked
   )
-  const unchecked = useDynamicValue(
+  const img_unchecked = useDynamicValue(
     img_dark_check_unchecked,
     img_light_check_unchecked
   )
-  const spinner = useDynamicValue(colors.foreground)
 
-  const contacts = data?.contacts.filter(({ name }) =>
+  const data = contacts.filter(({ name }) =>
     name.toLowerCase().includes(query.toLowerCase())
   )
 
   return (
     <FlatList
-      data={contacts}
+      data={data}
       ItemSeparatorComponent={Separator}
       ListFooterComponent={
         <View style={styles.footer}>
@@ -95,12 +84,12 @@ export const Interactions: FunctionComponent<Props> = ({
         <View style={styles.item}>
           <Text style={styles.name}>{item.name}</Text>
           {togglingInteraction.get(item.id) ? (
-            <ActivityIndicator color={spinner} style={styles.icon} />
+            <ActivityIndicator color={color_spinner} style={styles.icon} />
           ) : (
             <Touchable onPress={() => toggleInteraction(item.id)}>
               <Image
                 reverse={false}
-                source={item.interactedToday ? checked : unchecked}
+                source={item.interactedToday ? img_checked : img_unchecked}
                 style={styles.icon}
               />
             </Touchable>

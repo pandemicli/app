@@ -3,7 +3,6 @@ query profile {
     id
     code
     name
-    email
     phone
     createdAt
   }

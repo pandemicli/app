@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/react-hooks'
+import { QueryLazyOptions, useLazyQuery } from '@apollo/react-hooks'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, Text, View } from 'react-native'
 import {
@@ -15,14 +15,11 @@ import {
 } from '../../assets'
 import { SEARCH_PLACES } from '../../graphql/documents'
 import { QuerySearchPlacesPayload } from '../../graphql/payload'
-import {
-  GooglePlace,
-  LocationPoint,
-  QuerySearchPlacesArgs
-} from '../../graphql/types'
+import { GooglePlace, QuerySearchPlacesArgs } from '../../graphql/types'
 import { useDebounce } from '../../hooks'
 import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
+import { LocationPoint } from '../../types'
 import { Image } from './image'
 import { Modal } from './modal'
 import { TextBox } from './text-box'
@@ -60,12 +57,20 @@ export const LocationPicker: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (debounced) {
+      const variables: QueryLazyOptions<QuerySearchPlacesArgs>['variables'] = {
+        language: i18n.language,
+        query: debounced
+      }
+
+      if (location) {
+        const { latitude, longitude } = location
+
+        variables.latitude = latitude
+        variables.longitude = longitude
+      }
+
       searchPlaces({
-        variables: {
-          language: i18n.language,
-          location,
-          query: debounced
-        }
+        variables
       })
     }
   }, [debounced, location, searchPlaces])

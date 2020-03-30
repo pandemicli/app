@@ -3,12 +3,8 @@ import gql from 'graphql-tag';
 export const ADD_CONTACT = gql`
     mutation addContact($code: String!) {
   addContact(code: $code) {
-    id
-    favorite
     name
     phone
-    createdAt
-    interactedToday
   }
 }
     `;
@@ -30,10 +26,8 @@ export const CREATE_PLACE = gql`
     id
     favorite
     googlePlaceId
-    location {
-      latitude
-      longitude
-    }
+    latitude
+    longitude
     name
     checkedInToday
     createdAt
@@ -56,8 +50,8 @@ export const SIGN_IN = gql`
 }
     `;
 export const SIGN_UP = gql`
-    mutation signUp($email: String!, $name: String!, $phone: String!) {
-  signUp(email: $email, phone: $phone, name: $name)
+    mutation signUp($name: String!, $phone: String!) {
+  signUp(phone: $phone, name: $name)
 }
     `;
 export const SYNC_CONTACTS = gql`
@@ -105,10 +99,8 @@ export const UPDATE_PLACE = gql`
     id
     favorite
     googlePlaceId
-    location {
-      latitude
-      longitude
-    }
+    latitude
+    longitude
     name
     checkedInToday
     createdAt
@@ -143,10 +135,8 @@ export const PLACES = gql`
     id
     favorite
     googlePlaceId
-    location {
-      latitude
-      longitude
-    }
+    latitude
+    longitude
     name
     checkedInToday
     createdAt
@@ -159,15 +149,14 @@ export const PROFILE = gql`
     id
     code
     name
-    email
     phone
     createdAt
   }
 }
     `;
 export const SEARCH_PLACES = gql`
-    query searchPlaces($query: String!, $location: LocationPointInput!) {
-  searchPlaces(query: $query, location: $location) {
+    query searchPlaces($query: String!, $language: String!, $latitude: Float!, $longitude: Float!) {
+  searchPlaces(query: $query, language: $language, latitude: $latitude, longitude: $longitude) {
     id
     name
     latitude

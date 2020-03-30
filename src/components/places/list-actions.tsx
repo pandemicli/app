@@ -32,7 +32,7 @@ export const ListActions: FunctionComponent<Props> = ({
     <View style={styles.main}>
       <Touchable onPress={onFavorite} style={[styles.action, styles.favorite]}>
         {favoriting ? (
-          <ActivityIndicator color={colors.actions.loading} />
+          <ActivityIndicator color={colors.actions.black} />
         ) : (
           <Image source={img_action_favorite} style={styles.icon} />
         )}
@@ -42,7 +42,7 @@ export const ListActions: FunctionComponent<Props> = ({
       </Touchable>
       <Touchable onPress={onRemove} style={[styles.action, styles.remove]}>
         {removing ? (
-          <ActivityIndicator color={colors.actions.loading} />
+          <ActivityIndicator color={colors.actions.white} />
         ) : (
           <Image source={img_action_remove} style={styles.icon} />
         )}

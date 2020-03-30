@@ -4,7 +4,7 @@ import { ar, en, ur } from './translations'
 
 type Language = 'ar' | 'en' | 'ur'
 
-type keys = keyof typeof en
+export type TranslationKey = keyof typeof en
 
 class Internationalization {
   language: Language = 'en'
@@ -27,7 +27,7 @@ class Internationalization {
     this.rtl = isRTL
   }
 
-  t(name: keys, data?: Record<string, string | number>): string {
+  t(name: TranslationKey, data?: Record<string, string | number>): string {
     let translation = this.translations[this.language][name]
 
     if (data) {

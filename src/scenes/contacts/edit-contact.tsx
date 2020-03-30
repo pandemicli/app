@@ -17,7 +17,7 @@ import {
   PhoneNumber,
   TextBox
 } from '../../components/common'
-import { useContacts } from '../../hooks'
+import { useContactActions } from '../../hooks'
 import { i18n } from '../../i18n'
 import { ContactsParamList } from '../../navigators'
 import { colors, layout } from '../../styles'
@@ -33,7 +33,7 @@ export const EditContact: FunctionComponent<Props> = ({
     params: { contact }
   }
 }) => {
-  const { errors, update, updating } = useContacts()
+  const { errors, update, updating } = useContactActions()
 
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')

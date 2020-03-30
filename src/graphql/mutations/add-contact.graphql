@@ -1,10 +1,6 @@
 mutation addContact($code: String!) {
   addContact(code: $code) {
-    id
-    favorite
     name
     phone
-    createdAt
-    interactedToday
   }
 }

@@ -16,7 +16,7 @@ import {
   PhoneNumber,
   TextBox
 } from '../../components/common'
-import { useContacts } from '../../hooks'
+import { useContactActions } from '../../hooks'
 import { i18n } from '../../i18n'
 import { ContactsParamList } from '../../navigators'
 import { colors, layout } from '../../styles'
@@ -29,7 +29,7 @@ interface Props {
 export const AddContact: FunctionComponent<Props> = ({
   navigation: { replace, setOptions }
 }) => {
-  const { create, creating, errors } = useContacts()
+  const { create, creating, errors } = useContactActions()
 
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')

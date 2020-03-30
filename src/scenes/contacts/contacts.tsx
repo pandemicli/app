@@ -1,9 +1,7 @@
-import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { orderBy } from 'lodash'
 import React, { FunctionComponent, useEffect } from 'react'
-import { Text } from 'react-native'
+import { SectionListData, Text } from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
@@ -24,9 +22,8 @@ import {
   Separator
 } from '../../components/common'
 import { ListActions, ListEmpty, ListItem } from '../../components/contacts'
-import { CONTACTS } from '../../graphql/documents'
-import { QueryContactsPayload } from '../../graphql/payload'
-import { useContacts } from '../../hooks'
+import { Contact } from '../../graphql/types'
+import { useContactActions, useContacts } from '../../hooks'
 import { i18n } from '../../i18n'
 import { phoneBook } from '../../lib'
 import { ContactsParamList } from '../../navigators'
@@ -40,8 +37,7 @@ interface Props {
 export const Contacts: FunctionComponent<Props> = ({
   navigation: { navigate, setOptions }
 }) => {
-  const { data, loading, refetch } = useQuery<QueryContactsPayload>(CONTACTS)
-
+  const { contacts, loading, refetch } = useContacts()
   const {
     favoriting,
     remove,
@@ -49,7 +45,7 @@ export const Contacts: FunctionComponent<Props> = ({
     sync,
     syncing,
     toggleFavorite
-  } = useContacts()
+  } = useContactActions()
 
   const styles = useDynamicStyleSheet(stylesheet)
   const img_add = useDynamicValue(img_dark_add, img_light_add)
@@ -85,25 +81,24 @@ export const Contacts: FunctionComponent<Props> = ({
     })
   }, [img_add, img_sync, navigate, setOptions, sync, syncing])
 
-  const contacts = orderBy(
-    data?.contacts,
-    ['favorite', 'name'],
-    ['desc', 'asc']
-  )
-
   const favorites = contacts.filter(({ favorite }) => favorite)
   const others = contacts.filter(({ favorite }) => !favorite)
 
-  const sections = [
-    {
+  const sections: SectionListData<Contact>[] = []
+
+  if (favorites.length > 0) {
+    sections.push({
       data: favorites,
-      title: i18n.t('title__favorites')
-    },
-    {
+      key: i18n.t('title__favorites')
+    })
+  }
+
+  if (others.length > 0) {
+    sections.push({
       data: others,
-      title: i18n.t('title__others')
-    }
-  ]
+      key: i18n.t('title__others')
+    })
+  }
 
   return (
     <SwipeListView
@@ -125,7 +120,10 @@ export const Contacts: FunctionComponent<Props> = ({
         ) : null
       }
       ListHeaderComponent={
-        <Text style={styles.message}>{i18n.t('contacts__message__tap')}</Text>
+        <>
+          <Text style={styles.message}>{i18n.t('contacts__message__tap')}</Text>
+          {sections.length === 0 && <Separator />}
+        </>
       }
       recalculateHiddenLayout
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
@@ -147,7 +145,7 @@ export const Contacts: FunctionComponent<Props> = ({
       renderItem={({ item }) => <ListItem item={item} />}
       renderSectionHeader={({ section }) =>
         section.data.length > 0 ? (
-          <Text style={styles.header}>{section.title}</Text>
+          <Text style={styles.header}>{section.key}</Text>
         ) : null
       }
       sections={sections}

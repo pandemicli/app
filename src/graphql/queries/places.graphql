@@ -3,10 +3,8 @@ query places($date: String) {
     id
     favorite
     googlePlaceId
-    location {
-      latitude
-      longitude
-    }
+    latitude
+    longitude
     name
     checkedInToday
     createdAt

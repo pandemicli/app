@@ -36,7 +36,7 @@ export const Pandemic: FunctionComponent = () => {
     }
   }, [signOut])
 
-  const background = useDynamicValue(colors.background)
+  const color_background = useDynamicValue(colors.background)
 
   if (loading) {
     return <Spinner />
@@ -48,7 +48,7 @@ export const Pandemic: FunctionComponent = () => {
         ...DefaultTheme,
         colors: {
           ...DefaultTheme.colors,
-          background
+          background: color_background
         }
       }
 

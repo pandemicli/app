@@ -1,17 +1,14 @@
-import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
-import { Text } from 'react-native'
+import { SectionListData, Text } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { SwipeListView } from 'react-native-swipe-list-view'
 
 import { Refresher, Separator } from '../../components/common'
 import { ListActions, ListEmpty, ListItem } from '../../components/places'
-import { PLACES } from '../../graphql/documents'
-import { QueryPlacesPayload } from '../../graphql/payload'
-import { usePlaces } from '../../hooks'
+import { Place } from '../../graphql/types'
+import { usePlaceActions, usePlaces } from '../../hooks'
 import { i18n } from '../../i18n'
 import { PlacesParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
@@ -24,27 +21,29 @@ interface Props {
 export const Places: FunctionComponent<Props> = ({
   navigation: { navigate }
 }) => {
-  const { data, loading, refetch } = useQuery<QueryPlacesPayload>(PLACES)
-
-  const { favoriting, remove, removing, toggleFavorite } = usePlaces()
+  const { loading, places, refetch } = usePlaces()
+  const { favoriting, remove, removing, toggleFavorite } = usePlaceActions()
 
   const styles = useDynamicStyleSheet(stylesheet)
-
-  const places = orderBy(data?.places, ['favorite', 'name'], ['desc', 'asc'])
 
   const favorites = places.filter(({ favorite }) => favorite)
   const others = places.filter(({ favorite }) => !favorite)
 
-  const sections = [
-    {
+  const sections: SectionListData<Place>[] = []
+
+  if (favorites.length > 0) {
+    sections.push({
       data: favorites,
       title: i18n.t('title__favorites')
-    },
-    {
+    })
+  }
+
+  if (others.length > 0) {
+    sections.push({
       data: others,
       title: i18n.t('title__others')
-    }
-  ]
+    })
+  }
 
   return (
     <SwipeListView

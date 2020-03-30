@@ -6,7 +6,7 @@ import { RNCamera } from 'react-native-camera'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { Spinner } from '../../components/common'
-import { useContacts } from '../../hooks'
+import { useContactActions } from '../../hooks'
 import { ProfileParamList } from '../../navigators'
 import { colors } from '../../styles'
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const Scan: FunctionComponent<Props> = () => {
-  const { add, adding } = useContacts()
+  const { add, adding } = useContactActions()
 
   const [code, setCode] = useState<string>()
   const [added, setAdded] = useState(new Map())
