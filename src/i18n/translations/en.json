@@ -56,6 +56,7 @@
   "places__title__edit_place": "Edit place",
   "places__title__places": "Places",
   "profile__menu__about": "About",
+  "profile__menu__delete_account": "Delete account and remove all data",
   "profile__menu__help": "Help",
   "profile__menu__sign_out": "Sign out",
   "profile__message__1": "Hello, {{name}}",

@@ -22,10 +22,12 @@ import {
   img_dark_about,
   img_dark_help,
   img_dark_link,
+  img_dark_remove_data,
   img_dark_sign_out,
   img_light_about,
   img_light_help,
   img_light_link,
+  img_light_remove_data,
   img_light_sign_out
 } from '../../assets'
 import { Image, Refresher, Separator, Touchable } from '../../components/common'
@@ -71,6 +73,10 @@ export const Profile: FunctionComponent<Props> = () => {
   const img_help = useDynamicValue(img_dark_help, img_light_help)
   const img_link = useDynamicValue(img_dark_link, img_light_link)
   const img_sign_out = useDynamicValue(img_dark_sign_out, img_light_sign_out)
+  const img_remove_data = useDynamicValue(
+    img_dark_remove_data,
+    img_light_remove_data
+  )
 
   return (
     <FlatList
@@ -86,6 +92,10 @@ export const Profile: FunctionComponent<Props> = () => {
           label: i18n.t('profile__menu__help'),
           link: true,
           onPress: () => browser.open('https://pandemic.li/help')
+        },
+        {
+          icon: img_remove_data,
+          label: i18n.t('profile__menu__delete_account')
         },
         {
           icon: img_sign_out,
