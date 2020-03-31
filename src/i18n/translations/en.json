@@ -33,6 +33,7 @@
   "label__sign_in": "Sign in",
   "label__sign_up": "Sign up",
   "label__verify": "Verify",
+  "landing__message": "Privacy-focused social tracking for Coronavirus",
   "lib__dialog__confirm__add_contact__message": "Do you want to add {{name}} as a contact?",
   "lib__dialog__confirm__add_contact__title": "Add contact",
   "lib__dialog__confirm__no": "No",
