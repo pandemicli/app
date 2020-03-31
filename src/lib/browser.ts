@@ -1,7 +1,7 @@
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 
 class Browser {
-  async open(url: string) {
+  async open(url: string): Promise<void> {
     const available = await InAppBrowser.isAvailable()
 
     if (available) {

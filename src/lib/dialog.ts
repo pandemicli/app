@@ -3,7 +3,7 @@ import { Alert } from 'react-native'
 import { i18n } from '../i18n'
 
 class Dialog {
-  error(message: string) {
+  error(message: string): void {
     Alert.alert(i18n.t('lib__dialog__error__title'), message)
   }
 
