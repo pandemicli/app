@@ -1,4 +1,5 @@
 {
+  "auth__landing__message": "Privacy-focused social tracking for Coronavirus",
   "auth__landing__track_contacts__message": "Keep a track of people you see regularly. Log whenever you meet them.",
   "auth__landing__track_contacts__title": "Track contacts",
   "auth__landing__track_places__message": "Keep a track of places you visit regularly. Log whenever you visit them.",
@@ -33,7 +34,6 @@
   "label__sign_in": "Sign in",
   "label__sign_up": "Sign up",
   "label__verify": "Verify",
-  "landing__message": "Privacy-focused social tracking for Coronavirus",
   "lib__dialog__confirm__add_contact__message": "Do you want to add {{name}} as a contact?",
   "lib__dialog__confirm__add_contact__title": "Add contact",
   "lib__dialog__confirm__no": "No",

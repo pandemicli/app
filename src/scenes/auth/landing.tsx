@@ -22,7 +22,7 @@ export const Landing: FunctionComponent<Props> = ({
     <View style={styles.main}>
       <Image source={img_pandemicli} style={styles.logo} />
       <Text style={styles.title}>{i18n.t('pandemicli')}</Text>
-      <Text style={styles.description}>{i18n.t('landing__message')}</Text>
+      <Text style={styles.description}>{i18n.t('auth__landing__message')}</Text>
       <Carousel style={styles.carousel}>
         <View style={styles.card}>
           <Text style={styles.subtitle}>
