@@ -21,7 +21,8 @@ export const colors = {
   state: {
     error: '#ff3b30',
     message: '#007aff',
-    success: '#4cd964'
+    success: '#4cd964',
+    warning: '#ff9500'
   },
   white: '#fff'
 }

@@ -66,6 +66,11 @@ export const TOGGLE_CHECK_IN = gql`
   toggleCheckIn(id: $id, date: $date)
 }
     `;
+export const TOGGLE_COVID19_POSITIVE = gql`
+    mutation toggleCovid19Positive {
+  toggleCovid19Positive
+}
+    `;
 export const TOGGLE_FAVORITE_CONTACT = gql`
     mutation toggleFavoriteContact($id: String!) {
   toggleFavoriteContact(id: $id)
@@ -153,6 +158,7 @@ export const PROFILE = gql`
   profile {
     id
     code
+    covid19Positive
     name
     phone
     createdAt

@@ -58,7 +58,7 @@ export const Tracking: FunctionComponent<Props> = () => {
           />
         )}
       </View>
-      <Text style={styles.message}>
+      <Text style={[styles.message, styles.battery]}>
         {i18n.t('label__battery_performance_warning')}
       </Text>
     </ScrollView>
@@ -66,6 +66,10 @@ export const Tracking: FunctionComponent<Props> = () => {
 }
 
 const stylesheet = new DynamicStyleSheet({
+  battery: {
+    color: colors.foregroundLight,
+    marginTop: layout.margin
+  },
   label: {
     ...typography.regular,
     color: colors.foreground,
@@ -86,6 +90,6 @@ const stylesheet = new DynamicStyleSheet({
   switch: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginVertical: layout.margin
+    marginTop: layout.margin * 2
   }
 })

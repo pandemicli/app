@@ -1,15 +1,12 @@
 import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import {
   ActivityIndicator,
   Dimensions,
   FlatList,
-  LayoutAnimation,
-  Platform,
   Text,
-  UIManager,
   View
 } from 'react-native'
 import {
@@ -21,6 +18,7 @@ import QRCode from 'react-native-qrcode-svg'
 
 import {
   img_dark_about,
+  img_dark_diagnosed,
   img_dark_help,
   img_dark_link,
   img_dark_privacy,
@@ -28,6 +26,7 @@ import {
   img_dark_sign_out,
   img_dark_tracking,
   img_light_about,
+  img_light_diagnosed,
   img_light_help,
   img_light_link,
   img_light_privacy,
@@ -38,7 +37,6 @@ import {
 import { Image, Refresher, Separator, Touchable } from '../../components/common'
 import { PROFILE } from '../../graphql/documents'
 import { QueryProfilePayload } from '../../graphql/payload'
-import { User } from '../../graphql/types'
 import { i18n } from '../../i18n'
 import { analytics, browser } from '../../lib'
 import { ProfileParamList } from '../../navigators'
@@ -55,23 +53,7 @@ export const Profile: FunctionComponent<Props> = ({
 }) => {
   const [{ unloading }, { signOut }] = useAuth()
 
-  const { loading, refetch } = useQuery<QueryProfilePayload>(PROFILE, {
-    onCompleted({ profile }) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
-
-      setUser(profile)
-    }
-  })
-
-  const [user, setUser] = useState<User>()
-
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      if (UIManager.setLayoutAnimationEnabledExperimental) {
-        UIManager.setLayoutAnimationEnabledExperimental(true)
-      }
-    }
-  }, [])
+  const { data, loading, refetch } = useQuery<QueryProfilePayload>(PROFILE)
 
   const { width } = Dimensions.get('window')
 
@@ -80,6 +62,7 @@ export const Profile: FunctionComponent<Props> = ({
   const img_help = useDynamicValue(img_dark_help, img_light_help)
   const img_link = useDynamicValue(img_dark_link, img_light_link)
   const img_privacy = useDynamicValue(img_dark_privacy, img_light_privacy)
+  const img_diagnosed = useDynamicValue(img_dark_diagnosed, img_light_diagnosed)
   const img_sign_out = useDynamicValue(img_dark_sign_out, img_light_sign_out)
   const img_tracking = useDynamicValue(img_dark_tracking, img_light_tracking)
   const img_remove_data = useDynamicValue(
@@ -90,6 +73,17 @@ export const Profile: FunctionComponent<Props> = ({
   return (
     <FlatList
       data={[
+        {
+          icon: img_diagnosed,
+          label: i18n.t('profile__menu__diagnosed'),
+          onPress: () => {
+            if (data?.profile) {
+              navigate('Diagnosed', {
+                user: data.profile
+              })
+            }
+          }
+        },
         {
           icon: img_tracking,
           label: i18n.t('profile__menu__tracking'),
@@ -115,7 +109,8 @@ export const Profile: FunctionComponent<Props> = ({
         },
         {
           icon: img_remove_data,
-          label: i18n.t('profile__menu__delete_account')
+          label: i18n.t('profile__menu__delete_account'),
+          warning: true
         },
         {
           icon: img_sign_out,
@@ -125,24 +120,25 @@ export const Profile: FunctionComponent<Props> = ({
             signOut()
 
             analytics.track('User Signed Out')
-          }
+          },
+          warning: true
         }
       ]}
       ItemSeparatorComponent={Separator}
       keyExtractor={(item) => item.label}
       ListHeaderComponent={
-        user ? (
+        data?.profile ? (
           <View style={styles.main}>
             <View style={styles.qr}>
               <QRCode
                 backgroundColor="#fff"
                 size={width / 3}
-                value={user.code}
+                value={data.profile.code}
               />
             </View>
             <Text style={styles.greeting}>
               {i18n.t('profile__message__1', {
-                name: user.name.split(' ')[0]
+                name: data.profile.name.split(' ')[0]
               })}
             </Text>
             <Text style={styles.message}>{i18n.t('profile__message__2')}</Text>
@@ -157,7 +153,9 @@ export const Profile: FunctionComponent<Props> = ({
       renderItem={({ item }) => (
         <Touchable onPress={item.onPress} style={styles.item}>
           <Image source={item.icon} style={styles.icon} />
-          <Text style={styles.label}>{item.label}</Text>
+          <Text style={[styles.label, item.warning && styles.warning]}>
+            {item.label}
+          </Text>
           {item.link && (
             <Image source={img_link} style={[styles.icon, styles.iconSmall]} />
           )}
@@ -191,6 +189,7 @@ const stylesheet = new DynamicStyleSheet({
   },
   label: {
     ...typography.small,
+    ...typography.medium,
     color: colors.foreground,
     flex: 1,
     marginHorizontal: layout.margin
@@ -213,5 +212,8 @@ const stylesheet = new DynamicStyleSheet({
     backgroundColor: '#fff',
     borderRadius: layout.radius * 4,
     padding: layout.margin
+  },
+  warning: {
+    color: colors.state.warning
   }
 })

@@ -80,6 +80,7 @@ export type Mutation = {
   signIn: Scalars['Boolean'];
   signUp: Scalars['Boolean'];
   verify: AuthResult;
+  toggleCovid19Positive: Scalars['Boolean'];
 };
 
 
@@ -257,6 +258,7 @@ export type User = {
   code: Scalars['String'];
   name: Scalars['String'];
   phone: Scalars['String'];
+  covid19Positive: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };

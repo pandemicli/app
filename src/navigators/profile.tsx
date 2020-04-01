@@ -5,11 +5,15 @@ import { useSafeArea } from 'react-native-safe-area-context'
 
 import { img_dark_camera, img_light_camera } from '../assets'
 import { Header, HeaderButton } from '../components/common'
+import { User } from '../graphql/types'
 import { i18n } from '../i18n'
-import { Profile, Scan, Tracking } from '../scenes/profile'
+import { Diagnosed, Profile, Scan, Tracking } from '../scenes/profile'
 import { layout } from '../styles'
 
 export type ProfileParamList = {
+  Diagnosed: {
+    user: User
+  }
   Profile: undefined
   Scan: undefined
   Tracking: undefined
@@ -54,6 +58,17 @@ export const ProfileNavigator = () => {
             height: layout.header + top
           },
           title: i18n.t('profile__title__scan')
+        }}
+      />
+      <Screen
+        component={Diagnosed}
+        name="Diagnosed"
+        options={{
+          header: (props) => <Header {...props} />,
+          headerStyle: {
+            height: layout.header + top
+          },
+          title: i18n.t('profile__title__diagnosed')
         }}
       />
       <Screen

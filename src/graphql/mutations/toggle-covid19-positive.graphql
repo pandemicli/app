@@ -1,0 +1,3 @@
+mutation toggleCovid19Positive {
+  toggleCovid19Positive
+}

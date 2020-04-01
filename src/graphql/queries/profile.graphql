@@ -2,6 +2,7 @@ query profile {
   profile {
     id
     code
+    covid19Positive
     name
     phone
     createdAt
