@@ -67,8 +67,13 @@ const Pandemic: FunctionComponent = () => {
               onStateChange={(state) => nav.onStateChange(state)}
               ref={nav.ref}
               theme={theme}>
-              {loading && <Spinner />}
-              {userId ? <MainNavigator /> : <AuthNavigator />}
+              {loading ? (
+                <Spinner />
+              ) : userId ? (
+                <MainNavigator />
+              ) : (
+                <AuthNavigator />
+              )}
             </NavigationContainer>
           </DarkModeProvider>
         </KeyboardView>
