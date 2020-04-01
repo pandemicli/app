@@ -8,7 +8,7 @@ class Analytics {
     })
 
     if (__DEV__) {
-      // segment.disable()
+      segment.disable()
     }
   }
 
