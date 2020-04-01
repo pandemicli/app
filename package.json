@@ -34,6 +34,7 @@
     "react": "16.11.0",
     "react-native": "0.62.0",
     "react-native-camera": "^3.21.0",
+    "react-native-code-push": "^6.2.0",
     "react-native-contacts": "^5.1.0",
     "react-native-dark-mode": "^0.2.2",
     "react-native-fast-image": "^8.1.5",

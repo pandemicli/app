@@ -6,11 +6,14 @@ import {
 } from '@react-navigation/native'
 import update from 'immutability-helper'
 import React, { FunctionComponent, useEffect } from 'react'
+import { Platform } from 'react-native'
+import codePush from 'react-native-code-push'
 import {
   DarkModeProvider,
   useDarkMode,
   useDynamicValue
 } from 'react-native-dark-mode'
+import { CODE_PUSH_KEY_ANDROID, CODE_PUSH_KEY_IOS } from 'react-native-dotenv'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { KeyboardView, Spinner } from './components/common'
@@ -20,7 +23,7 @@ import { AuthNavigator, MainNavigator } from './navigators'
 import { useAuth } from './store'
 import { colors } from './styles'
 
-export const Pandemic: FunctionComponent = () => {
+const Pandemic: FunctionComponent = () => {
   const isDarkMode = useDarkMode()
 
   const [{ loading, userId }, { init, signOut }] = useAuth()
@@ -73,3 +76,12 @@ export const Pandemic: FunctionComponent = () => {
     </ApolloProvider>
   )
 }
+
+export default codePush({
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  deploymentKey: Platform.select({
+    android: CODE_PUSH_KEY_ANDROID,
+    ios: CODE_PUSH_KEY_IOS
+  }),
+  installMode: codePush.InstallMode.ON_NEXT_SUSPEND
+})(Pandemic)
