@@ -2,21 +2,22 @@ import { useMutation } from '@apollo/react-hooks'
 import update from 'immutability-helper'
 import { useState } from 'react'
 
-import { TODAY_FEED, TOGGLE_INTERACTION } from '../graphql/documents'
+import { TODAY_FEED, TOGGLE_SYMPTOM } from '../graphql/documents'
 import {
-  MutationToggleInteractionPayload,
+  MutationToggleSymptomPayload,
   QueryTodayFeedPayload
 } from '../graphql/payload'
 import {
-  MutationToggleInteractionArgs,
-  QueryTodayFeedArgs
+  MutationToggleSymptomArgs,
+  QueryTodayFeedArgs,
+  SymptomName
 } from '../graphql/types'
 
-export const useToggleInteraction = (date: string) => {
-  const [togglingInteraction, setToggling] = useState(new Map())
+export const useToggleSymptom = (date: string) => {
+  const [togglingSymptom, setToggling] = useState(new Map())
 
   const updateToggling = (id: string, loading: boolean) => {
-    const next = new Map(togglingInteraction)
+    const next = new Map(togglingSymptom)
 
     next.set(id, loading)
 
@@ -24,16 +25,16 @@ export const useToggleInteraction = (date: string) => {
   }
 
   const [toggle] = useMutation<
-    MutationToggleInteractionPayload,
-    MutationToggleInteractionArgs
-  >(TOGGLE_INTERACTION)
+    MutationToggleSymptomPayload,
+    MutationToggleSymptomArgs
+  >(TOGGLE_SYMPTOM)
 
-  const toggleInteraction = async (id: string) => {
-    updateToggling(id, true)
+  const toggleSymptom = async (name: SymptomName) => {
+    updateToggling(name, true)
 
     toggle({
       update(proxy, response) {
-        updateToggling(id, false)
+        updateToggling(name, false)
 
         if (!response.data) {
           return
@@ -50,18 +51,18 @@ export const useToggleInteraction = (date: string) => {
         })
 
         if (previousTodayFeed) {
-          const index = previousTodayFeed.todayFeed.contacts.findIndex(
-            (contact) => contact.id === id
+          const index = previousTodayFeed.todayFeed.symptoms.findIndex(
+            (symptom) => symptom.name === name
           )
 
           if (index >= 0) {
             proxy.writeQuery({
               data: update(previousTodayFeed, {
                 todayFeed: {
-                  contacts: {
+                  symptoms: {
                     [index]: {
-                      interactedToday: {
-                        $set: response.data.toggleInteraction
+                      experiencedToday: {
+                        $set: response.data.toggleSymptom
                       }
                     }
                   }
@@ -77,13 +78,13 @@ export const useToggleInteraction = (date: string) => {
       },
       variables: {
         date,
-        id
+        name
       }
     })
   }
 
   return {
-    toggleInteraction,
-    togglingInteraction
+    toggleSymptom,
+    togglingSymptom
   }
 }

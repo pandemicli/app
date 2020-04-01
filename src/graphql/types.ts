@@ -76,6 +76,7 @@ export type Mutation = {
   removePlace: Scalars['Boolean'];
   toggleFavoritePlace: Scalars['Boolean'];
   toggleCheckIn: Scalars['Boolean'];
+  toggleSymptom: Scalars['Boolean'];
   signIn: Scalars['Boolean'];
   signUp: Scalars['Boolean'];
   verify: AuthResult;
@@ -143,6 +144,12 @@ export type MutationToggleFavoritePlaceArgs = {
 export type MutationToggleCheckInArgs = {
   date: Scalars['String'];
   id: Scalars['String'];
+};
+
+
+export type MutationToggleSymptomArgs = {
+  date: Scalars['String'];
+  name: SymptomName;
 };
 
 
@@ -220,10 +227,28 @@ export type QueryTodayFeedArgs = {
   date: Scalars['String'];
 };
 
+export type Symptom = {
+   __typename?: 'Symptom';
+  name: SymptomName;
+  experiencedToday: Scalars['Boolean'];
+};
+
+export enum SymptomName {
+  AchesAndPains = 'aches_and_pains',
+  Diarrhea = 'diarrhea',
+  DryCough = 'dry_cough',
+  Fever = 'fever',
+  NasalCongestion = 'nasal_congestion',
+  RunnyNose = 'runny_nose',
+  SoreThroat = 'sore_throat',
+  Tiredness = 'tiredness'
+}
+
 export type TodayFeed = {
    __typename?: 'TodayFeed';
   contacts: Array<Contact>;
   places: Array<Place>;
+  symptoms: Array<Symptom>;
 };
 
 export type User = {

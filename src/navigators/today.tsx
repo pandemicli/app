@@ -94,7 +94,7 @@ export const TodayNavigator = () => {
           headerStyle: {
             height: layout.header + top
           },
-          title: i18n.t('today__title__checkins')
+          title: i18n.t('today__title__check_ins')
         }}
       />
     </Navigator>

@@ -6,8 +6,13 @@ import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { Refresher, Separator } from '../../components/common'
 import { FeedFooter, FeedHeader, FeedItem } from '../../components/today'
-import { Contact, Place } from '../../graphql/types'
-import { useToday, useToggleCheckIn, useToggleInteraction } from '../../hooks'
+import { Contact, Place, Symptom } from '../../graphql/types'
+import {
+  useToday,
+  useToggleCheckIn,
+  useToggleInteraction,
+  useToggleSymptom
+} from '../../hooks'
 import { i18n } from '../../i18n'
 import { analytics } from '../../lib'
 import { TodayParamList } from '../../navigators'
@@ -24,7 +29,7 @@ export const Feed: FunctionComponent<Props> = ({
     params: { date }
   }
 }) => {
-  const { contacts, loading, places, refetch } = useToday(date)
+  const { contacts, loading, places, refetch, symptoms } = useToday(date)
 
   useEffect(() => {
     refetch({
@@ -34,19 +39,24 @@ export const Feed: FunctionComponent<Props> = ({
 
   const { toggleCheckIn, togglingCheckIn } = useToggleCheckIn(date)
   const { toggleInteraction, togglingInteraction } = useToggleInteraction(date)
+  const { toggleSymptom, togglingSymptom } = useToggleSymptom(date)
 
-  const list = createRef<SectionList<Contact | Place>>()
+  const list = createRef<SectionList<Contact | Place | Symptom>>()
 
   const styles = useDynamicStyleSheet(stylesheet)
 
   const sections = [
     {
       data: contacts,
-      title: 'Contacts'
+      key: 'Contacts'
     },
     {
       data: places,
-      title: 'Places'
+      key: 'Places'
+    },
+    {
+      data: symptoms,
+      key: 'Symptoms'
     }
   ]
 
@@ -54,6 +64,13 @@ export const Feed: FunctionComponent<Props> = ({
     <SectionList
       contentContainerStyle={styles.list}
       ItemSeparatorComponent={Separator}
+      keyExtractor={(item) =>
+        item.__typename === 'Contact'
+          ? item.id
+          : item.__typename === 'Place'
+          ? item.id
+          : item.name
+      }
       ListHeaderComponent={
         <Text style={styles.message}>
           {i18n.t('feed__message__tap__1')}
@@ -69,7 +86,11 @@ export const Feed: FunctionComponent<Props> = ({
           loading={
             item.__typename === 'Contact'
               ? togglingInteraction.get(item.id)
-              : togglingCheckIn.get(item.id)
+              : item.__typename === 'Place'
+              ? togglingCheckIn.get(item.id)
+              : item.__typename === 'Symptom'
+              ? togglingSymptom.get(item.name)
+              : false
           }
           onPress={() => {
             if (item.__typename === 'Contact') {
@@ -86,6 +107,12 @@ export const Feed: FunctionComponent<Props> = ({
               analytics.track(
                 item.checkedInToday ? 'Check In Removed' : 'Check In Added'
               )
+            } else if (item.__typename === 'Symptom') {
+              toggleSymptom(item.name)
+
+              analytics.track(
+                item.experiencedToday ? 'Check In Removed' : 'Check In Added'
+              )
             }
           }}
         />
@@ -99,14 +126,15 @@ export const Feed: FunctionComponent<Props> = ({
       )}
       renderSectionHeader={({ section }) => (
         <FeedHeader
-          onPress={() =>
-            navigate(
-              section.title === 'Contacts' ? 'Interactions' : 'CheckIns',
-              {
-                date
-              }
-            )
-          }
+          onPress={() => {
+            if (section.key === 'Symptoms') {
+              return
+            }
+
+            navigate(section.key === 'Contacts' ? 'Interactions' : 'CheckIns', {
+              date
+            })
+          }}
           section={section}
         />
       )}

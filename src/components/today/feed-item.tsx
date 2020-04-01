@@ -12,12 +12,13 @@ import {
   img_light_check_checked,
   img_light_check_unchecked
 } from '../../assets'
-import { Contact, Place } from '../../graphql/types'
+import { Contact, Place, Symptom } from '../../graphql/types'
+import { i18n, TranslationKey } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
 import { Image, Touchable } from '../common'
 
 interface Props {
-  item: Contact | Place
+  item: Contact | Place | Symptom
   loading: boolean
 
   onPress: () => void
@@ -63,6 +64,23 @@ export const FeedItem: FunctionComponent<Props> = ({
           <Image
             reverse={false}
             source={item.checkedInToday ? checked : unchecked}
+            style={styles.icon}
+          />
+        </Touchable>
+      )}
+    </View>
+  ) : item.__typename === 'Symptom' ? (
+    <View style={styles.main}>
+      <Text style={styles.name}>
+        {i18n.t(`symptom__${item.name}` as TranslationKey)}
+      </Text>
+      {loading ? (
+        <ActivityIndicator color={color_spinner} style={styles.icon} />
+      ) : (
+        <Touchable onPress={onPress}>
+          <Image
+            reverse={false}
+            source={item.experiencedToday ? checked : unchecked}
             style={styles.icon}
           />
         </Touchable>

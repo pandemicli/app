@@ -2,17 +2,12 @@ import { useMutation } from '@apollo/react-hooks'
 import update from 'immutability-helper'
 import { useState } from 'react'
 
-import { PLACES, TODAY_FEED, TOGGLE_CHECK_IN } from '../graphql/documents'
+import { TODAY_FEED, TOGGLE_CHECK_IN } from '../graphql/documents'
 import {
   MutationToggleCheckInPayload,
-  QueryPlacesPayload,
   QueryTodayFeedPayload
 } from '../graphql/payload'
-import {
-  MutationToggleCheckInArgs,
-  QueryContactsArgs,
-  QueryTodayFeedArgs
-} from '../graphql/types'
+import { MutationToggleCheckInArgs, QueryTodayFeedArgs } from '../graphql/types'
 
 export const useToggleCheckIn = (date: string) => {
   const [togglingCheckIn, setToggling] = useState(new Map())
@@ -80,45 +75,6 @@ export const useToggleCheckIn = (date: string) => {
             })
           }
         }
-
-        // in case user never went to the places screen
-        // and the places query was never run
-        try {
-          const previousPlaces = proxy.readQuery<
-            QueryPlacesPayload,
-            QueryContactsArgs
-          >({
-            query: PLACES,
-            variables: {
-              date
-            }
-          })
-
-          if (previousPlaces) {
-            const index = previousPlaces.places.findIndex(
-              (place) => place.id === id
-            )
-
-            if (index >= 0) {
-              const {
-                data: { toggleCheckIn }
-              } = response
-
-              proxy.writeQuery({
-                data: update(previousPlaces, {
-                  places: {
-                    [index]: {
-                      checkedInToday: {
-                        $set: toggleCheckIn
-                      }
-                    }
-                  }
-                }),
-                query: PLACES
-              })
-            }
-          }
-        } catch (error) {}
       },
       variables: {
         date,

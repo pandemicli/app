@@ -1,0 +1,3 @@
+mutation toggleSymptom($name: SymptomName!, $date: String!) {
+  toggleSymptom(name: $name, date: $date)
+}

@@ -2,13 +2,13 @@ import React, { FunctionComponent } from 'react'
 import { SectionListData, Text, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
-import { Contact, Place } from '../../graphql/types'
+import { Contact, Place, Symptom } from '../../graphql/types'
 import { i18n } from '../../i18n'
 import { colors, layout, typography } from '../../styles'
 import { Button } from '../common'
 
 interface Props {
-  section: SectionListData<Contact | Place>
+  section: SectionListData<Contact | Place | Symptom>
 
   onAddContact: () => void
   onAddPlace: () => void
@@ -22,7 +22,7 @@ export const FeedFooter: FunctionComponent<Props> = ({
   const styles = useDynamicStyleSheet(stylesheet)
 
   return section.data.length === 0 ? (
-    section.title === 'Contacts' ? (
+    section.key === 'Contacts' ? (
       <View style={styles.empty}>
         <Text style={styles.message}>
           {i18n.t('today__footer__empty_contacts__message')}

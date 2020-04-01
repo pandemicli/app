@@ -1,4 +1,4 @@
-import { AuthResult, Contact, GooglePlace, Place, User } from './types'
+import { AuthResult, Contact, GooglePlace, Place, Symptom, User } from './types'
 
 // queries
 
@@ -6,6 +6,7 @@ export type QueryTodayFeedPayload = {
   todayFeed: {
     contacts: Contact[]
     places: Place[]
+    symptoms: Symptom[]
   }
 }
 
@@ -85,4 +86,8 @@ export type MutationToggleFavoritePlacePayload = {
 
 export type MutationToggleCheckInPayload = {
   toggleCheckIn: boolean
+}
+
+export type MutationToggleSymptomPayload = {
+  toggleSymptom: boolean
 }

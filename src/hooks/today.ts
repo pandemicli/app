@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react'
 
 import { TODAY_FEED } from '../graphql/documents'
 import { QueryTodayFeedPayload } from '../graphql/payload'
-import { Contact, Place, QueryTodayFeedArgs } from '../graphql/types'
+import { Contact, Place, QueryTodayFeedArgs, Symptom } from '../graphql/types'
 import { crypto } from '../lib'
 
 export const useToday = (date: string) => {
   const [contacts, setContacts] = useState<Contact[]>([])
   const [places, setPlaces] = useState<Place[]>([])
+  const [symptoms, setSymptoms] = useState<Symptom[]>([])
 
   const { data, loading, refetch } = useQuery<
     QueryTodayFeedPayload,
@@ -25,17 +26,15 @@ export const useToday = (date: string) => {
       if (data?.todayFeed.contacts) {
         const raw = cloneDeep(data.todayFeed.contacts)
 
-        const contacts = await Promise.all(
-          raw.map(async (contact) => {
-            contact.name = await crypto.decrypt(contact.name)
+        const contacts = raw.map((contact) => {
+          contact.name = crypto.decrypt(contact.name)
 
-            if (contact.phone) {
-              contact.phone = await crypto.decrypt(contact.phone)
-            }
+          if (contact.phone) {
+            contact.phone = crypto.decrypt(contact.phone)
+          }
 
-            return contact
-          })
-        )
+          return contact
+        })
 
         const sorted = orderBy(contacts, ['favorite', 'name'], ['desc', 'asc'])
 
@@ -45,29 +44,33 @@ export const useToday = (date: string) => {
       if (data?.todayFeed.places) {
         const raw = cloneDeep(data.todayFeed.places)
 
-        const places = await Promise.all(
-          raw.map(async (place) => {
-            place.name = await crypto.decrypt(place.name)
+        const places = raw.map((place) => {
+          place.name = crypto.decrypt(place.name)
 
-            if (place.latitude) {
-              place.latitude = await crypto.decrypt(place.latitude)
-            }
+          if (place.latitude) {
+            place.latitude = crypto.decrypt(place.latitude)
+          }
 
-            if (place.longitude) {
-              place.longitude = await crypto.decrypt(place.longitude)
-            }
+          if (place.longitude) {
+            place.longitude = crypto.decrypt(place.longitude)
+          }
 
-            if (place.googlePlaceId) {
-              place.googlePlaceId = await crypto.decrypt(place.googlePlaceId)
-            }
+          if (place.googlePlaceId) {
+            place.googlePlaceId = crypto.decrypt(place.googlePlaceId)
+          }
 
-            return place
-          })
-        )
+          return place
+        })
 
         const sorted = orderBy(places, ['favorite', 'name'], ['desc', 'asc'])
 
         setPlaces(sorted)
+      }
+
+      if (data?.todayFeed.symptoms) {
+        const symptoms = cloneDeep(data.todayFeed.symptoms)
+
+        setSymptoms(symptoms)
       }
     })()
   }, [data])
@@ -76,6 +79,7 @@ export const useToday = (date: string) => {
     contacts,
     loading,
     places,
-    refetch
+    refetch,
+    symptoms
   }
 }

@@ -35,14 +35,14 @@ export const Places: FunctionComponent<Props> = ({
   if (favorites.length > 0) {
     sections.push({
       data: favorites,
-      title: i18n.t('title__favorites')
+      key: i18n.t('title__favorites')
     })
   }
 
   if (others.length > 0) {
     sections.push({
       data: others,
-      title: i18n.t('title__others')
+      key: i18n.t('title__others')
     })
   }
 
@@ -94,7 +94,7 @@ export const Places: FunctionComponent<Props> = ({
       renderItem={({ item }) => <ListItem item={item} />}
       renderSectionHeader={({ section }) =>
         section.data.length > 0 ? (
-          <Text style={styles.header}>{section.title}</Text>
+          <Text style={styles.header}>{section.key}</Text>
         ) : null
       }
       sections={sections}

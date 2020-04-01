@@ -81,6 +81,11 @@ export const TOGGLE_INTERACTION = gql`
   toggleInteraction(id: $id, date: $date)
 }
     `;
+export const TOGGLE_SYMPTOM = gql`
+    mutation toggleSymptom($name: SymptomName!, $date: String!) {
+  toggleSymptom(name: $name, date: $date)
+}
+    `;
 export const UPDATE_CONTACT = gql`
     mutation updateContact($id: String!, $contact: ContactInput!) {
   updateContact(id: $id, contact: $contact) {
@@ -169,13 +174,17 @@ export const TODAY_FEED = gql`
   todayFeed(date: $date) {
     contacts {
       id
-      name
       interactedToday
+      name
     }
     places {
       id
-      name
       checkedInToday
+      name
+    }
+    symptoms {
+      experiencedToday
+      name
     }
   }
 }
