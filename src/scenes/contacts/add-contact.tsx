@@ -18,6 +18,7 @@ import {
 } from '../../components/common'
 import { useContactActions } from '../../hooks'
 import { i18n } from '../../i18n'
+import { analytics } from '../../lib'
 import { ContactsParamList } from '../../navigators'
 import { colors, layout } from '../../styles'
 
@@ -65,6 +66,8 @@ export const AddContact: FunctionComponent<Props> = ({
                           contact
                         })
                     )
+
+                    analytics.track('Contact Added')
                   }
                 }}
               />

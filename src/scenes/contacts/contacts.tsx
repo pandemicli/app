@@ -25,7 +25,7 @@ import { ListActions, ListEmpty, ListItem } from '../../components/contacts'
 import { Contact } from '../../graphql/types'
 import { useContactActions, useContacts } from '../../hooks'
 import { i18n } from '../../i18n'
-import { phoneBook } from '../../lib'
+import { analytics, phoneBook } from '../../lib'
 import { ContactsParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 
@@ -68,6 +68,10 @@ export const Contacts: FunctionComponent<Props> = ({
                   const contacts = await phoneBook.get()
 
                   sync(contacts)
+
+                  analytics.track('Contacts Synced', {
+                    count: contacts.length
+                  })
                 }}
               />
               <HeaderButton
@@ -137,8 +141,18 @@ export const Contacts: FunctionComponent<Props> = ({
 
             map[item.id].closeRow()
           }}
-          onFavorite={() => toggleFavorite(item.id, map[item.id])}
-          onRemove={() => remove(item.id, map[item.id])}
+          onFavorite={() => {
+            toggleFavorite(item.id, map[item.id])
+
+            analytics.track(
+              item.favorite ? 'Contact Unfavorited' : 'Contact Favorited'
+            )
+          }}
+          onRemove={() => {
+            remove(item.id, map[item.id])
+
+            analytics.track('Contact Removed')
+          }}
           removing={removing}
         />
       )}

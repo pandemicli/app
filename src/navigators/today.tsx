@@ -5,6 +5,7 @@ import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Header } from '../components/common'
 import { i18n } from '../i18n'
+import { analytics } from '../lib'
 import { CheckIns, Feed, Interactions } from '../scenes/today'
 import { layout } from '../styles'
 
@@ -42,16 +43,28 @@ export const TodayNavigator = () => {
           header: (props) => (
             <Header
               {...props}
-              onNext={() =>
+              onNext={() => {
+                const next = moment(date).add(1, 'day').toISOString()
+
                 setParams({
-                  date: moment(date).add(1, 'day').toISOString()
+                  date: next
                 })
-              }
-              onPrevious={() =>
+
+                analytics.track('Feed Day Changed', {
+                  date: next
+                })
+              }}
+              onPrevious={() => {
+                const next = moment(date).subtract(1, 'day').toISOString()
+
                 setParams({
-                  date: moment(date).subtract(1, 'day').toISOString()
+                  date: next
                 })
-              }
+
+                analytics.track('Feed Day Changed', {
+                  date: next
+                })
+              }}
             />
           ),
           headerStyle: {

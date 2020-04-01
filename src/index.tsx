@@ -4,6 +4,7 @@ import {
   DefaultTheme,
   NavigationContainer
 } from '@react-navigation/native'
+import update from 'immutability-helper'
 import React, { FunctionComponent, useEffect } from 'react'
 import {
   DarkModeProvider,
@@ -14,7 +15,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { KeyboardView, Spinner } from './components/common'
 import { client } from './graphql'
-import { mitter } from './lib'
+import { analytics, mitter, nav } from './lib'
 import { AuthNavigator, MainNavigator } from './navigators'
 import { useAuth } from './store'
 import { colors } from './styles'
@@ -29,6 +30,12 @@ export const Pandemic: FunctionComponent = () => {
   }, [init])
 
   useEffect(() => {
+    if (!loading) {
+      analytics.screen(userId ? 'Feed' : 'Landing')
+    }
+  }, [loading, userId])
+
+  useEffect(() => {
     mitter.on('logout', () => signOut())
 
     return () => {
@@ -38,26 +45,26 @@ export const Pandemic: FunctionComponent = () => {
 
   const color_background = useDynamicValue(colors.background)
 
-  if (loading) {
-    return <Spinner />
-  }
-
-  const theme = isDarkMode
-    ? DarkTheme
-    : {
-        ...DefaultTheme,
-        colors: {
-          ...DefaultTheme.colors,
-          background: color_background
-        }
+  const LightTheme = update(DefaultTheme, {
+    colors: {
+      background: {
+        $set: color_background
       }
+    }
+  })
+
+  const theme = isDarkMode ? DarkTheme : LightTheme
 
   return (
     <ApolloProvider client={client}>
       <SafeAreaProvider>
         <KeyboardView>
           <DarkModeProvider>
-            <NavigationContainer theme={theme}>
+            <NavigationContainer
+              onStateChange={(state) => nav.onStateChange(state)}
+              ref={nav.ref}
+              theme={theme}>
+              {loading && <Spinner />}
               {userId ? <MainNavigator /> : <AuthNavigator />}
             </NavigationContainer>
           </DarkModeProvider>

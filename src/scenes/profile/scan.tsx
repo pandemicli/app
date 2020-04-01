@@ -7,6 +7,7 @@ import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 
 import { Spinner } from '../../components/common'
 import { useContactActions } from '../../hooks'
+import { analytics } from '../../lib'
 import { ProfileParamList } from '../../navigators'
 import { colors } from '../../styles'
 
@@ -34,6 +35,10 @@ export const Scan: FunctionComponent<Props> = () => {
       next.set(code, true)
 
       setAdded(next)
+
+      analytics.track('QR Code Scanned', {
+        code
+      })
     }
   }, [add, added, code])
 

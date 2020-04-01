@@ -10,6 +10,7 @@ import { VERIFY } from '../../graphql/documents'
 import { MutationVerifyPayload } from '../../graphql/payload'
 import { MutationVerifyArgs } from '../../graphql/types'
 import { i18n } from '../../i18n'
+import { analytics } from '../../lib'
 import { AuthParamList } from '../../navigators'
 import { useAuth } from '../../store'
 import { layout } from '../../styles'
@@ -36,6 +37,8 @@ export const Verify: FunctionComponent<Props> = () => {
       }
     }) {
       signIn(id, token)
+
+      analytics.track('User Verified Code')
     },
     variables: {
       code

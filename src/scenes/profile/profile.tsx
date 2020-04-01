@@ -35,7 +35,7 @@ import { PROFILE } from '../../graphql/documents'
 import { QueryProfilePayload } from '../../graphql/payload'
 import { User } from '../../graphql/types'
 import { i18n } from '../../i18n'
-import { browser } from '../../lib'
+import { analytics, browser } from '../../lib'
 import { ProfileParamList } from '../../navigators'
 import { useAuth } from '../../store'
 import { colors, layout, typography } from '../../styles'
@@ -85,13 +85,29 @@ export const Profile: FunctionComponent<Props> = () => {
           icon: img_about,
           label: i18n.t('profile__menu__about'),
           link: true,
-          onPress: () => browser.open('https://pandemic.li')
+          onPress: () => {
+            const uri = 'https://pandemic.li'
+
+            browser.open(uri)
+
+            analytics.track('Link Opened', {
+              uri
+            })
+          }
         },
         {
           icon: img_help,
           label: i18n.t('profile__menu__help'),
           link: true,
-          onPress: () => browser.open('https://pandemic.li/help')
+          onPress: () => {
+            const uri = 'https://pandemic.li/help'
+
+            browser.open(uri)
+
+            analytics.track('Link Opened', {
+              uri
+            })
+          }
         },
         {
           icon: img_remove_data,
@@ -100,7 +116,11 @@ export const Profile: FunctionComponent<Props> = () => {
         {
           icon: img_sign_out,
           label: i18n.t('profile__menu__sign_out'),
-          onPress: () => signOut()
+          onPress: () => {
+            signOut()
+
+            analytics.track('User Signed Out')
+          }
         }
       ]}
       ItemSeparatorComponent={Separator}

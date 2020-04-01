@@ -10,6 +10,7 @@ import { SIGN_IN } from '../../graphql/documents'
 import { MutationSignInPayload } from '../../graphql/payload'
 import { MutationSignInArgs } from '../../graphql/types'
 import { i18n } from '../../i18n'
+import { analytics } from '../../lib'
 import { AuthParamList } from '../../navigators'
 import { layout } from '../../styles'
 
@@ -30,6 +31,8 @@ export const SignIn: FunctionComponent<Props> = ({
   >(SIGN_IN, {
     onCompleted() {
       navigate('Verify')
+
+      analytics.track('User Signed In')
     },
     variables: {
       phone

@@ -26,7 +26,7 @@ import {
 } from '../../components/common'
 import { usePlaceActions } from '../../hooks'
 import { i18n } from '../../i18n'
-import { geo } from '../../lib'
+import { analytics, geo } from '../../lib'
 import { PlacesParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 import { LocationPoint } from '../../types'
@@ -106,6 +106,8 @@ export const EditPlace: FunctionComponent<Props> = ({
                       longitude,
                       name
                     })
+
+                    analytics.track('Place Updated')
                   }
                 }}
               />

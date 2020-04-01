@@ -10,6 +10,7 @@ import { ListActions, ListEmpty, ListItem } from '../../components/places'
 import { Place } from '../../graphql/types'
 import { usePlaceActions, usePlaces } from '../../hooks'
 import { i18n } from '../../i18n'
+import { analytics } from '../../lib'
 import { PlacesParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 
@@ -75,8 +76,18 @@ export const Places: FunctionComponent<Props> = ({
 
             map[item.id].closeRow()
           }}
-          onFavorite={() => toggleFavorite(item.id, map[item.id])}
-          onRemove={() => remove(item.id, map[item.id])}
+          onFavorite={() => {
+            toggleFavorite(item.id, map[item.id])
+
+            analytics.track(
+              item.favorite ? 'Place Unfavorited' : 'Place Favorited'
+            )
+          }}
+          onRemove={() => {
+            remove(item.id, map[item.id])
+
+            analytics.track('Place Removed')
+          }}
           removing={removing}
         />
       )}

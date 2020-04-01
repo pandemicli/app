@@ -9,6 +9,7 @@ import { FeedFooter, FeedHeader, FeedItem } from '../../components/today'
 import { Contact, Place } from '../../graphql/types'
 import { useToday, useToggleCheckIn, useToggleInteraction } from '../../hooks'
 import { i18n } from '../../i18n'
+import { analytics } from '../../lib'
 import { TodayParamList } from '../../navigators'
 import { colors, layout, typography } from '../../styles'
 
@@ -70,11 +71,23 @@ export const Feed: FunctionComponent<Props> = ({
               ? togglingInteraction.get(item.id)
               : togglingCheckIn.get(item.id)
           }
-          onPress={() =>
-            item.__typename === 'Contact'
-              ? toggleInteraction(item.id)
-              : toggleCheckIn(item.id)
-          }
+          onPress={() => {
+            if (item.__typename === 'Contact') {
+              toggleInteraction(item.id)
+
+              analytics.track(
+                item.interactedToday
+                  ? 'Interaction Removed'
+                  : 'Interaction Added'
+              )
+            } else if (item.__typename === 'Place') {
+              toggleCheckIn(item.id)
+
+              analytics.track(
+                item.checkedInToday ? 'Check In Removed' : 'Check In Added'
+              )
+            }
+          }}
         />
       )}
       renderSectionFooter={({ section }) => (
