@@ -23,12 +23,14 @@ import {
   img_dark_about,
   img_dark_help,
   img_dark_link,
+  img_dark_privacy,
   img_dark_remove_data,
   img_dark_sign_out,
   img_dark_tracking,
   img_light_about,
   img_light_help,
   img_light_link,
+  img_light_privacy,
   img_light_remove_data,
   img_light_sign_out,
   img_light_tracking
@@ -77,6 +79,7 @@ export const Profile: FunctionComponent<Props> = ({
   const img_about = useDynamicValue(img_dark_about, img_light_about)
   const img_help = useDynamicValue(img_dark_help, img_light_help)
   const img_link = useDynamicValue(img_dark_link, img_light_link)
+  const img_privacy = useDynamicValue(img_dark_privacy, img_light_privacy)
   const img_sign_out = useDynamicValue(img_dark_sign_out, img_light_sign_out)
   const img_tracking = useDynamicValue(img_dark_tracking, img_light_tracking)
   const img_remove_data = useDynamicValue(
@@ -96,29 +99,19 @@ export const Profile: FunctionComponent<Props> = ({
           icon: img_about,
           label: i18n.t('profile__menu__about'),
           link: true,
-          onPress: () => {
-            const uri = 'https://pandemic.li'
-
-            browser.open(uri)
-
-            analytics.track('Link Opened', {
-              uri
-            })
-          }
+          onPress: () => browser.open('https://pandemic.li')
         },
         {
           icon: img_help,
           label: i18n.t('profile__menu__help'),
           link: true,
-          onPress: () => {
-            const uri = 'https://pandemic.li/help'
-
-            browser.open(uri)
-
-            analytics.track('Link Opened', {
-              uri
-            })
-          }
+          onPress: () => browser.open('https://pandemic.li/help')
+        },
+        {
+          icon: img_privacy,
+          label: i18n.t('profile__menu__privacy'),
+          link: true,
+          onPress: () => browser.open('https://pandemic.li/privacy')
         },
         {
           icon: img_remove_data,

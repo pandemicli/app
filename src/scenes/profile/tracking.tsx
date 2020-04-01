@@ -29,15 +29,7 @@ export const Tracking: FunctionComponent<Props> = () => {
     <ScrollView style={styles.main}>
       <Text style={styles.message}>{i18n.t('profile__tracking__message')}</Text>
       <Text
-        onPress={() => {
-          const uri = 'https://pandemic.li/privacy'
-
-          browser.open(uri)
-
-          analytics.track('Link Opened', {
-            uri
-          })
-        }}
+        onPress={() => browser.open('https://pandemic.li/privacy')}
         style={[styles.message, styles.privacy]}>
         {i18n.t('label__learn_more_privacy_policy')}
       </Text>

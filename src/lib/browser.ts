@@ -1,12 +1,18 @@
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 
+import { analytics } from './analytics'
+
 class Browser {
-  async open(url: string): Promise<void> {
+  async open(uri: string): Promise<void> {
     const available = await InAppBrowser.isAvailable()
 
     if (available) {
-      InAppBrowser.open(url)
+      InAppBrowser.open(uri)
     }
+
+    analytics.track('Link Opened', {
+      uri
+    })
   }
 }
 
