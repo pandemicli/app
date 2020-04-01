@@ -3,6 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   LayoutAnimation,
@@ -24,11 +25,13 @@ import {
   img_dark_link,
   img_dark_remove_data,
   img_dark_sign_out,
+  img_dark_tracking,
   img_light_about,
   img_light_help,
   img_light_link,
   img_light_remove_data,
-  img_light_sign_out
+  img_light_sign_out,
+  img_light_tracking
 } from '../../assets'
 import { Image, Refresher, Separator, Touchable } from '../../components/common'
 import { PROFILE } from '../../graphql/documents'
@@ -45,8 +48,10 @@ interface Props {
   route: RouteProp<ProfileParamList, 'Profile'>
 }
 
-export const Profile: FunctionComponent<Props> = () => {
-  const [, { signOut }] = useAuth()
+export const Profile: FunctionComponent<Props> = ({
+  navigation: { navigate }
+}) => {
+  const [{ unloading }, { signOut }] = useAuth()
 
   const { loading, refetch } = useQuery<QueryProfilePayload>(PROFILE, {
     onCompleted({ profile }) {
@@ -73,6 +78,7 @@ export const Profile: FunctionComponent<Props> = () => {
   const img_help = useDynamicValue(img_dark_help, img_light_help)
   const img_link = useDynamicValue(img_dark_link, img_light_link)
   const img_sign_out = useDynamicValue(img_dark_sign_out, img_light_sign_out)
+  const img_tracking = useDynamicValue(img_dark_tracking, img_light_tracking)
   const img_remove_data = useDynamicValue(
     img_dark_remove_data,
     img_light_remove_data
@@ -81,6 +87,11 @@ export const Profile: FunctionComponent<Props> = () => {
   return (
     <FlatList
       data={[
+        {
+          icon: img_tracking,
+          label: i18n.t('profile__menu__tracking'),
+          onPress: () => navigate('Tracking')
+        },
         {
           icon: img_about,
           label: i18n.t('profile__menu__about'),
@@ -116,6 +127,7 @@ export const Profile: FunctionComponent<Props> = () => {
         {
           icon: img_sign_out,
           label: i18n.t('profile__menu__sign_out'),
+          loading: unloading,
           onPress: () => {
             signOut()
 
@@ -156,6 +168,7 @@ export const Profile: FunctionComponent<Props> = () => {
           {item.link && (
             <Image source={img_link} style={[styles.icon, styles.iconSmall]} />
           )}
+          {item.loading && <ActivityIndicator color={colors.accent} />}
         </Touchable>
       )}
     />

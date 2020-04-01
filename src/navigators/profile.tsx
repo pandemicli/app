@@ -6,12 +6,13 @@ import { useSafeArea } from 'react-native-safe-area-context'
 import { img_dark_camera, img_light_camera } from '../assets'
 import { Header, HeaderButton } from '../components/common'
 import { i18n } from '../i18n'
-import { Profile, Scan } from '../scenes/profile'
+import { Profile, Scan, Tracking } from '../scenes/profile'
 import { layout } from '../styles'
 
 export type ProfileParamList = {
   Profile: undefined
   Scan: undefined
+  Tracking: undefined
 }
 
 const { Navigator, Screen } = createStackNavigator<ProfileParamList>()
@@ -53,6 +54,17 @@ export const ProfileNavigator = () => {
             height: layout.header + top
           },
           title: i18n.t('profile__title__scan')
+        }}
+      />
+      <Screen
+        component={Tracking}
+        name="Tracking"
+        options={{
+          header: (props) => <Header {...props} />,
+          headerStyle: {
+            height: layout.header + top
+          },
+          title: i18n.t('profile__title__tracking')
         }}
       />
     </Navigator>

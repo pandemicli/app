@@ -1,16 +1,19 @@
 import { createHook, createStore, StoreActionApi } from 'react-sweet-state'
 
 import { client } from '../graphql'
-import { analytics, crypto, storage } from '../lib'
+import { analytics, crypto, storage, tracking } from '../lib'
 
 interface State {
   loading: boolean
+  unloading: boolean
   userId: string | null
 }
 type StoreApi = StoreActionApi<State>
 
 const actions = {
   init: () => async ({ setState }: StoreApi) => {
+    await tracking.init()
+
     const token = await storage.get('@token')
     const userId = await storage.get('@userId')
 
@@ -39,6 +42,12 @@ const actions = {
     })
   },
   signOut: () => async ({ setState }: StoreApi) => {
+    setState({
+      unloading: true
+    })
+
+    await tracking.stop()
+
     await storage.remove('@token')
     await storage.remove('@userId')
 
@@ -50,6 +59,7 @@ const actions = {
     crypto.reset()
 
     setState({
+      unloading: false,
       userId: null
     })
   }
@@ -59,6 +69,7 @@ type Actions = typeof actions
 
 const initialState: State = {
   loading: true,
+  unloading: false,
   userId: null
 }
 

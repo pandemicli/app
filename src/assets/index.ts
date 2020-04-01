@@ -24,6 +24,7 @@ export { default as img_dark_search } from './img/dark/search.png'
 export { default as img_dark_sign_out } from './img/dark/sign_out.png'
 export { default as img_dark_star } from './img/dark/star.png'
 export { default as img_dark_sync } from './img/dark/sync.png'
+export { default as img_dark_tracking } from './img/dark/tracking.png'
 
 // light
 
@@ -47,6 +48,7 @@ export { default as img_light_search } from './img/light/search.png'
 export { default as img_light_sign_out } from './img/light/sign_out.png'
 export { default as img_light_star } from './img/light/star.png'
 export { default as img_light_sync } from './img/light/sync.png'
+export { default as img_light_tracking } from './img/light/tracking.png'
 
 // actions
 

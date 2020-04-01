@@ -41,13 +41,23 @@
 	<string>Scan QR codes from other Pandemic.li users.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Sync your contacts so you can keep track of people you meet.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Track your location in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Share your location to find places near you.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Track your location in the background.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Medium.otf</string>
 		<string>Inter-Regular.otf</string>
 		<string>Inter-SemiBold.otf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

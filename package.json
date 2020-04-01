@@ -33,6 +33,8 @@
     "phone": "^2.4.8",
     "react": "16.11.0",
     "react-native": "0.62.0",
+    "react-native-background-fetch": "2.7.1",
+    "react-native-background-geolocation": "^3.4.2",
     "react-native-camera": "^3.21.0",
     "react-native-code-push": "^6.2.0",
     "react-native-contacts": "^5.1.0",
