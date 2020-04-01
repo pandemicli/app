@@ -32,6 +32,8 @@ const actions = {
     await storage.put('@token', token)
     await storage.put('@userId', userId)
 
+    crypto.init(userId)
+
     setState({
       userId
     })
@@ -44,6 +46,8 @@ const actions = {
     await client.cache.reset()
 
     await analytics.reset()
+
+    crypto.reset()
 
     setState({
       userId: null
