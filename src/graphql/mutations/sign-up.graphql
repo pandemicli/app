@@ -1,3 +1,3 @@
-mutation signUp($name: String!, $phone: String!) {
-  signUp(phone: $phone, name: $name)
+mutation signUp($name: String!, $email: String!, $phone: String!) {
+  signUp(phone: $phone, email: $email, name: $name)
 }

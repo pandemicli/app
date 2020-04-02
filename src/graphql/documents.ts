@@ -50,8 +50,8 @@ export const SIGN_IN = gql`
 }
     `;
 export const SIGN_UP = gql`
-    mutation signUp($name: String!, $phone: String!) {
-  signUp(phone: $phone, name: $name)
+    mutation signUp($name: String!, $email: String!, $phone: String!) {
+  signUp(phone: $phone, email: $email, name: $name)
 }
     `;
 export const SYNC_CONTACTS = gql`

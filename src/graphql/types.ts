@@ -161,6 +161,7 @@ export type MutationSignInArgs = {
 
 export type MutationSignUpArgs = {
   phone: Scalars['String'];
+  email: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -257,6 +258,7 @@ export type User = {
   id: Scalars['ID'];
   code: Scalars['String'];
   name: Scalars['String'];
+  email: Scalars['String'];
   phone: Scalars['String'];
   covid19Positive: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];

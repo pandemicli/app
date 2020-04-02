@@ -23,9 +23,11 @@ export const SignUp: FunctionComponent<Props> = ({
 }) => {
   const { bottom } = useSafeArea()
 
+  const emailRef = createRef<TextInput>()
   const phoneRef = createRef<TextInput>()
 
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
 
   const [signUp, { error, loading }] = useMutation<
@@ -38,6 +40,7 @@ export const SignUp: FunctionComponent<Props> = ({
       analytics.track('User Signed Up')
     },
     variables: {
+      email,
       name,
       phone
     }
@@ -58,13 +61,24 @@ export const SignUp: FunctionComponent<Props> = ({
       )}
       <TextBox
         onChangeText={(name) => setName(name)}
-        onSubmitEditing={() => phoneRef.current?.focus()}
+        onSubmitEditing={() => emailRef.current?.focus()}
         placeholder={i18n.t('label__name')}
         returnKeyType="next"
         style={styles.item}
         value={name}
       />
-
+      <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
+        keyboardType="email-address"
+        onChangeText={(email) => setEmail(email)}
+        onSubmitEditing={() => phoneRef.current?.focus()}
+        placeholder={i18n.t('label__email')}
+        ref={emailRef}
+        returnKeyType="next"
+        style={styles.item}
+        value={email}
+      />
       <PhoneNumber
         onChange={(phone) => setPhone(phone)}
         ref={phoneRef}
@@ -74,7 +88,7 @@ export const SignUp: FunctionComponent<Props> = ({
         label={i18n.t('label__sign_up')}
         loading={loading}
         onPress={() => {
-          if (name && phone) {
+          if (name && email && phone) {
             signUp()
           }
         }}
