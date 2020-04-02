@@ -33,8 +33,10 @@ export const AddContact: FunctionComponent<Props> = ({
   const { create, creating, errors } = useContactActions()
 
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
 
+  const emailRef = createRef<TextInput>()
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
@@ -58,6 +60,7 @@ export const AddContact: FunctionComponent<Props> = ({
                   if (name) {
                     create(
                       {
+                        email: email || null,
                         name,
                         phone: phone || null
                       },
@@ -79,6 +82,7 @@ export const AddContact: FunctionComponent<Props> = ({
   }, [
     create,
     creating,
+    email,
     img_save,
     name,
     phone,
@@ -99,13 +103,24 @@ export const AddContact: FunctionComponent<Props> = ({
         />
       )}
       <TextBox
+        autoCapitalize="words"
         autoCorrect={false}
         onChangeText={(name) => setName(name)}
-        onSubmitEditing={() => phoneRef.current?.focus()}
+        onSubmitEditing={() => emailRef.current?.focus()}
         placeholder={i18n.t('label__name')}
         returnKeyType="next"
         style={styles.item}
         value={name}
+      />
+      <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
+        onChangeText={(email) => setEmail(email)}
+        onSubmitEditing={() => phoneRef.current?.focus()}
+        placeholder={i18n.t('label__email')}
+        returnKeyType="next"
+        style={styles.item}
+        value={email}
       />
       <PhoneNumber onChange={(phone) => setPhone(phone)} ref={phoneRef} />
     </ScrollView>

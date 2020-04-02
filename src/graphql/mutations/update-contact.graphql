@@ -1,6 +1,7 @@
 mutation updateContact($id: String!, $contact: ContactInput!) {
   updateContact(id: $id, contact: $contact) {
     id
+    email
     favorite
     name
     phone

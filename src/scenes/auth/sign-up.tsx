@@ -60,6 +60,8 @@ export const SignUp: FunctionComponent<Props> = ({
         <Message message={error.message} style={styles.item} type="error" />
       )}
       <TextBox
+        autoCapitalize="words"
+        autoCorrect={false}
         onChangeText={(name) => setName(name)}
         onSubmitEditing={() => emailRef.current?.focus()}
         placeholder={i18n.t('label__name')}

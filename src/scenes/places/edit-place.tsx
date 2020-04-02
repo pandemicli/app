@@ -142,6 +142,7 @@ export const EditPlace: FunctionComponent<Props> = ({
           />
         )}
         <TextBox
+          autoCapitalize="words"
           autoCorrect={false}
           onChangeText={(name) => setName(name)}
           onSubmitEditing={() => phoneRef.current?.focus()}

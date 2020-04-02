@@ -1,6 +1,7 @@
 mutation createContact($contact: ContactInput!) {
   createContact(contact: $contact) {
     id
+    email
     favorite
     name
     phone

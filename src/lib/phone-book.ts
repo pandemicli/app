@@ -1,10 +1,12 @@
 import phone from 'phone'
 // eslint-disable-next-line react-native/split-platform-components
-import { Alert, PermissionsAndroid, Platform } from 'react-native'
-import Contacts, { PhoneNumber } from 'react-native-contacts'
+import { PermissionsAndroid, Platform } from 'react-native'
+import Contacts, { EmailAddress, PhoneNumber } from 'react-native-contacts'
 
 import { i18n } from '../i18n'
 import { PhoneContact } from '../types'
+import { crypto } from './crypto'
+import { dialog } from './dialog'
 
 class PhoneBook {
   async get(): Promise<PhoneContact[]> {
@@ -20,26 +22,52 @@ class PhoneBook {
     }
 
     return new Promise((resolve, reject) => {
-      Contacts.getAll((error, data) => {
+      Contacts.getAll(async (error, data) => {
         if (error) {
-          Alert.alert('Error', error.message)
+          dialog.error(error.message)
 
           reject()
 
           return
         }
 
-        const contacts = data
-          .map(({ familyName, givenName, phoneNumbers, recordID }) => ({
-            deviceId: recordID,
-            name: [givenName.trim(), familyName.trim()].join(' ').trim(),
-            phone: this.getMobile(phoneNumbers)
-          }))
-          .filter(({ name }) => name)
+        const contacts = await Promise.all(
+          data.map(
+            async ({
+              emailAddresses,
+              familyName,
+              givenName,
+              phoneNumbers,
+              recordID
+            }) => ({
+              deviceIdHash: await crypto.hash(recordID),
+              email: this.getEmail(emailAddresses),
+              name: [givenName.trim(), familyName.trim()].join(' ').trim(),
+              phone: this.getMobile(phoneNumbers)
+            })
+          )
+        )
 
-        resolve(contacts)
+        resolve(contacts.filter(({ name }) => name))
       })
     })
+  }
+
+  private getEmail(emails: EmailAddress[]): string | undefined {
+    console.log('emails', emails)
+
+    const iCloud = emails.find(({ label }) => label === 'iCloud')?.email
+    const home = emails.find(({ label }) => label === 'home')?.email
+
+    if (iCloud) {
+      return iCloud.toLowerCase()
+    }
+
+    if (home) {
+      return home.toLowerCase()
+    }
+
+    return emails[0]?.email.toLowerCase()
   }
 
   private getMobile(numbers: PhoneNumber[]): string | undefined {

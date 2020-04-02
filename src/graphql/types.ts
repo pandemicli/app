@@ -28,6 +28,8 @@ export type Contact = {
    __typename?: 'Contact';
   id: Scalars['ID'];
   name: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  emailHash?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   phoneHash?: Maybe<Scalars['String']>;
   favorite: Scalars['Boolean'];
@@ -39,9 +41,11 @@ export type Contact = {
 
 export type ContactInput = {
   name: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  emailHash?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   phoneHash?: Maybe<Scalars['String']>;
-  deviceId?: Maybe<Scalars['String']>;
+  deviceIdHash?: Maybe<Scalars['String']>;
 };
 
 

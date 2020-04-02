@@ -23,7 +23,8 @@ export const ListItem: FunctionComponent<Props> = ({ item }) => {
     <View style={styles.main}>
       <View style={styles.details}>
         <Text style={styles.name}>{item.name}</Text>
-        {!!item.phone && <Text style={styles.phone}>{item.phone}</Text>}
+        {!!item.phone && <Text style={styles.contact}>{item.phone}</Text>}
+        {!!item.email && <Text style={styles.contact}>{item.email}</Text>}
       </View>
       {item.favorite && <Image source={img_star} style={styles.icon} />}
     </View>
@@ -31,6 +32,12 @@ export const ListItem: FunctionComponent<Props> = ({ item }) => {
 }
 
 const stylesheet = new DynamicStyleSheet({
+  contact: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    letterSpacing: 1,
+    marginTop: layout.padding
+  },
   details: {
     flex: 1
   },
@@ -48,11 +55,5 @@ const stylesheet = new DynamicStyleSheet({
     ...typography.regular,
     ...typography.medium,
     color: colors.foreground
-  },
-  phone: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    letterSpacing: 1,
-    marginTop: layout.padding
   }
 })

@@ -37,17 +37,23 @@ export const EditContact: FunctionComponent<Props> = ({
   const { errors, update, updating } = useContactActions()
 
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
 
+  const emailRef = createRef<TextInput>()
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
   const img_save = useDynamicValue(img_dark_save, img_light_save)
 
   useEffect(() => {
-    const { name, phone } = contact
+    const { email, name, phone } = contact
 
     setName(name)
+
+    if (email) {
+      setEmail(email)
+    }
 
     if (phone) {
       setPhone(phone)
@@ -71,6 +77,7 @@ export const EditContact: FunctionComponent<Props> = ({
                 onPress={() => {
                   if (name) {
                     update(contact.id, {
+                      email: email || null,
                       name,
                       phone: phone || null
                     })
@@ -86,6 +93,7 @@ export const EditContact: FunctionComponent<Props> = ({
     })
   }, [
     contact.id,
+    email,
     img_save,
     name,
     phone,
@@ -107,13 +115,24 @@ export const EditContact: FunctionComponent<Props> = ({
         />
       )}
       <TextBox
+        autoCapitalize="words"
         autoCorrect={false}
         onChangeText={(name) => setName(name)}
-        onSubmitEditing={() => phoneRef.current?.focus()}
+        onSubmitEditing={() => emailRef.current?.focus()}
         placeholder={i18n.t('label__name')}
         returnKeyType="next"
         style={styles.item}
         value={name}
+      />
+      <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
+        onChangeText={(email) => setEmail(email)}
+        onSubmitEditing={() => phoneRef.current?.focus()}
+        placeholder={i18n.t('label__email')}
+        returnKeyType="next"
+        style={styles.item}
+        value={email}
       />
       <PhoneNumber
         onChange={(phone) => setPhone(phone)}

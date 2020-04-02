@@ -11,8 +11,8 @@ query todayFeed($date: String!) {
       name
     }
     symptoms {
-      experiencedToday
       name
+      experiencedToday
     }
   }
 }

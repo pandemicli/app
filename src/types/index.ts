@@ -1,5 +1,7 @@
 export interface PhoneContact {
-  deviceId: string
+  deviceIdHash: string
+  email?: string
+  emailHash?: string
   name: string
   phone?: string
   phoneHash?: string

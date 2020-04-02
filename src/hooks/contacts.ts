@@ -58,6 +58,10 @@ export const useContacts = (date?: string) => {
           raw.map(async (contact) => {
             contact.name = crypto.decrypt(contact.name)
 
+            if (contact.email) {
+              contact.email = crypto.decrypt(contact.email)
+            }
+
             if (contact.phone) {
               contact.phone = crypto.decrypt(contact.phone)
             }
@@ -145,6 +149,11 @@ export const useContactActions = () => {
 
     contact.name = crypto.encrypt(contact.name)
 
+    if (contact.email) {
+      contact.emailHash = await crypto.hash(contact.email)
+      contact.email = crypto.encrypt(contact.email)
+    }
+
     if (contact.phone) {
       contact.phoneHash = await crypto.hash(contact.phone)
       contact.phone = crypto.encrypt(contact.phone)
@@ -180,6 +189,10 @@ export const useContactActions = () => {
 
           contact.name = crypto.decrypt(contact.name)
 
+          if (contact.email) {
+            contact.email = crypto.decrypt(contact.email)
+          }
+
           if (contact.phone) {
             contact.phone = crypto.decrypt(contact.phone)
           }
@@ -198,7 +211,13 @@ export const useContactActions = () => {
 
     contact.name = crypto.encrypt(contact.name)
 
+    if (contact.email) {
+      contact.emailHash = await crypto.hash(contact.email)
+      contact.email = crypto.encrypt(contact.email)
+    }
+
     if (contact.phone) {
+      contact.phoneHash = await crypto.hash(contact.phone)
       contact.phone = crypto.encrypt(contact.phone)
     }
 
@@ -288,12 +307,15 @@ export const useContactActions = () => {
       cloneDeep(data).map(async (contact) => {
         contact.name = crypto.encrypt(contact.name)
 
+        if (contact.email) {
+          contact.emailHash = await crypto.hash(contact.email)
+          contact.email = crypto.encrypt(contact.email)
+        }
+
         if (contact.phone) {
           contact.phoneHash = await crypto.hash(contact.phone)
           contact.phone = crypto.encrypt(contact.phone)
         }
-
-        contact.deviceId = await crypto.hash(contact.deviceId)
 
         return contact
       })

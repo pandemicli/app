@@ -12,6 +12,7 @@ export const CREATE_CONTACT = gql`
     mutation createContact($contact: ContactInput!) {
   createContact(contact: $contact) {
     id
+    email
     favorite
     name
     phone
@@ -95,6 +96,7 @@ export const UPDATE_CONTACT = gql`
     mutation updateContact($id: String!, $contact: ContactInput!) {
   updateContact(id: $id, contact: $contact) {
     id
+    email
     favorite
     name
     phone
@@ -131,6 +133,7 @@ export const CONTACTS = gql`
     query contacts($date: String) {
   contacts(date: $date) {
     id
+    email
     favorite
     name
     phone
@@ -189,8 +192,8 @@ export const TODAY_FEED = gql`
       name
     }
     symptoms {
-      experiencedToday
       name
+      experiencedToday
     }
   }
 }

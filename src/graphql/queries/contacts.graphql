@@ -1,6 +1,7 @@
 query contacts($date: String) {
   contacts(date: $date) {
     id
+    email
     favorite
     name
     phone
