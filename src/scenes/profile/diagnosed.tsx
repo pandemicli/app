@@ -23,8 +23,6 @@ export const Diagnosed: FunctionComponent<Props> = ({
     params: { user }
   }
 }) => {
-  console.log('positive', user.covid19Positive)
-
   const { loading, toggle } = useToggleStatus()
 
   const styles = useDynamicStyleSheet(stylesheet)

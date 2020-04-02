@@ -54,8 +54,6 @@ class PhoneBook {
   }
 
   private getEmail(emails: EmailAddress[]): string | undefined {
-    console.log('emails', emails)
-
     const iCloud = emails.find(({ label }) => label === 'iCloud')?.email
     const home = emails.find(({ label }) => label === 'home')?.email
 
