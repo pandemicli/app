@@ -72,3 +72,8 @@ buck-out/
 # Sentry
 #
 sentry.properties
+
+# Firebase
+#
+GoogleService-Info.plist
+google-services.json

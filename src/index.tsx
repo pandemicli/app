@@ -18,7 +18,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { KeyboardView, Spinner } from './components/common'
 import { client } from './graphql'
-import { analytics, mitter, nav } from './lib'
+import { analytics, mitter, nav, push } from './lib'
 import { AuthNavigator, MainNavigator } from './navigators'
 import { useAuth } from './store'
 import { colors } from './styles'
@@ -39,9 +39,11 @@ const Pandemic: FunctionComponent = () => {
   }, [loading, userId])
 
   useEffect(() => {
+    push.setup()
     mitter.on('logout', () => signOut())
 
     return () => {
+      push.destroy()
       mitter.off('logout', () => signOut())
     }
   }, [signOut])
