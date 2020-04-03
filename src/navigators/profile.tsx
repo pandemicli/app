@@ -7,13 +7,20 @@ import { img_dark_camera, img_light_camera } from '../assets'
 import { Header, HeaderButton } from '../components/common'
 import { User } from '../graphql/types'
 import { i18n } from '../i18n'
-import { Diagnosed, Profile, Scan, Tracking } from '../scenes/profile'
+import {
+  Diagnosed,
+  Notifications,
+  Profile,
+  Scan,
+  Tracking
+} from '../scenes/profile'
 import { layout } from '../styles'
 
 export type ProfileParamList = {
   Diagnosed: {
     user: User
   }
+  Notifications: undefined
   Profile: undefined
   Scan: undefined
   Tracking: undefined
@@ -80,6 +87,17 @@ export const ProfileNavigator = () => {
             height: layout.header + top
           },
           title: i18n.t('profile__title__tracking')
+        }}
+      />
+      <Screen
+        component={Notifications}
+        name="Notifications"
+        options={{
+          header: (props) => <Header {...props} />,
+          headerStyle: {
+            height: layout.header + top
+          },
+          title: i18n.t('profile__title__notifications')
         }}
       />
     </Navigator>

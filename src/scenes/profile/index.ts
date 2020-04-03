@@ -1,4 +1,5 @@
 export { Diagnosed } from './diagnosed'
+export { Notifications } from './notifications'
 export { Profile } from './profile'
 export { Scan } from './scan'
 export { Tracking } from './tracking'

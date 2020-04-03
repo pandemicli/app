@@ -21,7 +21,7 @@ export const client = new ApolloClient({
     })
   },
   async request(operation) {
-    const token = await storage.get('@token')
+    const token = await storage.get<string>('@token')
 
     if (token) {
       operation.setContext({

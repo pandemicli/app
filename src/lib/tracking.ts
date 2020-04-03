@@ -5,7 +5,7 @@ import { storage } from './storage'
 
 class Tracking {
   async init(): Promise<boolean> {
-    const token = await storage.get('@token')
+    const token = await storage.get<string>('@token')
 
     if (!token) {
       return false

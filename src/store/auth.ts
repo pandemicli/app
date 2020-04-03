@@ -14,8 +14,8 @@ const actions = {
   init: () => async ({ setState }: StoreApi) => {
     await tracking.init()
 
-    const token = await storage.get('@token')
-    const userId = await storage.get('@userId')
+    const token = await storage.get<string>('@token')
+    const userId = await storage.get<string>('@userId')
 
     if (token && userId) {
       await analytics.identify(userId)

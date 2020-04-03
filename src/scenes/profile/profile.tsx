@@ -21,6 +21,7 @@ import {
   img_dark_diagnosed,
   img_dark_help,
   img_dark_link,
+  img_dark_notifications,
   img_dark_privacy,
   img_dark_remove_data,
   img_dark_sign_out,
@@ -29,6 +30,7 @@ import {
   img_light_diagnosed,
   img_light_help,
   img_light_link,
+  img_light_notifications,
   img_light_privacy,
   img_light_remove_data,
   img_light_sign_out,
@@ -65,6 +67,10 @@ export const Profile: FunctionComponent<Props> = ({
   const img_diagnosed = useDynamicValue(img_dark_diagnosed, img_light_diagnosed)
   const img_sign_out = useDynamicValue(img_dark_sign_out, img_light_sign_out)
   const img_tracking = useDynamicValue(img_dark_tracking, img_light_tracking)
+  const img_notifications = useDynamicValue(
+    img_dark_notifications,
+    img_light_notifications
+  )
   const img_remove_data = useDynamicValue(
     img_dark_remove_data,
     img_light_remove_data
@@ -88,6 +94,11 @@ export const Profile: FunctionComponent<Props> = ({
           icon: img_tracking,
           label: i18n.t('profile__menu__tracking'),
           onPress: () => navigate('Tracking')
+        },
+        {
+          icon: img_notifications,
+          label: i18n.t('profile__menu__notifications'),
+          onPress: () => navigate('Notifications')
         },
         {
           icon: img_about,
