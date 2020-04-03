@@ -40,6 +40,7 @@
   "label__verify": "Verify",
   "lib__dialog__confirm__add_contact__message": "Do you want to add {{name}} as a contact?",
   "lib__dialog__confirm__add_contact__title": "Add contact",
+  "lib__dialog__confirm__delete_account": "Do you want to delete your account and remove all data from our servers?",
   "lib__dialog__confirm__im_negative": "Are you negative for COVID-19?",
   "lib__dialog__confirm__im_positive": "Are you positive for COVID-19?",
   "lib__dialog__confirm__no": "No",
