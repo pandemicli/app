@@ -1,4 +1,4 @@
-import { getLocales } from 'react-native-localize'
+// import { getLocales } from 'react-native-localize'
 
 import { ar, en, ur } from './translations'
 
@@ -17,15 +17,15 @@ class Internationalization {
     ur
   }
 
-  constructor() {
-    const { isRTL, languageCode } = getLocales()[0]
+  // constructor() {
+  //   const { isRTL, languageCode } = getLocales()[0]
 
-    if (this.languages.includes(languageCode)) {
-      this.language = languageCode as Language
-    }
+  //   if (this.languages.includes(languageCode)) {
+  //     this.language = languageCode as Language
+  //   }
 
-    this.rtl = isRTL
-  }
+  //   this.rtl = isRTL
+  // }
 
   t(name: TranslationKey, data?: Record<string, string | number>): string {
     let translation = this.translations[this.language][name]
