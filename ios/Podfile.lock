@@ -444,7 +444,7 @@ PODS:
   - RNAnalytics (1.1.1-beta.0):
     - Analytics
     - React
-  - RNBackgroundFetch (3.0.4):
+  - RNBackgroundFetch (2.7.1):
     - React
   - RNBackgroundGeolocation (3.4.2):
     - CocoaLumberjack (~> 3.5.1)
@@ -755,7 +755,7 @@ SPEC CHECKSUMS:
   ReactCommon: 3585806280c51d5c2c0d3aa5a99014c3badb629d
   ReactNativeDarkMode: 0178ffca3b10f6a7c9f49d6f9810232b328fa949
   RNAnalytics: 6707958706810408bc6b1d7bae43c661694fe61f
-  RNBackgroundFetch: 388cf1595934d22fed275b8db9b48a28bb4eb7b6
+  RNBackgroundFetch: 8d8d66b47eafcb9e772b2eb95057939038b3ef95
   RNBackgroundGeolocation: 8f0a20788100fbf08987d80f2053ae6eba79c566
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
   RNCMaskedView: 76c40a1d41c3e2535df09246a2b5487f04de0814
