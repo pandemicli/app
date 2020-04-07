@@ -1,7 +1,7 @@
 import { createHook, createStore, StoreActionApi } from 'react-sweet-state'
 
 import { client } from '../graphql'
-import { analytics, crypto, storage, tracking } from '../lib'
+import { analytics, crypto, push, storage, tracking } from '../lib'
 
 interface State {
   loading: boolean
@@ -46,6 +46,7 @@ const actions = {
       unloading: true
     })
 
+    push.disableDailyReminder()
     await tracking.stop()
 
     await storage.remove('@token')
