@@ -7,9 +7,6 @@ declare module 'react-native-dotenv' {
   export const CODE_PUSH_KEY_ANDROID: string
   export const CODE_PUSH_KEY_IOS: string
 
-  export const GOOGLE_API_KEY_ANDROID: string
-  export const GOOGLE_API_KEY_IOS: string
-
   export const SEGMENT_KEY: string
   export const SENTRY_DSN: string
 }
