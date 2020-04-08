@@ -7,9 +7,13 @@ import {
   useDynamicStyleSheet,
   useDynamicValue
 } from 'react-native-dark-mode'
-import {} from 'react-native-gesture-handler'
 
-import { img_dark_save, img_light_save } from '../../assets'
+import {
+  img_dark_remove,
+  img_dark_save,
+  img_light_remove,
+  img_light_save
+} from '../../assets'
 import {
   Header,
   HeaderButton,
@@ -29,12 +33,12 @@ interface Props {
 }
 
 export const EditContact: FunctionComponent<Props> = ({
-  navigation: { setOptions },
+  navigation: { pop, setOptions },
   route: {
     params: { contact }
   }
 }) => {
-  const { errors, update, updating } = useContactActions()
+  const { errors, remove, removing, update, updating } = useContactActions()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -44,6 +48,7 @@ export const EditContact: FunctionComponent<Props> = ({
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
+  const img_remove = useDynamicValue(img_dark_remove, img_light_remove)
   const img_save = useDynamicValue(img_dark_save, img_light_save)
 
   useEffect(() => {
@@ -66,27 +71,46 @@ export const EditContact: FunctionComponent<Props> = ({
         <Header
           {...props}
           right={
-            updating ? (
-              <ActivityIndicator
-                color={colors.primary}
-                style={styles.spinner}
-              />
-            ) : (
-              <HeaderButton
-                icon={img_save}
-                onPress={() => {
-                  if (name) {
-                    update(contact.id, {
-                      email: email || null,
-                      name,
-                      phone: phone || null
-                    })
+            <>
+              {removing ? (
+                <ActivityIndicator
+                  color={colors.primary}
+                  style={styles.spinner}
+                />
+              ) : (
+                <HeaderButton
+                  icon={img_remove}
+                  onPress={() =>
+                    remove(contact.id, () => {
+                      pop()
 
-                    analytics.track('Contact Updated')
+                      analytics.track('Contact Deleted')
+                    })
                   }
-                }}
-              />
-            )
+                />
+              )}
+              {updating ? (
+                <ActivityIndicator
+                  color={colors.primary}
+                  style={styles.spinner}
+                />
+              ) : (
+                <HeaderButton
+                  icon={img_save}
+                  onPress={() => {
+                    if (name) {
+                      update(contact.id, {
+                        email: email || null,
+                        name,
+                        phone: phone || null
+                      })
+
+                      analytics.track('Contact Updated')
+                    }
+                  }}
+                />
+              )}
+            </>
           }
         />
       )
@@ -94,9 +118,13 @@ export const EditContact: FunctionComponent<Props> = ({
   }, [
     contact.id,
     email,
+    img_remove,
     img_save,
     name,
     phone,
+    pop,
+    remove,
+    removing,
     setOptions,
     styles.spinner,
     update,
@@ -108,11 +136,7 @@ export const EditContact: FunctionComponent<Props> = ({
       contentContainerStyle={styles.main}
       keyboardShouldPersistTaps="always">
       {errors.updating && (
-        <Message
-          message={errors.updating.message}
-          style={styles.item}
-          type="error"
-        />
+        <Message message={errors.updating} style={styles.item} type="error" />
       )}
       <TextBox
         autoCapitalize="words"

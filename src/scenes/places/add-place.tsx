@@ -42,13 +42,12 @@ export const AddPlace: FunctionComponent<Props> = ({
   const { create, creating, errors } = usePlaceActions()
 
   const [location, setLocation] = useState<LocationPoint>()
+  const [visible, setVisible] = useState(false)
 
   const [name, setName] = useState('')
   const [googlePlaceId, setGooglePlaceId] = useState<string>()
   const [latitude, setLatitude] = useState<string>()
   const [longitude, setLongitude] = useState<string>()
-
-  const [useGoogle, setUseGoogle] = useState(false)
 
   const phoneRef = createRef<TextInput>()
 
@@ -124,7 +123,7 @@ export const AddPlace: FunctionComponent<Props> = ({
         keyboardShouldPersistTaps="always">
         {errors.creating && (
           <Message
-            message={errors.creating.message}
+            message={errors.creating}
             style={styles.error}
             type="error"
           />
@@ -150,7 +149,7 @@ export const AddPlace: FunctionComponent<Props> = ({
           }}
           style={styles.map}
         />
-        <Touchable onPress={() => setUseGoogle(true)} style={styles.button}>
+        <Touchable onPress={() => setVisible(true)} style={styles.button}>
           <Image source={img_google_maps} style={styles.icon} />
           <Text
             style={[
@@ -171,9 +170,9 @@ export const AddPlace: FunctionComponent<Props> = ({
           setLongitude(String(longitude))
           setName(name)
         }}
-        onClose={() => setUseGoogle(false)}
+        onClose={() => setVisible(false)}
         selected={googlePlaceId}
-        visible={useGoogle}
+        visible={visible}
       />
     </>
   )

@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/react-hooks'
 import { NavigationProp } from '@react-navigation/native'
 import React, { createRef, FunctionComponent, useState } from 'react'
 import { TextInput, View } from 'react-native'
@@ -6,11 +5,8 @@ import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Button, Message, PhoneNumber, TextBox } from '../../components/common'
-import { SIGN_UP } from '../../graphql/documents'
-import { MutationSignUpPayload } from '../../graphql/payload'
-import { MutationSignUpArgs } from '../../graphql/types'
+import { useOnboarding } from '../../hooks'
 import { i18n } from '../../i18n'
-import { analytics } from '../../lib'
 import { AuthParamList } from '../../navigators'
 import { layout } from '../../styles'
 
@@ -18,33 +14,19 @@ interface Props {
   navigation: NavigationProp<AuthParamList, 'SignUp'>
 }
 
-export const SignUp: FunctionComponent<Props> = ({
-  navigation: { navigate }
-}) => {
+export const SignUp: FunctionComponent<Props> = () => {
   const { bottom } = useSafeArea()
+
+  const { errors, signUp, signingUp } = useOnboarding()
 
   const emailRef = createRef<TextInput>()
   const phoneRef = createRef<TextInput>()
+  const passwordRef = createRef<TextInput>()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
-
-  const [signUp, { error, loading }] = useMutation<
-    MutationSignUpPayload,
-    MutationSignUpArgs
-  >(SIGN_UP, {
-    onCompleted() {
-      navigate('Verify')
-
-      analytics.track('User Signed Up')
-    },
-    variables: {
-      email,
-      name,
-      phone
-    }
-  })
 
   const styles = useDynamicStyleSheet(stylesheet)
 
@@ -56,8 +38,8 @@ export const SignUp: FunctionComponent<Props> = ({
           paddingBottom: bottom + layout.margin
         }
       ]}>
-      {error && (
-        <Message message={error.message} style={styles.item} type="error" />
+      {errors.signUp && (
+        <Message message={errors.signUp} style={styles.item} type="error" />
       )}
       <TextBox
         autoCapitalize="words"
@@ -74,12 +56,22 @@ export const SignUp: FunctionComponent<Props> = ({
         autoCorrect={false}
         keyboardType="email-address"
         onChangeText={(email) => setEmail(email)}
-        onSubmitEditing={() => phoneRef.current?.focus()}
+        onSubmitEditing={() => passwordRef.current?.focus()}
         placeholder={i18n.t('label__email')}
         ref={emailRef}
         returnKeyType="next"
         style={styles.item}
         value={email}
+      />
+      <TextBox
+        onChangeText={(password) => setPassword(password)}
+        onSubmitEditing={() => phoneRef.current?.focus()}
+        placeholder={i18n.t('label__password')}
+        ref={passwordRef}
+        returnKeyType="next"
+        secureTextEntry
+        style={styles.item}
+        value={password}
       />
       <PhoneNumber
         onChange={(phone) => setPhone(phone)}
@@ -88,10 +80,10 @@ export const SignUp: FunctionComponent<Props> = ({
       />
       <Button
         label={i18n.t('label__sign_up')}
-        loading={loading}
+        loading={signingUp}
         onPress={() => {
-          if (name && email && phone) {
-            signUp()
+          if (name && email && password && phone) {
+            signUp(name, email, password, phone)
           }
         }}
       />

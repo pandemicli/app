@@ -11,7 +11,10 @@ export type AuthParamList = {
   Landing: undefined
   SignIn: undefined
   SignUp: undefined
-  Verify: undefined
+  Verify: {
+    backupPassword: string
+    newUser: boolean
+  }
 }
 
 const { Navigator, Screen } = createStackNavigator<AuthParamList>()

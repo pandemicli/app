@@ -9,9 +9,9 @@ import { LocationPoint } from '../../types'
 import { Image } from './image'
 
 interface Props {
-  latitude?: string
+  latitude?: string | null
   location?: LocationPoint
-  longitude?: string
+  longitude?: string | null
   style?: ViewStyle
 
   onChange: (latitude: string, longitude: string) => void
@@ -24,6 +24,12 @@ export const Map: FunctionComponent<Props> = ({
   onChange,
   style
 }) => {
+  console.log({
+    latitude,
+    location,
+    longitude
+  })
+
   const styles = useDynamicStyleSheet(stylesheet)
 
   const region: Region = {
@@ -33,16 +39,14 @@ export const Map: FunctionComponent<Props> = ({
     longitudeDelta: 0.05
   }
 
-  if (location) {
+  if (typeof latitude === 'string' && typeof longitude === 'string') {
+    region.latitude = Number(latitude)
+    region.longitude = Number(longitude)
+  } else if (location) {
     const { latitude, longitude } = location
 
     region.latitude = latitude
     region.longitude = longitude
-  }
-
-  if (latitude && longitude) {
-    region.latitude = Number(latitude)
-    region.longitude = Number(longitude)
   }
 
   return (
@@ -52,7 +56,6 @@ export const Map: FunctionComponent<Props> = ({
         onRegionChangeComplete={({ latitude, longitude }) =>
           onChange(String(latitude), String(longitude))
         }
-        provider="google"
         style={[styles.map, style]}
       />
       <View pointerEvents="none" style={styles.marker}>

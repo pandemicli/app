@@ -1,12 +1,16 @@
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
-import { SectionListData, Text } from 'react-native'
+import {
+  SectionList,
+  SectionListData,
+  SectionListRenderItem,
+  Text
+} from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
-import { SwipeListView } from 'react-native-swipe-list-view'
 
 import { Refresher, Separator } from '../../components/common'
-import { ListActions, ListEmpty, ListItem } from '../../components/places'
+import { ListEmpty, ListItem } from '../../components/places'
 import { Place } from '../../graphql/types'
 import { usePlaceActions, usePlaces } from '../../hooks'
 import { i18n } from '../../i18n'
@@ -23,7 +27,7 @@ export const Places: FunctionComponent<Props> = ({
   navigation: { navigate }
 }) => {
   const { loading, places, refetch } = usePlaces()
-  const { favoriting, remove, removing, toggleFavorite } = usePlaceActions()
+  const { favoriting, toggleFavorite } = usePlaceActions()
 
   const styles = useDynamicStyleSheet(stylesheet)
 
@@ -46,59 +50,37 @@ export const Places: FunctionComponent<Props> = ({
     })
   }
 
-  return (
-    <SwipeListView
-      closeOnRowBeginSwipe
-      contentContainerStyle={styles.list}
-      disableLeftSwipe
-      ItemSeparatorComponent={Separator}
-      keyExtractor={(item) => item.id}
-      leftOpenValue={layout.icon * 3 + layout.margin * 3 * 2}
-      ListEmptyComponent={<ListEmpty onPress={() => navigate('AddPlace')} />}
-      ListFooterComponent={
-        places.length > 0 ? (
-          <>
-            <Separator />
-            <Text style={styles.message}>
-              {i18n.t('places__message__swipe')}
-            </Text>
-          </>
-        ) : null
+  const renderItem: SectionListRenderItem<Place> = ({ item }) => (
+    <ListItem
+      favoriting={favoriting.get(item.id)}
+      item={item}
+      onEdit={() =>
+        navigate('EditPlace', {
+          place: item
+        })
       }
+      onFavorite={() => {
+        toggleFavorite(item.id)
+
+        analytics.track(item.favorite ? 'Place Unfavorited' : 'Place Favorited')
+      }}
+    />
+  )
+
+  return (
+    <SectionList
+      contentContainerStyle={styles.list}
+      ItemSeparatorComponent={Separator}
+      ListEmptyComponent={<ListEmpty onPress={() => navigate('AddPlace')} />}
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
-      renderHiddenItem={({ item }, map) => (
-        <ListActions
-          favoriting={favoriting}
-          onEdit={() => {
-            navigate('EditPlace', {
-              place: item
-            })
-
-            map[item.id].closeRow()
-          }}
-          onFavorite={() => {
-            toggleFavorite(item.id, map[item.id])
-
-            analytics.track(
-              item.favorite ? 'Place Unfavorited' : 'Place Favorited'
-            )
-          }}
-          onRemove={() => {
-            remove(item.id, map[item.id])
-
-            analytics.track('Place Removed')
-          }}
-          removing={removing}
-        />
-      )}
-      renderItem={({ item }) => <ListItem item={item} />}
+      removeClippedSubviews
+      renderItem={renderItem}
       renderSectionHeader={({ section }) =>
         section.data.length > 0 ? (
           <Text style={styles.header}>{section.key}</Text>
         ) : null
       }
       sections={sections}
-      useSectionList
     />
   )
 }
@@ -114,11 +96,5 @@ const stylesheet = new DynamicStyleSheet({
   },
   list: {
     flexGrow: 1
-  },
-  message: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    margin: layout.margin,
-    textAlign: 'center'
   }
 })

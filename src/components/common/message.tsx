@@ -1,3 +1,4 @@
+import { ApolloError } from 'apollo-boost'
 import React, { FunctionComponent } from 'react'
 import { Text, View, ViewStyle } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
@@ -5,7 +6,7 @@ import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { colors, layout, typography } from '../../styles'
 
 interface Props {
-  message: string
+  message: string | ApolloError
   style?: ViewStyle
   type?: 'message' | 'error' | 'success'
 }
@@ -25,7 +26,9 @@ export const Message: FunctionComponent<Props> = ({
         type === 'error' && styles.error,
         type === 'success' && styles.success
       ]}>
-      <Text style={styles.message}>{message}</Text>
+      <Text style={styles.message}>
+        {typeof message === 'string' ? message : message.message.slice(14)}
+      </Text>
     </View>
   )
 }
@@ -40,7 +43,7 @@ const stylesheet = new DynamicStyleSheet({
     padding: layout.padding
   },
   message: {
-    ...typography.footnote,
+    ...typography.paragraph,
     ...typography.medium,
     color: '#fff'
   },

@@ -8,6 +8,7 @@ import { Contact, Place, QueryTodayFeedArgs, Symptom } from '../graphql/types'
 import { crypto } from '../lib'
 
 export const useToday = (date: string) => {
+  const [decrypting, setDecrypting] = useState(true)
   const [contacts, setContacts] = useState<Contact[]>([])
   const [places, setPlaces] = useState<Place[]>([])
   const [symptoms, setSymptoms] = useState<Symptom[]>([])
@@ -23,61 +24,75 @@ export const useToday = (date: string) => {
 
   useEffect(() => {
     !(async () => {
-      if (data?.todayFeed.contacts) {
-        const raw = cloneDeep(data.todayFeed.contacts)
+      if (
+        data?.todayFeed.contacts ||
+        data?.todayFeed.places ||
+        data?.todayFeed.symptoms
+      ) {
+        setDecrypting(true)
 
-        const contacts = raw.map((contact) => {
-          contact.name = crypto.decrypt(contact.name)
+        if (data?.todayFeed.contacts) {
+          const contacts = await Promise.all(
+            cloneDeep(data.todayFeed.contacts).map(async (contact) => {
+              contact.name = await crypto.decrypt(contact.name)
 
-          if (contact.phone) {
-            contact.phone = crypto.decrypt(contact.phone)
-          }
+              if (contact.phone) {
+                contact.phone = await crypto.decrypt(contact.phone)
+              }
 
-          return contact
-        })
+              return contact
+            })
+          )
 
-        const sorted = orderBy(contacts, ['favorite', 'name'], ['desc', 'asc'])
+          const sorted = orderBy(
+            contacts,
+            ['favorite', 'name'],
+            ['desc', 'asc']
+          )
 
-        setContacts(sorted)
-      }
+          setContacts(sorted)
+        }
 
-      if (data?.todayFeed.places) {
-        const raw = cloneDeep(data.todayFeed.places)
+        if (data?.todayFeed.places) {
+          const places = await Promise.all(
+            cloneDeep(data.todayFeed.places).map(async (place) => {
+              place.name = await crypto.decrypt(place.name)
 
-        const places = raw.map((place) => {
-          place.name = crypto.decrypt(place.name)
+              if (place.latitude) {
+                place.latitude = await crypto.decrypt(place.latitude)
+              }
 
-          if (place.latitude) {
-            place.latitude = crypto.decrypt(place.latitude)
-          }
+              if (place.longitude) {
+                place.longitude = await crypto.decrypt(place.longitude)
+              }
 
-          if (place.longitude) {
-            place.longitude = crypto.decrypt(place.longitude)
-          }
+              if (place.googlePlaceId) {
+                place.googlePlaceId = await crypto.decrypt(place.googlePlaceId)
+              }
 
-          if (place.googlePlaceId) {
-            place.googlePlaceId = crypto.decrypt(place.googlePlaceId)
-          }
+              return place
+            })
+          )
 
-          return place
-        })
+          const sorted = orderBy(places, ['favorite', 'name'], ['desc', 'asc'])
 
-        const sorted = orderBy(places, ['favorite', 'name'], ['desc', 'asc'])
+          setPlaces(sorted)
+        }
 
-        setPlaces(sorted)
-      }
+        if (data?.todayFeed.symptoms) {
+          const symptoms = cloneDeep(data.todayFeed.symptoms)
 
-      if (data?.todayFeed.symptoms) {
-        const symptoms = cloneDeep(data.todayFeed.symptoms)
+          setSymptoms(symptoms)
+        }
 
-        setSymptoms(symptoms)
+        setDecrypting(false)
       }
     })()
   }, [data])
 
   return {
     contacts,
-    loading,
+    loading: decrypting || loading,
     places,
     refetch,
     symptoms

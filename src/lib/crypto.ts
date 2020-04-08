@@ -1,35 +1,93 @@
-import { sha256 } from 'react-native-sha256'
-import SimpleCrypto from 'simple-crypto-js'
+import AsyncStorage from '@react-native-community/async-storage'
+import { EThree } from '@virgilsecurity/e3kit-native'
+import { API_URI } from 'react-native-dotenv'
+import { JSHash } from 'react-native-hash'
 
 class Crypto {
-  private client?: SimpleCrypto
+  private client?: EThree
 
-  init(userId: string): void {
-    this.client = new SimpleCrypto(userId)
+  async init(token: string): Promise<void> {
+    this.client = await EThree.initialize(
+      async () => {
+        const uri = API_URI.replace('graphql', 'virgil-jwt')
+
+        const response = await fetch(uri, {
+          headers: {
+            authorization: `Bearer ${token}`
+          },
+          method: 'GET'
+        })
+
+        const { virgilToken } = await response.json()
+
+        return virgilToken
+      },
+      {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        AsyncStorage
+      }
+    )
   }
 
-  reset() {
-    this.client = undefined
+  async register(): Promise<void> {
+    if (this.client) {
+      return this.client.register()
+    }
+  }
+
+  async remove(): Promise<void> {
+    if (this.client) {
+      return this.client.unregister()
+    }
+  }
+
+  async reset(): Promise<void> {
+    if (this.client) {
+      return this.client.cleanup()
+    }
+  }
+
+  async backupKey(password: string): Promise<void> {
+    if (!this.client) {
+      throw new Error('Encryption not initialised')
+    }
+
+    await this.client.backupPrivateKey(password)
+  }
+
+  async fetchKey(password: string): Promise<void> {
+    if (!this.client) {
+      throw new Error('Encryption not initialised')
+    }
+
+    const exists = await this.client.hasLocalPrivateKey()
+
+    if (!exists) {
+      await this.client.restorePrivateKey(password)
+    }
   }
 
   hash(data: string): Promise<string> {
-    return sha256(data)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    return JSHash(data, 'sha256')
   }
 
-  encrypt(data: string): string {
-    if (this.client) {
-      return this.client.encrypt(data)
+  encrypt(data: string): Promise<string> {
+    if (!this.client) {
+      throw new Error('Encryption not initialised')
     }
 
-    throw new Error('Encryption not initialised')
+    return this.client.authEncrypt(data) as Promise<string>
   }
 
-  decrypt(data: string): string {
-    if (this.client) {
-      return this.client.decrypt(data) as string
+  decrypt(data: string): Promise<string> {
+    if (!this.client) {
+      throw new Error('Encryption not initialised')
     }
 
-    throw new Error('Encryption not initialised')
+    return this.client.authDecrypt(data) as Promise<string>
   }
 }
 

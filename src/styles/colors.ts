@@ -2,13 +2,6 @@ import { DynamicValue } from 'react-native-dark-mode'
 
 export const colors = {
   accent: '#8bc34a',
-  actions: {
-    black: '#000',
-    edit: '#007aff',
-    favorite: '#ffcc00',
-    remove: '#ff3b30',
-    white: '#000'
-  },
   background: new DynamicValue('#fff', '#000'),
   backgroundDark: new DynamicValue('#ecf0f1', '#222'),
   black: '#000',

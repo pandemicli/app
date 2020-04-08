@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import set from 'immutability-helper'
 import { clone, cloneDeep, orderBy } from 'lodash'
 import { useEffect, useState } from 'react'
-import { SwipeRow } from 'react-native-swipe-list-view'
 
 import {
   ADD_CONTACT,
@@ -38,6 +37,7 @@ import { crypto, dialog } from '../lib'
 import { PhoneContact } from '../types'
 
 export const useContacts = (date?: string) => {
+  const [decrypting, setDecrypting] = useState(true)
   const [contacts, setContacts] = useState<Contact[]>([])
 
   const { data, loading, refetch } = useQuery<
@@ -52,18 +52,18 @@ export const useContacts = (date?: string) => {
   useEffect(() => {
     !(async () => {
       if (data?.contacts) {
-        const raw = cloneDeep(data.contacts)
+        setDecrypting(true)
 
         const contacts = await Promise.all(
-          raw.map(async (contact) => {
-            contact.name = crypto.decrypt(contact.name)
+          cloneDeep(data.contacts).map(async (contact) => {
+            contact.name = await crypto.decrypt(contact.name)
 
             if (contact.email) {
-              contact.email = crypto.decrypt(contact.email)
+              contact.email = await crypto.decrypt(contact.email)
             }
 
             if (contact.phone) {
-              contact.phone = crypto.decrypt(contact.phone)
+              contact.phone = await crypto.decrypt(contact.phone)
             }
 
             return contact
@@ -73,18 +73,21 @@ export const useContacts = (date?: string) => {
         const sorted = orderBy(contacts, ['favorite', 'name'], ['desc', 'asc'])
 
         setContacts(sorted)
+        setDecrypting(false)
       }
     })()
   }, [data])
 
   return {
     contacts,
-    loading,
+    loading: decrypting || loading,
     refetch
   }
 }
 
 export const useContactActions = () => {
+  const [favoriting, setFavoriting] = useState(new Map())
+
   const [createContact, createContactMutation] = useMutation<
     MutationCreateContactPayload,
     MutationCreateContactArgs
@@ -147,16 +150,16 @@ export const useContactActions = () => {
   ) => {
     const contact = clone(data)
 
-    contact.name = crypto.encrypt(contact.name)
+    contact.name = await crypto.encrypt(contact.name)
 
     if (contact.email) {
       contact.emailHash = await crypto.hash(contact.email)
-      contact.email = crypto.encrypt(contact.email)
+      contact.email = await crypto.encrypt(contact.email)
     }
 
     if (contact.phone) {
       contact.phoneHash = await crypto.hash(contact.phone)
-      contact.phone = crypto.encrypt(contact.phone)
+      contact.phone = await crypto.encrypt(contact.phone)
     }
 
     createContact({
@@ -187,14 +190,14 @@ export const useContactActions = () => {
         if (callback) {
           const contact = clone(response.data.createContact)
 
-          contact.name = crypto.decrypt(contact.name)
+          contact.name = await crypto.decrypt(contact.name)
 
           if (contact.email) {
-            contact.email = crypto.decrypt(contact.email)
+            contact.email = await crypto.decrypt(contact.email)
           }
 
           if (contact.phone) {
-            contact.phone = crypto.decrypt(contact.phone)
+            contact.phone = await crypto.decrypt(contact.phone)
           }
 
           callback(contact)
@@ -209,16 +212,16 @@ export const useContactActions = () => {
   const update = async (id: string, data: ContactInput) => {
     const contact = clone(data)
 
-    contact.name = crypto.encrypt(contact.name)
+    contact.name = await crypto.encrypt(contact.name)
 
     if (contact.email) {
       contact.emailHash = await crypto.hash(contact.email)
-      contact.email = crypto.encrypt(contact.email)
+      contact.email = await crypto.encrypt(contact.email)
     }
 
     if (contact.phone) {
       contact.phoneHash = await crypto.hash(contact.phone)
-      contact.phone = crypto.encrypt(contact.phone)
+      contact.phone = await crypto.encrypt(contact.phone)
     }
 
     updateContact({
@@ -229,7 +232,7 @@ export const useContactActions = () => {
     })
   }
 
-  const remove = async (id: string, row: SwipeRow<Contact>) => {
+  const remove = async (id: string, callback: () => void) => {
     const yes = await dialog.confirm(
       i18n.t('lib__dialog__confirm__remove_contact')
     )
@@ -256,7 +259,7 @@ export const useContactActions = () => {
             })
           }
 
-          row.closeRow()
+          callback()
         },
         variables: {
           id
@@ -265,9 +268,21 @@ export const useContactActions = () => {
     }
   }
 
-  const toggleFavorite = (id: string, row: SwipeRow<Contact>) =>
+  const toggleFavorite = (id: string) => {
+    const next = new Map(favoriting)
+
+    next.set(id, true)
+
+    setFavoriting(next)
+
     toggleFavoriteContact({
       update(proxy, response) {
+        const next = new Map(favoriting)
+
+        next.delete(id)
+
+        setFavoriting(next)
+
         if (!response.data) {
           return
         }
@@ -294,27 +309,26 @@ export const useContactActions = () => {
             query: CONTACTS
           })
         }
-
-        row.closeRow()
       },
       variables: {
         id
       }
     })
+  }
 
   const sync = async (data: PhoneContact[]) => {
     const contacts = await Promise.all(
       cloneDeep(data).map(async (contact) => {
-        contact.name = crypto.encrypt(contact.name)
+        contact.name = await crypto.encrypt(contact.name)
 
         if (contact.email) {
           contact.emailHash = await crypto.hash(contact.email)
-          contact.email = crypto.encrypt(contact.email)
+          contact.email = await crypto.encrypt(contact.email)
         }
 
         if (contact.phone) {
           contact.phoneHash = await crypto.hash(contact.phone)
-          contact.phone = crypto.encrypt(contact.phone)
+          contact.phone = await crypto.encrypt(contact.phone)
         }
 
         return contact
@@ -356,7 +370,7 @@ export const useContactActions = () => {
       syncing: syncContactsMutation.error,
       updating: updateContactMutation.error
     },
-    favoriting: toggleFavoriteContactMutation.loading,
+    favoriting,
     remove,
     removing: removeContactMutation.loading,
     sync,

@@ -20,7 +20,7 @@ const actions = {
     if (token && userId) {
       await analytics.identify(userId)
 
-      crypto.init(userId)
+      await crypto.init(token)
 
       setState({
         userId
@@ -31,11 +31,24 @@ const actions = {
       loading: false
     })
   },
-  signIn: (userId: string, token: string) => async ({ setState }: StoreApi) => {
+  signIn: (
+    userId: string,
+    token: string,
+    newUser: boolean,
+    password: string
+  ) => async ({ setState }: StoreApi) => {
     await storage.put('@token', token)
     await storage.put('@userId', userId)
 
-    crypto.init(userId)
+    await crypto.init(token)
+
+    if (newUser) {
+      await crypto.register()
+
+      await crypto.backupKey(password)
+    }
+
+    await crypto.fetchKey(password)
 
     setState({
       userId
@@ -45,6 +58,8 @@ const actions = {
     setState({
       unloading: true
     })
+
+    await crypto.reset()
 
     push.disableDailyReminder()
     await tracking.stop()
@@ -56,8 +71,6 @@ const actions = {
     await client.cache.reset()
 
     await analytics.reset()
-
-    crypto.reset()
 
     setState({
       unloading: false,

@@ -1,16 +1,12 @@
-import { useMutation } from '@apollo/react-hooks'
 import { NavigationProp } from '@react-navigation/native'
-import React, { FunctionComponent, useState } from 'react'
-import { View } from 'react-native'
+import React, { createRef, FunctionComponent, useState } from 'react'
+import { TextInput, View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { useSafeArea } from 'react-native-safe-area-context'
 
-import { Button, Message, PhoneNumber } from '../../components/common'
-import { SIGN_IN } from '../../graphql/documents'
-import { MutationSignInPayload } from '../../graphql/payload'
-import { MutationSignInArgs } from '../../graphql/types'
+import { Button, Message, TextBox } from '../../components/common'
+import { useOnboarding } from '../../hooks'
 import { i18n } from '../../i18n'
-import { analytics } from '../../lib'
 import { AuthParamList } from '../../navigators'
 import { layout } from '../../styles'
 
@@ -18,26 +14,15 @@ interface Props {
   navigation: NavigationProp<AuthParamList, 'SignIn'>
 }
 
-export const SignIn: FunctionComponent<Props> = ({
-  navigation: { navigate }
-}) => {
+export const SignIn: FunctionComponent<Props> = () => {
   const { bottom } = useSafeArea()
 
-  const [phone, setPhone] = useState('')
+  const { errors, signIn, signingIn } = useOnboarding()
 
-  const [signIn, { error, loading }] = useMutation<
-    MutationSignInPayload,
-    MutationSignInArgs
-  >(SIGN_IN, {
-    onCompleted() {
-      navigate('Verify')
+  const passwordRef = createRef<TextInput>()
 
-      analytics.track('User Signed In')
-    },
-    variables: {
-      phone
-    }
-  })
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const styles = useDynamicStyleSheet(stylesheet)
 
@@ -49,16 +34,35 @@ export const SignIn: FunctionComponent<Props> = ({
           paddingBottom: bottom + layout.margin
         }
       ]}>
-      {error && (
-        <Message message={error.message} style={styles.item} type="error" />
+      {errors.signIn && (
+        <Message message={errors.signIn} style={styles.item} type="error" />
       )}
-      <PhoneNumber onChange={(phone) => setPhone(phone)} style={styles.item} />
+      <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
+        keyboardType="email-address"
+        onChangeText={(email) => setEmail(email)}
+        onSubmitEditing={() => passwordRef.current?.focus()}
+        placeholder={i18n.t('label__email')}
+        returnKeyType="next"
+        style={styles.item}
+        value={email}
+      />
+      <TextBox
+        onChangeText={(password) => setPassword(password)}
+        placeholder={i18n.t('label__password')}
+        ref={passwordRef}
+        returnKeyType="done"
+        secureTextEntry
+        style={styles.item}
+        value={password}
+      />
       <Button
         label={i18n.t('label__sign_in')}
-        loading={loading}
+        loading={signingIn}
         onPress={() => {
-          if (phone) {
-            signIn()
+          if (email && password) {
+            signIn(email, password)
           }
         }}
       />

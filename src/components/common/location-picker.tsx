@@ -32,7 +32,7 @@ export type PickerItem = {
 
 interface Props {
   location?: LocationPoint
-  selected?: string
+  selected?: string | null
   visible: boolean
 
   onChange: (place: GooglePlace) => void

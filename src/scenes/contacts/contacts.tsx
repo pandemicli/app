@@ -1,13 +1,18 @@
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect } from 'react'
-import { SectionListData, Text } from 'react-native'
+import {
+  ActivityIndicator,
+  SectionList,
+  SectionListData,
+  SectionListRenderItem,
+  Text
+} from 'react-native'
 import {
   DynamicStyleSheet,
   useDynamicStyleSheet,
   useDynamicValue
 } from 'react-native-dark-mode'
-import { SwipeListView } from 'react-native-swipe-list-view'
 
 import {
   img_dark_add,
@@ -21,7 +26,7 @@ import {
   Refresher,
   Separator
 } from '../../components/common'
-import { ListActions, ListEmpty, ListItem } from '../../components/contacts'
+import { ListEmpty, ListItem } from '../../components/contacts'
 import { Contact } from '../../graphql/types'
 import { useContactActions, useContacts } from '../../hooks'
 import { i18n } from '../../i18n'
@@ -38,14 +43,7 @@ export const Contacts: FunctionComponent<Props> = ({
   navigation: { navigate, setOptions }
 }) => {
   const { contacts, loading, refetch } = useContacts()
-  const {
-    favoriting,
-    remove,
-    removing,
-    sync,
-    syncing,
-    toggleFavorite
-  } = useContactActions()
+  const { favoriting, sync, syncing, toggleFavorite } = useContactActions()
 
   const styles = useDynamicStyleSheet(stylesheet)
   const img_add = useDynamicValue(img_dark_add, img_light_add)
@@ -58,22 +56,29 @@ export const Contacts: FunctionComponent<Props> = ({
           {...props}
           right={
             <>
-              <HeaderButton
-                icon={img_sync}
-                onPress={async () => {
-                  if (syncing) {
-                    return
-                  }
+              {syncing ? (
+                <ActivityIndicator
+                  color={colors.primary}
+                  style={styles.spinner}
+                />
+              ) : (
+                <HeaderButton
+                  icon={img_sync}
+                  onPress={async () => {
+                    if (syncing) {
+                      return
+                    }
 
-                  const contacts = await phoneBook.get()
+                    const contacts = await phoneBook.get()
 
-                  sync(contacts)
+                    sync(contacts)
 
-                  analytics.track('Contacts Synced', {
-                    count: contacts.length
-                  })
-                }}
-              />
+                    analytics.track('Contacts Synced', {
+                      count: contacts.length
+                    })
+                  }}
+                />
+              )}
               <HeaderButton
                 icon={img_add}
                 onPress={() => navigate('AddContact')}
@@ -83,7 +88,7 @@ export const Contacts: FunctionComponent<Props> = ({
         />
       )
     })
-  }, [img_add, img_sync, navigate, setOptions, sync, syncing])
+  }, [img_add, img_sync, navigate, setOptions, styles.spinner, sync, syncing])
 
   const favorites = contacts.filter(({ favorite }) => favorite)
   const others = contacts.filter(({ favorite }) => !favorite)
@@ -104,66 +109,45 @@ export const Contacts: FunctionComponent<Props> = ({
     })
   }
 
-  return (
-    <SwipeListView
-      closeOnRowBeginSwipe
-      contentContainerStyle={styles.list}
-      disableLeftSwipe
-      ItemSeparatorComponent={Separator}
-      keyExtractor={(item) => item.id}
-      leftOpenValue={layout.icon * 3 + layout.margin * 3 * 2}
-      ListEmptyComponent={<ListEmpty onPress={() => navigate('AddContact')} />}
-      ListFooterComponent={
-        contacts.length > 0 ? (
-          <>
-            <Separator />
-            <Text style={styles.message}>
-              {i18n.t('contacts__message__swipe')}
-            </Text>
-          </>
-        ) : null
+  const renderItem: SectionListRenderItem<Contact> = ({ item }) => (
+    <ListItem
+      favoriting={favoriting.get(item.id)}
+      item={item}
+      onEdit={() =>
+        navigate('EditContact', {
+          contact: item
+        })
       }
+      onFavorite={() => {
+        toggleFavorite(item.id)
+
+        analytics.track(
+          item.favorite ? 'Contact Unfavorited' : 'Contact Favorited'
+        )
+      }}
+    />
+  )
+
+  return (
+    <SectionList
+      contentContainerStyle={styles.list}
+      ItemSeparatorComponent={Separator}
+      ListEmptyComponent={<ListEmpty onPress={() => navigate('AddContact')} />}
       ListHeaderComponent={
         <>
           <Text style={styles.message}>{i18n.t('contacts__message__tap')}</Text>
           {sections.length === 0 && <Separator />}
         </>
       }
-      recalculateHiddenLayout
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
-      renderHiddenItem={({ item }, map) => (
-        <ListActions
-          favoriting={favoriting}
-          onEdit={() => {
-            navigate('EditContact', {
-              contact: item
-            })
-
-            map[item.id].closeRow()
-          }}
-          onFavorite={() => {
-            toggleFavorite(item.id, map[item.id])
-
-            analytics.track(
-              item.favorite ? 'Contact Unfavorited' : 'Contact Favorited'
-            )
-          }}
-          onRemove={() => {
-            remove(item.id, map[item.id])
-
-            analytics.track('Contact Removed')
-          }}
-          removing={removing}
-        />
-      )}
-      renderItem={({ item }) => <ListItem item={item} />}
+      removeClippedSubviews
+      renderItem={renderItem}
       renderSectionHeader={({ section }) =>
         section.data.length > 0 ? (
           <Text style={styles.header}>{section.key}</Text>
         ) : null
       }
       sections={sections}
-      useSectionList
     />
   )
 }
@@ -185,5 +169,8 @@ const stylesheet = new DynamicStyleSheet({
     color: colors.foregroundLight,
     margin: layout.margin,
     textAlign: 'center'
+  },
+  spinner: {
+    margin: layout.margin
   }
 })

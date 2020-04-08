@@ -1,6 +1,7 @@
 export { default as img_pandemicli } from './img/pandemicli.png'
 
 export { default as img_marker } from './img/marker.png'
+export { default as img_star } from './img/star.png'
 
 // dark
 
@@ -21,11 +22,11 @@ export { default as img_dark_marker } from './img/dark/marker.png'
 export { default as img_dark_next } from './img/dark/next.png'
 export { default as img_dark_notifications } from './img/dark/notifications.png'
 export { default as img_dark_privacy } from './img/dark/privacy.png'
+export { default as img_dark_remove } from './img/dark/remove.png'
 export { default as img_dark_remove_data } from './img/dark/remove_data.png'
 export { default as img_dark_save } from './img/dark/save.png'
 export { default as img_dark_search } from './img/dark/search.png'
 export { default as img_dark_sign_out } from './img/dark/sign_out.png'
-export { default as img_dark_star } from './img/dark/star.png'
 export { default as img_dark_sync } from './img/dark/sync.png'
 export { default as img_dark_tracking } from './img/dark/tracking.png'
 
@@ -48,19 +49,13 @@ export { default as img_light_marker } from './img/light/marker.png'
 export { default as img_light_next } from './img/light/next.png'
 export { default as img_light_notifications } from './img/light/notifications.png'
 export { default as img_light_privacy } from './img/light/privacy.png'
+export { default as img_light_remove } from './img/light/remove.png'
 export { default as img_light_remove_data } from './img/light/remove_data.png'
 export { default as img_light_save } from './img/light/save.png'
 export { default as img_light_search } from './img/light/search.png'
 export { default as img_light_sign_out } from './img/light/sign_out.png'
-export { default as img_light_star } from './img/light/star.png'
 export { default as img_light_sync } from './img/light/sync.png'
 export { default as img_light_tracking } from './img/light/tracking.png'
-
-// actions
-
-export { default as img_action_remove } from './img/actions/remove.png'
-export { default as img_action_edit } from './img/actions/edit.png'
-export { default as img_action_favorite } from './img/actions/favorite.png'
 
 // nav
 

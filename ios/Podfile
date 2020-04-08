@@ -3,25 +3,6 @@
 platform :ios, '10.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-def add_flipper_pods!
-  version = '~> 0.33.1'
-  pod 'FlipperKit', version, configuration: 'Debug'
-  pod 'FlipperKit/FlipperKitLayoutPlugin', version, configuration: 'Debug'
-  pod 'FlipperKit/SKIOSNetworkPlugin', version, configuration: 'Debug'
-  pod 'FlipperKit/FlipperKitUserDefaultsPlugin', version, configuration: 'Debug'
-  pod 'FlipperKit/FlipperKitReactPlugin', version, configuration: 'Debug'
-end
-
-def flipper_post_install(installer)
-  installer.pods_project.targets.each do |target|
-    next unless target.name == 'YogaKit'
-
-    target.build_configurations.each do |config|
-      config.build_settings['SWIFT_VERSION'] = '4.1'
-    end
-  end
-end
-
 target 'Pandemicli' do
   pod 'FBLazyVector', path: '../node_modules/react-native/Libraries/FBLazyVector'
   pod 'FBReactNativeSpec', path: '../node_modules/react-native/Libraries/FBReactNativeSpec'
@@ -54,17 +35,9 @@ target 'Pandemicli' do
   pod 'glog', podspec: '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', podspec: '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
-  pod 'GoogleMaps'
-  pod 'Google-Maps-iOS-Utils'
-
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
 
+  use_frameworks!
   use_native_modules!
-
-  add_flipper_pods!
-  post_install do |installer|
-    flipper_post_install(installer)
-  end
 end

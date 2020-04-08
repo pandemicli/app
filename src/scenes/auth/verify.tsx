@@ -1,49 +1,30 @@
-import { useMutation } from '@apollo/react-hooks'
-import { NavigationProp } from '@react-navigation/native'
+import { NavigationProp, RouteProp } from '@react-navigation/native'
 import React, { FunctionComponent, useState } from 'react'
 import { View } from 'react-native'
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Button, Message, TextBox } from '../../components/common'
-import { VERIFY } from '../../graphql/documents'
-import { MutationVerifyPayload } from '../../graphql/payload'
-import { MutationVerifyArgs } from '../../graphql/types'
+import { useOnboarding } from '../../hooks'
 import { i18n } from '../../i18n'
-import { analytics } from '../../lib'
 import { AuthParamList } from '../../navigators'
-import { useAuth } from '../../store'
 import { layout } from '../../styles'
 
 interface Props {
   navigation: NavigationProp<AuthParamList, 'Verify'>
+  route: RouteProp<AuthParamList, 'Verify'>
 }
 
-export const Verify: FunctionComponent<Props> = () => {
+export const Verify: FunctionComponent<Props> = ({
+  route: {
+    params: { backupPassword, newUser }
+  }
+}) => {
   const { bottom } = useSafeArea()
 
-  const [, { signIn }] = useAuth()
+  const { errors, verify, verifying } = useOnboarding()
 
   const [code, setCode] = useState('')
-
-  const [verify, { error, loading }] = useMutation<
-    MutationVerifyPayload,
-    MutationVerifyArgs
-  >(VERIFY, {
-    onCompleted({
-      verify: {
-        token,
-        user: { id }
-      }
-    }) {
-      signIn(id, token)
-
-      analytics.track('User Verified Code')
-    },
-    variables: {
-      code
-    }
-  })
 
   const styles = useDynamicStyleSheet(stylesheet)
 
@@ -55,8 +36,8 @@ export const Verify: FunctionComponent<Props> = () => {
           paddingBottom: bottom + layout.margin
         }
       ]}>
-      {error && (
-        <Message message={error.message} style={styles.item} type="error" />
+      {errors.verify && (
+        <Message message={errors.verify} style={styles.item} type="error" />
       )}
       <TextBox
         keyboardType="number-pad"
@@ -68,10 +49,10 @@ export const Verify: FunctionComponent<Props> = () => {
       />
       <Button
         label={i18n.t('label__verify')}
-        loading={loading}
+        loading={verifying}
         onPress={() => {
           if (code) {
-            verify()
+            verify(code, newUser, backupPassword)
           }
         }}
       />

@@ -46,13 +46,13 @@ export const REMOVE_PLACE = gql`
 }
     `;
 export const SIGN_IN = gql`
-    mutation signIn($phone: String!) {
-  signIn(phone: $phone)
+    mutation signIn($email: String!, $password: String!) {
+  signIn(email: $email, password: $password)
 }
     `;
 export const SIGN_UP = gql`
-    mutation signUp($name: String!, $email: String!, $phone: String!) {
-  signUp(phone: $phone, email: $email, name: $name)
+    mutation signUp($name: String!, $email: String!, $password: String!, $phone: String!) {
+  signUp(phone: $phone, email: $email, password: $password, name: $name)
 }
     `;
 export const SYNC_CONTACTS = gql`

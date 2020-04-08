@@ -1,3 +1,3 @@
-mutation signIn($phone: String!) {
-  signIn(phone: $phone)
+mutation signIn($email: String!, $password: String!) {
+  signIn(email: $email, password: $password)
 }

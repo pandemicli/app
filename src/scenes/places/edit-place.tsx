@@ -10,8 +10,10 @@ import {
 
 import {
   img_dark_google_maps,
+  img_dark_remove,
   img_dark_save,
   img_light_google_maps,
+  img_light_remove,
   img_light_save
 } from '../../assets'
 import {
@@ -37,46 +39,31 @@ interface Props {
 }
 
 export const EditPlace: FunctionComponent<Props> = ({
-  navigation: { setOptions },
+  navigation: { pop, setOptions },
   route: {
     params: { place }
   }
 }) => {
-  const { errors, update, updating } = usePlaceActions()
+  const { errors, remove, removing, update, updating } = usePlaceActions()
 
   const [location, setLocation] = useState<LocationPoint>()
+  const [visible, setVisible] = useState(false)
 
-  const [name, setName] = useState('')
-  const [googlePlaceId, setGooglePlaceId] = useState<string>()
-  const [latitude, setLatitude] = useState<string>()
-  const [longitude, setLongitude] = useState<string>()
-
-  const [useGoogle, setUseGoogle] = useState(false)
+  const [name, setName] = useState(place.name)
+  const [googlePlaceId, setGooglePlaceId] = useState(place.googlePlaceId)
+  const [latitude, setLatitude] = useState(place.latitude)
+  const [longitude, setLongitude] = useState(place.longitude)
 
   const phoneRef = createRef<TextInput>()
 
   const styles = useDynamicStyleSheet(stylesheet)
   const color_foreground = useDynamicValue(colors.white, colors.black)
+  const img_remove = useDynamicValue(img_dark_remove, img_light_remove)
   const img_save = useDynamicValue(img_dark_save, img_light_save)
   const img_google_maps = useDynamicValue(
     img_light_google_maps,
     img_dark_google_maps
   )
-
-  useEffect(() => {
-    const { googlePlaceId, latitude, longitude, name } = place
-
-    setName(name)
-
-    if (googlePlaceId) {
-      setGooglePlaceId(googlePlaceId)
-    }
-
-    if (latitude && longitude) {
-      setLatitude(latitude)
-      setLongitude(longitude)
-    }
-  }, [place])
 
   useEffect(() => {
     geo.get().then((location) => {
@@ -90,39 +77,62 @@ export const EditPlace: FunctionComponent<Props> = ({
         <Header
           {...props}
           right={
-            updating ? (
-              <ActivityIndicator
-                color={colors.primary}
-                style={styles.spinner}
-              />
-            ) : (
-              <HeaderButton
-                icon={img_save}
-                onPress={() => {
-                  if (name) {
-                    update(place.id, {
-                      googlePlaceId,
-                      latitude,
-                      longitude,
-                      name
-                    })
+            <>
+              {removing ? (
+                <ActivityIndicator
+                  color={colors.primary}
+                  style={styles.spinner}
+                />
+              ) : (
+                <HeaderButton
+                  icon={img_remove}
+                  onPress={() =>
+                    remove(place.id, () => {
+                      pop()
 
-                    analytics.track('Place Updated')
+                      analytics.track('Place Deleted')
+                    })
                   }
-                }}
-              />
-            )
+                />
+              )}
+              {updating ? (
+                <ActivityIndicator
+                  color={colors.primary}
+                  style={styles.spinner}
+                />
+              ) : (
+                <HeaderButton
+                  icon={img_save}
+                  onPress={() => {
+                    if (name) {
+                      update(place.id, {
+                        googlePlaceId,
+                        latitude,
+                        longitude,
+                        name
+                      })
+
+                      analytics.track('Place Updated')
+                    }
+                  }}
+                />
+              )}
+            </>
           }
         />
       )
     })
   }, [
     googlePlaceId,
+    img_remove,
     img_save,
     latitude,
     longitude,
     name,
     place.id,
+    pop,
+    remove,
+    removing,
     setOptions,
     styles.spinner,
     update,
@@ -136,7 +146,7 @@ export const EditPlace: FunctionComponent<Props> = ({
         keyboardShouldPersistTaps="always">
         {errors.updating && (
           <Message
-            message={errors.updating.message}
+            message={errors.updating}
             style={styles.error}
             type="error"
           />
@@ -162,7 +172,7 @@ export const EditPlace: FunctionComponent<Props> = ({
           }}
           style={styles.map}
         />
-        <Touchable onPress={() => setUseGoogle(true)} style={styles.button}>
+        <Touchable onPress={() => setVisible(true)} style={styles.button}>
           <Image source={img_google_maps} style={styles.icon} />
           <Text
             style={[
@@ -183,9 +193,9 @@ export const EditPlace: FunctionComponent<Props> = ({
           setLongitude(String(longitude))
           setName(name)
         }}
-        onClose={() => setUseGoogle(false)}
+        onClose={() => setVisible(false)}
         selected={googlePlaceId}
-        visible={useGoogle}
+        visible={visible}
       />
     </>
   )

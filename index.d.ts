@@ -10,21 +10,3 @@ declare module 'react-native-dotenv' {
   export const SEGMENT_KEY: string
   export const SENTRY_DSN: string
 }
-
-declare module 'react-native-ec-encryption' {
-  type Input = {
-    data: string
-    label: string
-  }
-
-  namespace EC {
-    const encrypt: (input: Input) => Promise<string>
-    const decrypt: (input: Input) => Promise<string>
-  }
-
-  export default EC
-}
-
-declare module 'react-native-sha256' {
-  export const sha256: (input: string) => Promise<string>
-}

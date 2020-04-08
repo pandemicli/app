@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import set from 'immutability-helper'
 import { clone, cloneDeep, orderBy } from 'lodash'
 import { useEffect, useState } from 'react'
-import { SwipeRow } from 'react-native-swipe-list-view'
 
 import {
   CREATE_PLACE,
@@ -31,6 +30,7 @@ import { i18n } from '../i18n'
 import { crypto, dialog } from '../lib'
 
 export const usePlaces = (date?: string) => {
+  const [decrypting, setDecrypting] = useState(true)
   const [places, setPlaces] = useState<Place[]>([])
 
   const { data, loading, refetch } = useQuery<
@@ -45,22 +45,22 @@ export const usePlaces = (date?: string) => {
   useEffect(() => {
     !(async () => {
       if (data?.places) {
-        const raw = cloneDeep(data.places)
+        setDecrypting(true)
 
         const places = await Promise.all(
-          raw.map(async (place) => {
-            place.name = crypto.decrypt(place.name)
+          cloneDeep(data.places).map(async (place) => {
+            place.name = await crypto.decrypt(place.name)
 
             if (place.latitude) {
-              place.latitude = crypto.decrypt(place.latitude)
+              place.latitude = await crypto.decrypt(place.latitude)
             }
 
             if (place.longitude) {
-              place.longitude = crypto.decrypt(place.longitude)
+              place.longitude = await crypto.decrypt(place.longitude)
             }
 
             if (place.googlePlaceId) {
-              place.googlePlaceId = crypto.decrypt(place.googlePlaceId)
+              place.googlePlaceId = await crypto.decrypt(place.googlePlaceId)
             }
 
             return place
@@ -70,18 +70,21 @@ export const usePlaces = (date?: string) => {
         const sorted = orderBy(places, ['favorite', 'name'], ['desc', 'asc'])
 
         setPlaces(sorted)
+        setDecrypting(false)
       }
     })()
   }, [data])
 
   return {
-    loading,
+    loading: decrypting || loading,
     places,
     refetch
   }
 }
 
 export const usePlaceActions = () => {
+  const [favoriting, setFavoriting] = useState(new Map())
+
   const [createPlace, createPlaceMutation] = useMutation<
     MutationCreatePlacePayload,
     MutationCreatePlaceArgs
@@ -105,21 +108,21 @@ export const usePlaceActions = () => {
   const create = async (data: PlaceInput, callback: (place: Place) => void) => {
     const place = clone(data)
 
-    place.name = crypto.encrypt(place.name)
+    place.name = await crypto.encrypt(place.name)
 
     if (place.latitude) {
       place.latitudeHash = await crypto.hash(place.latitude)
-      place.latitude = crypto.encrypt(place.latitude)
+      place.latitude = await crypto.encrypt(place.latitude)
     }
 
     if (place.longitude) {
       place.longitudeHash = await crypto.hash(place.longitude)
-      place.longitude = crypto.encrypt(place.longitude)
+      place.longitude = await crypto.encrypt(place.longitude)
     }
 
     if (place.googlePlaceId) {
       place.googlePlaceIdHash = await crypto.hash(place.googlePlaceId)
-      place.googlePlaceId = crypto.encrypt(place.googlePlaceId)
+      place.googlePlaceId = await crypto.encrypt(place.googlePlaceId)
     }
 
     createPlace({
@@ -145,18 +148,18 @@ export const usePlaceActions = () => {
 
         const place = clone(response.data.createPlace)
 
-        place.name = crypto.decrypt(place.name)
+        place.name = await crypto.decrypt(place.name)
 
         if (place.latitude) {
-          place.latitude = crypto.decrypt(place.latitude)
+          place.latitude = await crypto.decrypt(place.latitude)
         }
 
         if (place.longitude) {
-          place.longitude = crypto.decrypt(place.longitude)
+          place.longitude = await crypto.decrypt(place.longitude)
         }
 
         if (place.googlePlaceId) {
-          place.googlePlaceId = crypto.decrypt(place.googlePlaceId)
+          place.googlePlaceId = await crypto.decrypt(place.googlePlaceId)
         }
 
         callback(place)
@@ -170,21 +173,21 @@ export const usePlaceActions = () => {
   const update = async (id: string, data: PlaceInput) => {
     const place = clone(data)
 
-    place.name = crypto.encrypt(place.name)
+    place.name = await crypto.encrypt(place.name)
 
     if (place.latitude) {
       place.latitudeHash = await crypto.hash(place.latitude)
-      place.latitude = crypto.encrypt(place.latitude)
+      place.latitude = await crypto.encrypt(place.latitude)
     }
 
     if (place.longitude) {
       place.longitudeHash = await crypto.hash(place.longitude)
-      place.longitude = crypto.encrypt(place.longitude)
+      place.longitude = await crypto.encrypt(place.longitude)
     }
 
     if (place.googlePlaceId) {
       place.googlePlaceIdHash = await crypto.hash(place.googlePlaceId)
-      place.googlePlaceId = crypto.encrypt(place.googlePlaceId)
+      place.googlePlaceId = await crypto.encrypt(place.googlePlaceId)
     }
 
     updatePlace({
@@ -195,7 +198,7 @@ export const usePlaceActions = () => {
     })
   }
 
-  const remove = async (id: string, row: SwipeRow<Place>) => {
+  const remove = async (id: string, callback: () => void) => {
     const yes = await dialog.confirm(
       i18n.t('lib__dialog__confirm__remove_place')
     )
@@ -223,7 +226,7 @@ export const usePlaceActions = () => {
           })
         }
 
-        row.closeRow()
+        callback()
       },
       variables: {
         id
@@ -231,9 +234,21 @@ export const usePlaceActions = () => {
     })
   }
 
-  const toggleFavorite = (id: string, row: SwipeRow<Place>) =>
+  const toggleFavorite = (id: string) => {
+    const next = new Map(favoriting)
+
+    next.set(id, true)
+
+    setFavoriting(next)
+
     toggleFavoritePlace({
       update(proxy, response) {
+        const next = new Map(favoriting)
+
+        next.delete(id)
+
+        setFavoriting(next)
+
         if (!response.data) {
           return
         }
@@ -258,13 +273,12 @@ export const usePlaceActions = () => {
             query: PLACES
           })
         }
-
-        row.closeRow()
       },
       variables: {
         id
       }
     })
+  }
 
   return {
     create,
@@ -275,7 +289,7 @@ export const usePlaceActions = () => {
       toggling: toggleFavoritePlaceMutation.error,
       updating: updatePlaceMutation.error
     },
-    favoriting: toggleFavoritePlaceMutation.loading,
+    favoriting,
     remove,
     removing: removePlaceMutation.loading,
     toggleFavorite,

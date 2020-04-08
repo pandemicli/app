@@ -6,22 +6,40 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
 };
 
-export type AuthResult = {
-   __typename?: 'AuthResult';
-  token: Scalars['String'];
-  user: User;
+export type Query = {
+   __typename?: 'Query';
+  contacts: Array<Contact>;
+  places: Array<Place>;
+  searchPlaces: Array<GooglePlace>;
+  todayFeed: TodayFeed;
+  profile: User;
 };
 
-export type CheckIn = {
-   __typename?: 'CheckIn';
-  place: Place;
-  user: User;
-  checkedInAt: Scalars['DateTime'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
+
+export type QueryContactsArgs = {
+  date?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryPlacesArgs = {
+  date?: Maybe<Scalars['String']>;
+};
+
+
+export type QuerySearchPlacesArgs = {
+  longitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  language?: Maybe<Scalars['String']>;
+  query: Scalars['String'];
+};
+
+
+export type QueryTodayFeedArgs = {
+  date: Scalars['String'];
 };
 
 export type Contact = {
@@ -39,15 +57,35 @@ export type Contact = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type ContactInput = {
+export type User = {
+   __typename?: 'User';
+  id: Scalars['ID'];
+  code: Scalars['String'];
   name: Scalars['String'];
-  email?: Maybe<Scalars['String']>;
-  emailHash?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  phoneHash?: Maybe<Scalars['String']>;
-  deviceIdHash?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  phone: Scalars['String'];
+  covid19Positive: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
+
+export type Place = {
+   __typename?: 'Place';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  favorite: Scalars['Boolean'];
+  latitude?: Maybe<Scalars['String']>;
+  latitudeHash?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  longitudeHash?: Maybe<Scalars['String']>;
+  googlePlaceId?: Maybe<Scalars['String']>;
+  googlePlaceIdHash?: Maybe<Scalars['String']>;
+  user: User;
+  checkedInToday: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
 
 export type GooglePlace = {
    __typename?: 'GooglePlace';
@@ -57,14 +95,29 @@ export type GooglePlace = {
   longitude: Scalars['Float'];
 };
 
-export type Interaction = {
-   __typename?: 'Interaction';
-  contact: Contact;
-  user: User;
-  interactedAt: Scalars['DateTime'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
+export type TodayFeed = {
+   __typename?: 'TodayFeed';
+  contacts: Array<Contact>;
+  places: Array<Place>;
+  symptoms: Array<Symptom>;
 };
+
+export type Symptom = {
+   __typename?: 'Symptom';
+  name: SymptomName;
+  experiencedToday: Scalars['Boolean'];
+};
+
+export enum SymptomName {
+  AchesAndPains = 'aches_and_pains',
+  Diarrhea = 'diarrhea',
+  DryCough = 'dry_cough',
+  Fever = 'fever',
+  NasalCongestion = 'nasal_congestion',
+  RunnyNose = 'runny_nose',
+  SoreThroat = 'sore_throat',
+  Tiredness = 'tiredness'
+}
 
 export type Mutation = {
    __typename?: 'Mutation';
@@ -159,12 +212,14 @@ export type MutationToggleSymptomArgs = {
 
 
 export type MutationSignInArgs = {
-  phone: Scalars['String'];
+  password: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
 export type MutationSignUpArgs = {
   phone: Scalars['String'];
+  password: Scalars['String'];
   email: Scalars['String'];
   name: Scalars['String'];
 };
@@ -174,21 +229,13 @@ export type MutationVerifyArgs = {
   code: Scalars['String'];
 };
 
-export type Place = {
-   __typename?: 'Place';
-  id: Scalars['ID'];
+export type ContactInput = {
   name: Scalars['String'];
-  favorite: Scalars['Boolean'];
-  latitude?: Maybe<Scalars['String']>;
-  latitudeHash?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['String']>;
-  longitudeHash?: Maybe<Scalars['String']>;
-  googlePlaceId?: Maybe<Scalars['String']>;
-  googlePlaceIdHash?: Maybe<Scalars['String']>;
-  user: User;
-  checkedInToday: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
+  email?: Maybe<Scalars['String']>;
+  emailHash?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  phoneHash?: Maybe<Scalars['String']>;
+  deviceIdHash?: Maybe<Scalars['String']>;
 };
 
 export type PlaceInput = {
@@ -201,70 +248,26 @@ export type PlaceInput = {
   googlePlaceIdHash?: Maybe<Scalars['String']>;
 };
 
-export type Query = {
-   __typename?: 'Query';
-  contacts: Array<Contact>;
-  places: Array<Place>;
-  searchPlaces: Array<GooglePlace>;
-  todayFeed: TodayFeed;
-  profile: User;
+export type AuthResult = {
+   __typename?: 'AuthResult';
+  token: Scalars['String'];
+  user: User;
 };
 
-
-export type QueryContactsArgs = {
-  date?: Maybe<Scalars['String']>;
+export type CheckIn = {
+   __typename?: 'CheckIn';
+  place: Place;
+  user: User;
+  checkedInAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
-
-export type QueryPlacesArgs = {
-  date?: Maybe<Scalars['String']>;
-};
-
-
-export type QuerySearchPlacesArgs = {
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
-  language?: Maybe<Scalars['String']>;
-  query: Scalars['String'];
-};
-
-
-export type QueryTodayFeedArgs = {
-  date: Scalars['String'];
-};
-
-export type Symptom = {
-   __typename?: 'Symptom';
-  name: SymptomName;
-  experiencedToday: Scalars['Boolean'];
-};
-
-export enum SymptomName {
-  AchesAndPains = 'aches_and_pains',
-  Diarrhea = 'diarrhea',
-  DryCough = 'dry_cough',
-  Fever = 'fever',
-  NasalCongestion = 'nasal_congestion',
-  RunnyNose = 'runny_nose',
-  SoreThroat = 'sore_throat',
-  Tiredness = 'tiredness'
-}
-
-export type TodayFeed = {
-   __typename?: 'TodayFeed';
-  contacts: Array<Contact>;
-  places: Array<Place>;
-  symptoms: Array<Symptom>;
-};
-
-export type User = {
-   __typename?: 'User';
-  id: Scalars['ID'];
-  code: Scalars['String'];
-  name: Scalars['String'];
-  email: Scalars['String'];
-  phone: Scalars['String'];
-  covid19Positive: Scalars['Boolean'];
+export type Interaction = {
+   __typename?: 'Interaction';
+  contact: Contact;
+  user: User;
+  interactedAt: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };

@@ -96,11 +96,7 @@ export const AddContact: FunctionComponent<Props> = ({
       contentContainerStyle={styles.main}
       keyboardShouldPersistTaps="always">
       {errors.creating && (
-        <Message
-          message={errors.creating.message}
-          style={styles.item}
-          type="error"
-        />
+        <Message message={errors.creating} style={styles.item} type="error" />
       )}
       <TextBox
         autoCapitalize="words"
