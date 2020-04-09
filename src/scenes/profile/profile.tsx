@@ -76,65 +76,69 @@ export const Profile: FunctionComponent<Props> = ({
     img_light_remove_data
   )
 
+  const menu = [
+    {
+      icon: img_diagnosed,
+      label: i18n.t('profile__menu__diagnosed'),
+      onPress: () => {
+        if (data?.profile) {
+          navigate('Diagnosed', {
+            user: data.profile
+          })
+        }
+      }
+    },
+    {
+      hidden: true,
+      icon: img_tracking,
+      label: i18n.t('profile__menu__tracking'),
+      onPress: () => navigate('Tracking')
+    },
+    {
+      hidden: true,
+      icon: img_notifications,
+      label: i18n.t('profile__menu__notifications'),
+      onPress: () => navigate('Notifications')
+    },
+    {
+      icon: img_about,
+      label: i18n.t('profile__menu__about'),
+      link: true,
+      onPress: () => browser.open('https://pandemic.li')
+    },
+    {
+      icon: img_help,
+      label: i18n.t('profile__menu__help'),
+      link: true,
+      onPress: () => browser.open('https://pandemic.li/help')
+    },
+    {
+      icon: img_privacy,
+      label: i18n.t('profile__menu__privacy'),
+      link: true,
+      onPress: () => browser.open('https://pandemic.li/privacy')
+    },
+    {
+      icon: img_remove_data,
+      label: i18n.t('profile__menu__delete_account'),
+      warning: true
+    },
+    {
+      icon: img_sign_out,
+      label: i18n.t('profile__menu__sign_out'),
+      loading: unloading,
+      onPress: () => {
+        signOut()
+
+        analytics.track('User Signed Out')
+      },
+      warning: true
+    }
+  ].filter(({ hidden }) => !hidden)
+
   return (
     <FlatList
-      data={[
-        {
-          icon: img_diagnosed,
-          label: i18n.t('profile__menu__diagnosed'),
-          onPress: () => {
-            if (data?.profile) {
-              navigate('Diagnosed', {
-                user: data.profile
-              })
-            }
-          }
-        },
-        {
-          icon: img_tracking,
-          label: i18n.t('profile__menu__tracking'),
-          onPress: () => navigate('Tracking')
-        },
-        {
-          icon: img_notifications,
-          label: i18n.t('profile__menu__notifications'),
-          onPress: () => navigate('Notifications')
-        },
-        {
-          icon: img_about,
-          label: i18n.t('profile__menu__about'),
-          link: true,
-          onPress: () => browser.open('https://pandemic.li')
-        },
-        {
-          icon: img_help,
-          label: i18n.t('profile__menu__help'),
-          link: true,
-          onPress: () => browser.open('https://pandemic.li/help')
-        },
-        {
-          icon: img_privacy,
-          label: i18n.t('profile__menu__privacy'),
-          link: true,
-          onPress: () => browser.open('https://pandemic.li/privacy')
-        },
-        {
-          icon: img_remove_data,
-          label: i18n.t('profile__menu__delete_account'),
-          warning: true
-        },
-        {
-          icon: img_sign_out,
-          label: i18n.t('profile__menu__sign_out'),
-          loading: unloading,
-          onPress: () => {
-            signOut()
-
-            analytics.track('User Signed Out')
-          },
-          warning: true
-        }
-      ]}
+      data={menu}
       ItemSeparatorComponent={Separator}
       keyExtractor={(item) => item.label}
       ListHeaderComponent={
