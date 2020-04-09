@@ -41,8 +41,9 @@ import {
 import { Image, Refresher, Separator, Touchable } from '../../components/common'
 import { PROFILE } from '../../graphql/documents'
 import { QueryProfilePayload } from '../../graphql/payload'
+import { useOnboarding } from '../../hooks'
 import { i18n } from '../../i18n'
-import { analytics, browser } from '../../lib'
+import { analytics, browser, dialog } from '../../lib'
 import { ProfileParamList } from '../../navigators'
 import { useAuth } from '../../store'
 import { colors, layout, typography } from '../../styles'
@@ -56,6 +57,7 @@ export const Profile: FunctionComponent<Props> = ({
   navigation: { navigate }
 }) => {
   const [{ unloading }, { signOut }] = useAuth()
+  const { deleteAccount } = useOnboarding()
 
   const { data, loading, refetch } = useQuery<QueryProfilePayload>(PROFILE)
 
@@ -128,16 +130,24 @@ export const Profile: FunctionComponent<Props> = ({
     },
     {
       icon: img_remove_data,
-      label: i18n.t('profile__menu__delete_account')
+      label: i18n.t('profile__menu__delete_account'),
+      onPress: () => deleteAccount()
     },
     {
       icon: img_sign_out,
       label: i18n.t('profile__menu__sign_out'),
       loading: unloading,
-      onPress: () => {
-        signOut()
+      onPress: async () => {
+        const yes = await dialog.confirm(
+          i18n.t('dialog__confirm__sign_out__message'),
+          i18n.t('dialog__confirm__sign_out__title')
+        )
 
-        analytics.track('User Signed Out')
+        if (yes) {
+          signOut()
+
+          analytics.track('User Signed Out')
+        }
       }
     }
   ].filter(({ hidden }) => !hidden)
@@ -228,7 +238,7 @@ const stylesheet = new DynamicStyleSheet({
   },
   qr: {
     alignSelf: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     borderRadius: layout.radius * 4,
     padding: layout.margin
   }

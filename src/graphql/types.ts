@@ -138,6 +138,7 @@ export type Mutation = {
   signUp: Scalars['Boolean'];
   verify: AuthResult;
   changePassword: Scalars['Boolean'];
+  deleteAccount: Scalars['Boolean'];
   toggleCovid19Positive: Scalars['Boolean'];
 };
 
@@ -234,6 +235,11 @@ export type MutationVerifyArgs = {
 export type MutationChangePasswordArgs = {
   newPassword: Scalars['String'];
   currentPassword: Scalars['String'];
+};
+
+
+export type MutationDeleteAccountArgs = {
+  password: Scalars['String'];
 };
 
 export type ContactInput = {

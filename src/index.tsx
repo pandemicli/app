@@ -16,7 +16,13 @@ import {
 import { CODE_PUSH_KEY_ANDROID, CODE_PUSH_KEY_IOS } from 'react-native-dotenv'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { KeyboardView, Notification, Spinner } from './components/common'
+import {
+  Dialog,
+  KeyboardView,
+  Loading,
+  Notification,
+  Spinner
+} from './components/common'
 import { client } from './graphql'
 import { analytics, nav } from './lib'
 import { AuthNavigator, MainNavigator } from './navigators'
@@ -67,10 +73,12 @@ const Pandemic: FunctionComponent = () => {
                 <AuthNavigator />
               )}
             </NavigationContainer>
+            <Dialog />
           </DarkModeProvider>
         </KeyboardView>
         <Notification />
       </SafeAreaProvider>
+      <Loading />
     </ApolloProvider>
   )
 }

@@ -1,0 +1,35 @@
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
+
+import { mitter } from '../../lib'
+import { colors } from '../../styles'
+import { Spinner } from './spinner'
+
+export const Loading: FunctionComponent = () => {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const handler = (visible: boolean) => setVisible(visible)
+
+    mitter.on('loading', handler)
+
+    return () => mitter.off('loading', handler)
+  }, [])
+
+  const styles = useDynamicStyleSheet(stylesheet)
+
+  if (!visible) {
+    return null
+  }
+
+  return <Spinner style={styles.main} />
+}
+
+const stylesheet = new DynamicStyleSheet({
+  main: {
+    backgroundColor: colors.modal,
+    height: '100%',
+    position: 'absolute',
+    width: '100%'
+  }
+})

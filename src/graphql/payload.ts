@@ -96,6 +96,10 @@ export type MutationChangePasswordPayload = {
   changePassword: boolean
 }
 
+export type MutationDeleteAccountPayload = {
+  deleteAccount: boolean
+}
+
 export type MutationToggleCovid19PositivePayload = {
   toggleCovid19Positive: boolean
 }

@@ -128,10 +128,10 @@ export const useContactActions = () => {
   >(ADD_CONTACT, {
     async onCompleted({ addContact: { name, phone } }) {
       const yes = await dialog.confirm(
-        i18n.t('lib__dialog__confirm__add_contact__message', {
+        i18n.t('dialog__confirm__add_contact__message', {
           name
         }),
-        i18n.t('lib__dialog__confirm__add_contact__title'),
+        i18n.t('dialog__confirm__add_contact__title'),
         true
       )
 
@@ -233,9 +233,7 @@ export const useContactActions = () => {
   }
 
   const remove = async (id: string, callback: () => void) => {
-    const yes = await dialog.confirm(
-      i18n.t('lib__dialog__confirm__remove_contact')
-    )
+    const yes = await dialog.confirm(i18n.t('dialog__confirm__remove_contact'))
 
     if (yes) {
       removeContact({

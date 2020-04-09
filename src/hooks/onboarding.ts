@@ -3,20 +3,29 @@ import { useNavigation } from '@react-navigation/native'
 import { EThree } from '@virgilsecurity/e3kit-native'
 import { useState } from 'react'
 
-import { CHANGE_PASSWORD, SIGN_IN, SIGN_UP, VERIFY } from '../graphql/documents'
+import {
+  CHANGE_PASSWORD,
+  DELETE_ACCOUNT,
+  SIGN_IN,
+  SIGN_UP,
+  VERIFY
+} from '../graphql/documents'
 import {
   MutationChangePasswordPayload,
+  MutationDeleteAccountPayload,
   MutationSignInPayload,
   MutationSignUpPayload,
   MutationVerifyPayload
 } from '../graphql/payload'
 import {
   MutationChangePasswordArgs,
+  MutationDeleteAccountArgs,
   MutationSignInArgs,
   MutationSignUpArgs,
   MutationVerifyArgs
 } from '../graphql/types'
-import { analytics, crypto } from '../lib'
+import { i18n } from '../i18n'
+import { analytics, crypto, dialog, mitter } from '../lib'
 import { useAuth } from '../store'
 
 export const useOnboarding = () => {
@@ -46,6 +55,17 @@ export const useOnboarding = () => {
     MutationChangePasswordPayload,
     MutationChangePasswordArgs
   >(CHANGE_PASSWORD)
+
+  const [remove, removeMutation] = useMutation<
+    MutationDeleteAccountPayload,
+    MutationDeleteAccountArgs
+  >(DELETE_ACCOUNT, {
+    onError() {
+      mitter.emit('loading', false)
+
+      dialog.error(i18n.t('dialog__confirm__delete_account__error'))
+    }
+  })
 
   const signUp = (
     name: string,
@@ -164,11 +184,48 @@ export const useOnboarding = () => {
     })
   }
 
+  const deleteAccount = async () => {
+    const password = await dialog.prompt({
+      inputType: 'password',
+      labelNegative: i18n.t('dialog__label__no'),
+      labelPositive: i18n.t('dialog__label__yes'),
+      message: i18n.t('dialog__confirm__delete_account__message'),
+      placeholder: i18n.t('dialog__confirm__delete_account__placeholder'),
+      positive: false,
+      title: i18n.t('dialog__confirm__delete_account__title')
+    })
+
+    if (password) {
+      mitter.emit('loading', true)
+
+      const { loginPassword } = EThree.derivePasswords(password)
+
+      remove({
+        async update(proxy, response) {
+          if (!response.data) {
+            return
+          }
+
+          await crypto.remove()
+
+          mitter.emit('logout')
+          mitter.emit('loading', false)
+        },
+        variables: {
+          password: loginPassword.toString()
+        }
+      })
+    }
+  }
+
   return {
     changePassword,
     changingPassword: changeMutation.loading || changingPassword,
+    deleteAccount,
+    deletingAccount: removeMutation.loading,
     errors: {
       changePassword: changeMutation.error,
+      deleteAccount: removeMutation.error,
       signIn: loginMutation.error,
       signUp: registerMutation.error,
       verify: mfaMutation.error

@@ -14,7 +14,7 @@ interface Props {
   loading?: boolean
   small?: boolean
   style?: ViewStyle
-  styleLabel?: TextStyle
+  styleLabel?: TextStyle | TextStyle[]
 
   onPress: () => void
 }

@@ -40,6 +40,11 @@ export const CREATE_PLACE = gql`
   }
 }
     `;
+export const DELETE_ACCOUNT = gql`
+    mutation deleteAccount($password: String!) {
+  deleteAccount(password: $password)
+}
+    `;
 export const REMOVE_CONTACT = gql`
     mutation removeContact($id: String!) {
   removeContact(id: $id)

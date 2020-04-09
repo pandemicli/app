@@ -45,8 +45,8 @@ export const Diagnosed: FunctionComponent<Props> = ({
           const yes = await dialog.confirm(
             i18n.t(
               user.covid19Positive
-                ? 'lib__dialog__confirm__im_negative'
-                : 'lib__dialog__confirm__im_positive'
+                ? 'dialog__confirm__im_negative'
+                : 'dialog__confirm__im_positive'
             )
           )
 

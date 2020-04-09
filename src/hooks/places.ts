@@ -199,9 +199,7 @@ export const usePlaceActions = () => {
   }
 
   const remove = async (id: string, callback: () => void) => {
-    const yes = await dialog.confirm(
-      i18n.t('lib__dialog__confirm__remove_place')
-    )
+    const yes = await dialog.confirm(i18n.t('dialog__confirm__remove_place'))
 
     if (!yes) {
       return

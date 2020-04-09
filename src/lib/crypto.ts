@@ -31,21 +31,28 @@ class Crypto {
   }
 
   async register(): Promise<void> {
-    if (this.client) {
-      return this.client.register()
+    if (!this.client) {
+      throw new Error('Encryption not initialised')
     }
+
+    await this.client.register()
   }
 
   async remove(): Promise<void> {
-    if (this.client) {
-      return this.client.unregister()
+    if (!this.client) {
+      throw new Error('Encryption not initialised')
     }
+
+    await this.client.resetPrivateKeyBackup()
+    await this.client.unregister()
   }
 
   async reset(): Promise<void> {
-    if (this.client) {
-      return this.client.cleanup()
+    if (!this.client) {
+      throw new Error('Encryption not initialised')
     }
+
+    await this.client.cleanup()
   }
 
   async backupKey(password: string): Promise<void> {
