@@ -8,6 +8,11 @@ export const ADD_CONTACT = gql`
   }
 }
     `;
+export const CHANGE_PASSWORD = gql`
+    mutation changePassword($currentPassword: String!, $newPassword: String!) {
+  changePassword(currentPassword: $currentPassword, newPassword: $newPassword)
+}
+    `;
 export const CREATE_CONTACT = gql`
     mutation createContact($contact: ContactInput!) {
   createContact(contact: $contact) {

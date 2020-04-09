@@ -92,6 +92,10 @@ export type MutationToggleSymptomPayload = {
   toggleSymptom: boolean
 }
 
+export type MutationChangePasswordPayload = {
+  changePassword: boolean
+}
+
 export type MutationToggleCovid19PositivePayload = {
   toggleCovid19Positive: boolean
 }

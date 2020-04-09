@@ -22,6 +22,7 @@ import {
   img_dark_help,
   img_dark_link,
   img_dark_notifications,
+  img_dark_password,
   img_dark_privacy,
   img_dark_remove_data,
   img_dark_sign_out,
@@ -31,6 +32,7 @@ import {
   img_light_help,
   img_light_link,
   img_light_notifications,
+  img_light_password,
   img_light_privacy,
   img_light_remove_data,
   img_light_sign_out,
@@ -61,10 +63,11 @@ export const Profile: FunctionComponent<Props> = ({
 
   const styles = useDynamicStyleSheet(stylesheet)
   const img_about = useDynamicValue(img_dark_about, img_light_about)
+  const img_diagnosed = useDynamicValue(img_dark_diagnosed, img_light_diagnosed)
   const img_help = useDynamicValue(img_dark_help, img_light_help)
   const img_link = useDynamicValue(img_dark_link, img_light_link)
+  const img_password = useDynamicValue(img_dark_password, img_light_password)
   const img_privacy = useDynamicValue(img_dark_privacy, img_light_privacy)
-  const img_diagnosed = useDynamicValue(img_dark_diagnosed, img_light_diagnosed)
   const img_sign_out = useDynamicValue(img_dark_sign_out, img_light_sign_out)
   const img_tracking = useDynamicValue(img_dark_tracking, img_light_tracking)
   const img_notifications = useDynamicValue(
@@ -119,9 +122,13 @@ export const Profile: FunctionComponent<Props> = ({
       onPress: () => browser.open('https://pandemic.li/privacy')
     },
     {
+      icon: img_password,
+      label: i18n.t('profile__menu__change_password'),
+      onPress: () => navigate('Password')
+    },
+    {
       icon: img_remove_data,
-      label: i18n.t('profile__menu__delete_account'),
-      warning: true
+      label: i18n.t('profile__menu__delete_account')
     },
     {
       icon: img_sign_out,
@@ -131,8 +138,7 @@ export const Profile: FunctionComponent<Props> = ({
         signOut()
 
         analytics.track('User Signed Out')
-      },
-      warning: true
+      }
     }
   ].filter(({ hidden }) => !hidden)
 
@@ -168,9 +174,7 @@ export const Profile: FunctionComponent<Props> = ({
       renderItem={({ item }) => (
         <Touchable onPress={item.onPress} style={styles.item}>
           <Image source={item.icon} style={styles.icon} />
-          <Text style={[styles.label, item.warning && styles.warning]}>
-            {item.label}
-          </Text>
+          <Text style={styles.label}>{item.label}</Text>
           {item.link && (
             <Image source={img_link} style={[styles.icon, styles.iconSmall]} />
           )}
@@ -227,8 +231,5 @@ const stylesheet = new DynamicStyleSheet({
     backgroundColor: '#fff',
     borderRadius: layout.radius * 4,
     padding: layout.margin
-  },
-  warning: {
-    color: colors.state.warning
   }
 })

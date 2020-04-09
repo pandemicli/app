@@ -68,6 +68,17 @@ class Crypto {
     }
   }
 
+  async changePassword(
+    oldPassword: string,
+    newPassword: string
+  ): Promise<void> {
+    if (!this.client) {
+      throw new Error('Encryption not initialised')
+    }
+
+    await this.client.changePassword(oldPassword, newPassword)
+  }
+
   hash(data: string): Promise<string> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore

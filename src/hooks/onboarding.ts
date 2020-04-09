@@ -3,18 +3,20 @@ import { useNavigation } from '@react-navigation/native'
 import { EThree } from '@virgilsecurity/e3kit-native'
 import { useState } from 'react'
 
-import { SIGN_IN, SIGN_UP, VERIFY } from '../graphql/documents'
+import { CHANGE_PASSWORD, SIGN_IN, SIGN_UP, VERIFY } from '../graphql/documents'
 import {
+  MutationChangePasswordPayload,
   MutationSignInPayload,
   MutationSignUpPayload,
   MutationVerifyPayload
 } from '../graphql/payload'
 import {
+  MutationChangePasswordArgs,
   MutationSignInArgs,
   MutationSignUpArgs,
   MutationVerifyArgs
 } from '../graphql/types'
-import { analytics } from '../lib'
+import { analytics, crypto } from '../lib'
 import { useAuth } from '../store'
 
 export const useOnboarding = () => {
@@ -23,6 +25,7 @@ export const useOnboarding = () => {
   const [, actions] = useAuth()
 
   const [verifying, setVerifying] = useState(false)
+  const [changingPassword, setChangingPassword] = useState(false)
 
   const [register, registerMutation] = useMutation<
     MutationSignUpPayload,
@@ -38,6 +41,11 @@ export const useOnboarding = () => {
     MutationVerifyPayload,
     MutationVerifyArgs
   >(VERIFY)
+
+  const [change, changeMutation] = useMutation<
+    MutationChangePasswordPayload,
+    MutationChangePasswordArgs
+  >(CHANGE_PASSWORD)
 
   const signUp = (
     name: string,
@@ -98,6 +106,8 @@ export const useOnboarding = () => {
     mfa({
       async update(proxy, response) {
         if (!response.data) {
+          setVerifying(false)
+
           return
         }
 
@@ -120,8 +130,45 @@ export const useOnboarding = () => {
     })
   }
 
+  const changePassword = (
+    currentPassword: string,
+    newPassword: string,
+    callback: () => void
+  ) => {
+    setChangingPassword(true)
+
+    const old = EThree.derivePasswords(currentPassword)
+    const next = EThree.derivePasswords(newPassword)
+
+    change({
+      async update(proxy, response) {
+        if (!response.data) {
+          setChangingPassword(false)
+
+          return
+        }
+
+        await crypto.changePassword(
+          old.backupPassword.toString(),
+          next.backupPassword.toString()
+        )
+
+        setChangingPassword(false)
+
+        callback()
+      },
+      variables: {
+        currentPassword: old.loginPassword.toString(),
+        newPassword: next.loginPassword.toString()
+      }
+    })
+  }
+
   return {
+    changePassword,
+    changingPassword: changeMutation.loading || changingPassword,
     errors: {
+      changePassword: changeMutation.error,
       signIn: loginMutation.error,
       signUp: registerMutation.error,
       verify: mfaMutation.error

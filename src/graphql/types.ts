@@ -137,6 +137,7 @@ export type Mutation = {
   signIn: Scalars['Boolean'];
   signUp: Scalars['Boolean'];
   verify: AuthResult;
+  changePassword: Scalars['Boolean'];
   toggleCovid19Positive: Scalars['Boolean'];
 };
 
@@ -227,6 +228,12 @@ export type MutationSignUpArgs = {
 
 export type MutationVerifyArgs = {
   code: Scalars['String'];
+};
+
+
+export type MutationChangePasswordArgs = {
+  newPassword: Scalars['String'];
+  currentPassword: Scalars['String'];
 };
 
 export type ContactInput = {

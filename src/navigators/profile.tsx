@@ -10,6 +10,7 @@ import { i18n } from '../i18n'
 import {
   Diagnosed,
   Notifications,
+  Password,
   Profile,
   Scan,
   Tracking
@@ -21,6 +22,7 @@ export type ProfileParamList = {
     user: User
   }
   Notifications: undefined
+  Password: undefined
   Profile: undefined
   Scan: undefined
   Tracking: undefined
@@ -98,6 +100,17 @@ export const ProfileNavigator = () => {
             height: layout.header + top
           },
           title: i18n.t('profile__title__notifications')
+        }}
+      />
+      <Screen
+        component={Password}
+        name="Password"
+        options={{
+          header: (props) => <Header {...props} />,
+          headerStyle: {
+            height: layout.header + top
+          },
+          title: i18n.t('profile__title__password')
         }}
       />
     </Navigator>
