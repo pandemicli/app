@@ -127,7 +127,7 @@ const stylesheet = new DynamicStyleSheet({
     alignItems: 'center',
     backgroundColor: colors.backgroundDark,
     borderBottomColor: colors.border,
-    borderBottomWidth: 1,
+    borderBottomWidth: layout.border,
     flexDirection: 'row',
     justifyContent: 'center'
   },

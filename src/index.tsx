@@ -16,9 +16,9 @@ import {
 import { CODE_PUSH_KEY_ANDROID, CODE_PUSH_KEY_IOS } from 'react-native-dotenv'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { KeyboardView, Spinner } from './components/common'
+import { KeyboardView, Notification, Spinner } from './components/common'
 import { client } from './graphql'
-import { analytics, mitter, nav, push } from './lib'
+import { analytics, nav } from './lib'
 import { AuthNavigator, MainNavigator } from './navigators'
 import { useAuth } from './store'
 import { colors } from './styles'
@@ -26,7 +26,7 @@ import { colors } from './styles'
 const Pandemic: FunctionComponent = () => {
   const isDarkMode = useDarkMode()
 
-  const [{ loading, userId }, { init, signOut }] = useAuth()
+  const [{ loading, userId }, { init }] = useAuth()
 
   useEffect(() => {
     init()
@@ -37,16 +37,6 @@ const Pandemic: FunctionComponent = () => {
       analytics.screen(userId ? 'Feed' : 'Landing')
     }
   }, [loading, userId])
-
-  useEffect(() => {
-    push.setup()
-    mitter.on('logout', () => signOut())
-
-    return () => {
-      push.destroy()
-      mitter.off('logout', () => signOut())
-    }
-  }, [signOut])
 
   const color_background = useDynamicValue(colors.background)
 
@@ -79,6 +69,7 @@ const Pandemic: FunctionComponent = () => {
             </NavigationContainer>
           </DarkModeProvider>
         </KeyboardView>
+        <Notification />
       </SafeAreaProvider>
     </ApolloProvider>
   )

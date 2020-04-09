@@ -6,21 +6,15 @@
 #import <React/RCTI18nUtil.h>
 
 #import <CodePush/CodePush.h>
-
-@import Firebase;
-@import UserNotifications;
-
-#import "PushManager.h"
-
-@interface AppDelegate () <UNUserNotificationCenterDelegate>
-@end
+#import <Firebase.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [FIRApp configure];
-  [FIRMessaging messaging].delegate = self;
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
   
   [[RCTI18nUtil sharedInstance] allowRTL:YES];
   
@@ -41,16 +35,6 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
-  [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-  
-  UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
-  
-  [[UNUserNotificationCenter currentNotificationCenter]
-   requestAuthorizationWithOptions:authOptions
-   completionHandler:^(BOOL granted, NSError * _Nullable error) {}];
-  
-  [application registerForRemoteNotifications];
-  
   return YES;
 }
 
@@ -61,13 +45,6 @@
 #else
   return [CodePush bundleURL];
 #endif
-}
-
-- (void)userNotificationCenter:(UNUserNotificationCenter* )center willPresentNotification:(UNNotification* )notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
-{
-  completionHandler(UNNotificationPresentationOptionAlert);
-  
-  [[PushManager allocWithZone: nil] remoteNotificationReceived:notification.request.content.title body: notification.request.content.body];
 }
 
 @end

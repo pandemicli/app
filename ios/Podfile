@@ -3,6 +3,8 @@
 platform :ios, '10.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+$RNFirebaseAsStaticFramework = true
+
 target 'Pandemicli' do
   pod 'FBLazyVector', path: '../node_modules/react-native/Libraries/FBLazyVector'
   pod 'FBReactNativeSpec', path: '../node_modules/react-native/Libraries/FBReactNativeSpec'
@@ -34,9 +36,6 @@ target 'Pandemicli' do
   pod 'DoubleConversion', podspec: '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', podspec: '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', podspec: '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Messaging'
 
   use_frameworks!
   use_native_modules!

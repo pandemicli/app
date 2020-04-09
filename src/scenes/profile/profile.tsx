@@ -208,7 +208,7 @@ const stylesheet = new DynamicStyleSheet({
   main: {
     alignItems: 'center',
     borderBottomColor: colors.border,
-    borderBottomWidth: 1,
+    borderBottomWidth: layout.border,
     justifyContent: 'center',
     padding: layout.margin * 2
   },

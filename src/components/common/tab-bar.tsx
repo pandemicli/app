@@ -132,7 +132,7 @@ const stylesheet = new DynamicStyleSheet({
   },
   main: {
     borderTopColor: colors.border,
-    borderTopWidth: 1,
+    borderTopWidth: layout.border,
     flexDirection: 'row'
   }
 })

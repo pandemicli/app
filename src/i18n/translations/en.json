@@ -56,8 +56,6 @@
   "lib__phone_book__get__message": "Sync your contacts so you can track who you've met with recently.",
   "lib__phone_book__get__okay": "Okay",
   "lib__phone_book__get__title": "Contacts",
-  "lib__push__daily_reminder__message": "Have you logged your activity today?",
-  "lib__push__daily_reminder__title": "Log activity",
   "pandemicli": "Pandemic.li",
   "places__find_on_google_places": "Find on Google Places",
   "places__list__empty__label": "Add place",

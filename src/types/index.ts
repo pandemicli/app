@@ -11,3 +11,8 @@ export interface LocationPoint {
   latitude: number
   longitude: number
 }
+
+export interface PushNotification {
+  body: string
+  title: string
+}

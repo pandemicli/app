@@ -1,8 +1,5 @@
 <resources>
   <string name="app_name">Pandemic.li</string>
-  <string name="default_notification_channel_id">default</string>
-  <string name="preferences_key">pandemic_preferences</string>
 
-  <string name="GOOGLE_MAPS_API_KEY">AIzaSyDXGfxM1KYGei3rlXGBoSKx0HG3_l5H_wk</string>
   <string name="CodePushDeploymentKey" moduleConfig="true" />
 </resources>

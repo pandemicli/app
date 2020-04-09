@@ -1,7 +1,6 @@
 import { createHook, createStore, StoreActionApi } from 'react-sweet-state'
 
-import { i18n } from '../i18n'
-import { push, storage } from '../lib'
+import { storage } from '../lib'
 
 interface State {
   enabled: boolean
@@ -15,8 +14,6 @@ const actions = {
       loading: true
     })
 
-    push.disableDailyReminder()
-
     await storage.put('@reminderEnabled', false)
 
     setState({
@@ -28,11 +25,6 @@ const actions = {
     setState({
       loading: true
     })
-
-    push.enableDailyReminder(
-      i18n.t('lib__push__daily_reminder__title'),
-      i18n.t('lib__push__daily_reminder__message')
-    )
 
     await storage.put('@reminderEnabled', true)
 

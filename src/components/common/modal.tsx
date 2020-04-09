@@ -72,7 +72,7 @@ const stylesheet = new DynamicStyleSheet({
     alignItems: 'center',
     backgroundColor: colors.modal,
     borderColor: colors.border,
-    borderWidth: 1,
+    borderWidth: layout.border,
     flex: 1,
     justifyContent: 'center'
   },
