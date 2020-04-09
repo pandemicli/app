@@ -207,8 +207,8 @@ export const useOnboarding = () => {
           }
 
           await crypto.remove()
+          await actions.signOut()
 
-          mitter.emit('logout')
           mitter.emit('loading', false)
         },
         variables: {
