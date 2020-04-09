@@ -55,7 +55,6 @@ const actions = {
 
     if (newUser) {
       await crypto.register()
-
       await crypto.backupKey(password)
     }
 

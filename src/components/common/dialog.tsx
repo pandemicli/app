@@ -144,6 +144,7 @@ export const Dialog: FunctionComponent = () => {
                         }
 
                         setProps(null)
+                        setValue('')
                       }
                     }}
                     style={styles.button}
