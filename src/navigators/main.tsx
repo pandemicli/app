@@ -17,7 +17,7 @@ export type MainParamList = {
 const { Navigator, Screen } = createBottomTabNavigator<MainParamList>()
 
 export const MainNavigator = () => (
-  <Navigator tabBar={(props) => <TabBar {...props} />}>
+  <Navigator lazy={false} tabBar={(props) => <TabBar {...props} />}>
     <Screen component={TodayNavigator} name="Today" />
     <Screen component={ContactsNavigator} name="Contacts" />
     <Screen component={PlacesNavigator} name="Places" />

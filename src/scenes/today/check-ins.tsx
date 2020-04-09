@@ -34,7 +34,7 @@ interface Props {
 }
 
 export const CheckIns: FunctionComponent<Props> = ({
-  navigation: { navigate, push },
+  navigation: { navigate },
   route: {
     params: { date }
   }
@@ -68,11 +68,11 @@ export const CheckIns: FunctionComponent<Props> = ({
         <View style={styles.footer}>
           <Button
             label={i18n.t('label__add_more_places')}
-            onPress={() => {
-              navigate('Places')
-
-              setTimeout(() => push('AddPlace'))
-            }}
+            onPress={() =>
+              navigate('Places', {
+                screen: 'AddPlace'
+              })
+            }
             small
           />
         </View>

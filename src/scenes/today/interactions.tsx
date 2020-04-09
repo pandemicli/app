@@ -33,7 +33,7 @@ interface Props {
 }
 
 export const Interactions: FunctionComponent<Props> = ({
-  navigation: { navigate, push },
+  navigation: { navigate },
   route: {
     params: { date }
   }
@@ -67,11 +67,11 @@ export const Interactions: FunctionComponent<Props> = ({
         <View style={styles.footer}>
           <Button
             label={i18n.t('label__add_more_contacts')}
-            onPress={() => {
-              navigate('Contacts')
-
-              setTimeout(() => push('AddContact'))
-            }}
+            onPress={() =>
+              navigate('Contacts', {
+                screen: 'AddContact'
+              })
+            }
             small
           />
         </View>
