@@ -64,6 +64,8 @@ export const Profile: FunctionComponent<Props> = ({
   const { width } = Dimensions.get('window')
 
   const styles = useDynamicStyleSheet(stylesheet)
+  const color_background = useDynamicValue(colors.background)
+  const color_foreground = useDynamicValue(colors.foreground)
   const img_about = useDynamicValue(img_dark_about, img_light_about)
   const img_diagnosed = useDynamicValue(img_dark_diagnosed, img_light_diagnosed)
   const img_help = useDynamicValue(img_dark_help, img_light_help)
@@ -160,11 +162,23 @@ export const Profile: FunctionComponent<Props> = ({
       ListHeaderComponent={
         data?.profile ? (
           <View style={styles.main}>
-            <View style={styles.qr}>
+            <View>
               <QRCode
-                backgroundColor="#fff"
+                backgroundColor={color_background}
+                color={color_foreground}
+                quietZone={1}
                 size={width / 3}
                 value={data.profile.code}
+              />
+              <View
+                style={[
+                  styles.qr,
+                  {
+                    borderColor: color_background,
+                    height: width / 3,
+                    width: width / 3
+                  }
+                ]}
               />
             </View>
             <Text style={styles.greeting}>
@@ -237,9 +251,7 @@ const stylesheet = new DynamicStyleSheet({
     textAlign: 'center'
   },
   qr: {
-    alignSelf: 'center',
-    backgroundColor: colors.white,
-    borderRadius: layout.radius * 4,
-    padding: layout.margin
+    borderWidth: layout.border,
+    position: 'absolute'
   }
 })
