@@ -24,12 +24,6 @@ export const Map: FunctionComponent<Props> = ({
   onChange,
   style
 }) => {
-  console.log({
-    latitude,
-    location,
-    longitude
-  })
-
   const styles = useDynamicStyleSheet(stylesheet)
 
   const region: Region = {
