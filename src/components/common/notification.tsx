@@ -36,9 +36,15 @@ export const Notification: FunctionComponent = () => {
 
   useEffect(() => {
     mitter.onError((notification) => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+
       setNotification(notification)
 
-      setTimeout(() => setNotification(null), 10000)
+      setTimeout(() => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+
+        setNotification(null)
+      }, 5000)
     })
 
     const unsubscribe = messaging().onMessage((message) => {
