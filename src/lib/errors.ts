@@ -11,7 +11,7 @@ class Errors {
       type: 'error'
     })
 
-    Sentry.captureException(error)
+    Sentry.captureException(error.message)
   }
 
   handleApollo({ graphQLErrors, networkError }: ApolloError) {
@@ -23,7 +23,7 @@ class Errors {
           type: 'error'
         })
 
-        Sentry.captureException(error)
+        Sentry.captureException(error.message)
       })
     } else if (networkError) {
       mitter.error({
@@ -32,7 +32,7 @@ class Errors {
         type: 'error'
       })
 
-      Sentry.captureException(networkError)
+      Sentry.captureException(networkError.message)
     }
   }
 }
