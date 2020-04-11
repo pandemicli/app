@@ -108,7 +108,8 @@ const stylesheet = new DynamicStyleSheet({
     flex: 1
   },
   error: {
-    backgroundColor: colors.state.error
+    backgroundColor: colors.state.warning,
+    borderBottomColor: colors.state.error
   },
   hidden: {
     bottom: '100%'
