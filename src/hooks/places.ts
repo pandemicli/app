@@ -132,12 +132,10 @@ export const usePlaceActions = () => {
     place.name = await crypto.encrypt(place.name)
 
     if (place.latitude) {
-      place.latitudeHash = await crypto.hash(place.latitude)
       place.latitude = await crypto.encrypt(place.latitude)
     }
 
     if (place.longitude) {
-      place.longitudeHash = await crypto.hash(place.longitude)
       place.longitude = await crypto.encrypt(place.longitude)
     }
 

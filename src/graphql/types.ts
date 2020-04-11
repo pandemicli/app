@@ -76,9 +76,7 @@ export type Place = {
   name: Scalars['String'];
   favorite: Scalars['Boolean'];
   latitude?: Maybe<Scalars['String']>;
-  latitudeHash?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['String']>;
-  longitudeHash?: Maybe<Scalars['String']>;
   googlePlaceId?: Maybe<Scalars['String']>;
   googlePlaceIdHash?: Maybe<Scalars['String']>;
   user: User;
@@ -254,9 +252,7 @@ export type ContactInput = {
 export type PlaceInput = {
   name: Scalars['String'];
   latitude?: Maybe<Scalars['String']>;
-  latitudeHash?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['String']>;
-  longitudeHash?: Maybe<Scalars['String']>;
   googlePlaceId?: Maybe<Scalars['String']>;
   googlePlaceIdHash?: Maybe<Scalars['String']>;
 };
