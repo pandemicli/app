@@ -11,9 +11,14 @@ import {
 import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { useSafeArea } from 'react-native-safe-area-context'
 
-import { img_light_close, img_light_notifications } from '../../assets'
+import {
+  img_light_close,
+  img_light_error,
+  img_light_notifications
+} from '../../assets'
+import { mitter } from '../../lib'
 import { colors, layout, typography } from '../../styles'
-import { PushNotification } from '../../types'
+import { NotificationPayload } from '../../types'
 import { Touchable } from './touchable'
 
 if (Platform.OS === 'android') {
@@ -25,11 +30,17 @@ if (Platform.OS === 'android') {
 export const Notification: FunctionComponent = () => {
   const { top } = useSafeArea()
 
-  const [notification, setNotification] = useState<PushNotification | null>(
+  const [notification, setNotification] = useState<NotificationPayload | null>(
     null
   )
 
   useEffect(() => {
+    mitter.onError((notification: NotificationPayload) => {
+      setNotification(notification)
+
+      setTimeout(() => setNotification(null), 10000)
+    })
+
     const unsubscribe = messaging().onMessage((message) => {
       if (message.notification) {
         const { body, title } = message.notification
@@ -39,14 +50,15 @@ export const Notification: FunctionComponent = () => {
 
           setNotification({
             body,
-            title
+            title,
+            type: 'push'
           })
         }
       }
     })
 
     return () => unsubscribe()
-  })
+  }, [])
 
   const styles = useDynamicStyleSheet(stylesheet)
 
@@ -57,21 +69,31 @@ export const Notification: FunctionComponent = () => {
         {
           paddingTop: top + layout.margin
         },
-        notification ? styles.visible : styles.hidden
+        notification ? styles.visible : styles.hidden,
+        notification?.type === 'error' && styles.error
       ]}>
-      <Image source={img_light_notifications} style={styles.icon} />
+      <Image
+        source={
+          notification?.type === 'error'
+            ? img_light_error
+            : img_light_notifications
+        }
+        style={styles.icon}
+      />
       <View style={styles.details}>
         <Text style={styles.title}>{notification?.title}</Text>
         <Text style={styles.body}>{notification?.body}</Text>
       </View>
-      <Touchable
-        onPress={() => {
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+      {notification?.type === 'push' && (
+        <Touchable
+          onPress={() => {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
 
-          setNotification(null)
-        }}>
-        <Image source={img_light_close} style={styles.icon} />
-      </Touchable>
+            setNotification(null)
+          }}>
+          <Image source={img_light_close} style={styles.icon} />
+        </Touchable>
+      )}
     </View>
   )
 }
@@ -84,6 +106,9 @@ const stylesheet = new DynamicStyleSheet({
   },
   details: {
     flex: 1
+  },
+  error: {
+    backgroundColor: colors.state.error
   },
   hidden: {
     bottom: '100%'

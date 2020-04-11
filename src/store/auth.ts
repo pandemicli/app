@@ -39,7 +39,7 @@ const actions = {
       loading: false
     })
 
-    mitter.on('logout', () => dispatch(actions.signOut()))
+    mitter.onLogout(() => dispatch(actions.signOut()))
   },
   signIn: (
     userId: string,

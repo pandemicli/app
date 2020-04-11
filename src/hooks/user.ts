@@ -73,7 +73,7 @@ export const useUser = () => {
     MutationDeleteAccountArgs
   >(DELETE_ACCOUNT, {
     onError() {
-      mitter.emit('loading', false)
+      mitter.loading(false)
 
       dialog.error(i18n.t('dialog__confirm__delete_account__error'))
     }
@@ -208,7 +208,7 @@ export const useUser = () => {
     })
 
     if (password) {
-      mitter.emit('loading', true)
+      mitter.loading(true)
 
       const { loginPassword } = EThree.derivePasswords(password)
 
@@ -221,7 +221,7 @@ export const useUser = () => {
           await crypto.remove()
           await actions.signOut()
 
-          mitter.emit('loading', false)
+          mitter.loading(false)
         },
         variables: {
           password: loginPassword.toString()

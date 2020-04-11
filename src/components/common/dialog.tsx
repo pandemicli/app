@@ -31,11 +31,7 @@ export const Dialog: FunctionComponent = () => {
   const [value, setValue] = useState('')
 
   useEffect(() => {
-    const handler = (props: DialogProps) => setProps(props)
-
-    mitter.on('dialog', handler)
-
-    return () => mitter.off('dialog', handler)
+    mitter.onDialog((props: DialogProps) => setProps(props))
   }, [])
 
   const styles = useDynamicStyleSheet(stylesheet)

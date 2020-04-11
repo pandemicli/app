@@ -12,7 +12,8 @@ export interface LocationPoint {
   longitude: number
 }
 
-export interface PushNotification {
+export interface NotificationPayload {
   body: string
   title: string
+  type: 'push' | 'error'
 }

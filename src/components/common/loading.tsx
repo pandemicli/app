@@ -9,11 +9,7 @@ export const Loading: FunctionComponent = () => {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const handler = (visible: boolean) => setVisible(visible)
-
-    mitter.on('loading', handler)
-
-    return () => mitter.off('loading', handler)
+    mitter.onDialog((visible: boolean) => setVisible(visible))
   }, [])
 
   const styles = useDynamicStyleSheet(stylesheet)

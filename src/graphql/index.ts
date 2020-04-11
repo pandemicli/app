@@ -16,7 +16,7 @@ export const client = new ApolloClient({
   onError({ graphQLErrors }) {
     graphQLErrors?.forEach((error) => {
       if (error?.extensions?.code === 'UNAUTHENTICATED') {
-        mitter.emit('logout')
+        mitter.logout()
       }
     })
   },
