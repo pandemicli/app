@@ -4,6 +4,7 @@ import { API_URI } from 'react-native-dotenv'
 import { JSHash } from 'react-native-hash'
 
 import { errors } from './errors'
+import { mitter } from './mitter'
 
 class Crypto {
   private client?: EThree
@@ -28,11 +29,15 @@ class Crypto {
       }
     }
 
-    this.client = await EThree.initialize(tokenCallback, {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      AsyncStorage
-    })
+    try {
+      this.client = await EThree.initialize(tokenCallback, {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        AsyncStorage
+      })
+    } catch (error) {
+      mitter.logout()
+    }
   }
 
   async register(): Promise<void> {

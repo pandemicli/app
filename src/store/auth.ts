@@ -1,14 +1,7 @@
 import { createHook, createStore, StoreActionApi } from 'react-sweet-state'
 
 import { client } from '../graphql'
-import {
-  analytics,
-  crypto,
-  mitter,
-  notifications,
-  storage,
-  tracking
-} from '../lib'
+import { analytics, crypto, notifications, storage, tracking } from '../lib'
 
 interface State {
   loading: boolean
@@ -18,7 +11,7 @@ interface State {
 type StoreApi = StoreActionApi<State>
 
 const actions = {
-  init: () => async ({ dispatch, setState }: StoreApi) => {
+  init: () => async ({ setState }: StoreApi) => {
     await tracking.init()
     await notifications.init()
 
@@ -38,8 +31,6 @@ const actions = {
     setState({
       loading: false
     })
-
-    mitter.onLogout(() => dispatch(actions.signOut()))
   },
   signIn: (
     userId: string,
@@ -75,17 +66,21 @@ const actions = {
       await notifications.unsubscribe(userId)
     }
 
-    await crypto.reset()
+    try {
+      await crypto.reset()
+    } catch (error) {}
 
     await tracking.stop()
 
-    await storage.remove('@token')
-    await storage.remove('@userId')
-
-    await client.clearStore()
-    await client.cache.reset()
+    try {
+      await client.clearStore()
+      await client.cache.reset()
+    } catch (error) {}
 
     await analytics.reset()
+
+    await storage.remove('@token')
+    await storage.remove('@userId')
 
     setState({
       unloading: false,

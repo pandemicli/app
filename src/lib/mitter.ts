@@ -1,4 +1,4 @@
-import mitt from 'mitt'
+import mitt, { Handler } from 'mitt'
 
 import { DialogProps } from '../components/common/dialog'
 import { NotificationPayload } from '../types'
@@ -10,7 +10,7 @@ class Mitter {
     this.mitter.emit('logout')
   }
 
-  onLogout(handler: mitt.Handler) {
+  onLogout(handler: Handler) {
     this.mitter.on('logout', handler)
   }
 
@@ -18,7 +18,7 @@ class Mitter {
     this.mitter.emit('error', notification)
   }
 
-  onError(handler: mitt.Handler) {
+  onError(handler: Handler) {
     this.mitter.on('error', handler)
   }
 
@@ -26,7 +26,7 @@ class Mitter {
     this.mitter.emit('dialog', options)
   }
 
-  onDialog(handler: mitt.Handler) {
+  onDialog(handler: Handler) {
     this.mitter.on('dialog', handler)
   }
 
@@ -34,7 +34,7 @@ class Mitter {
     this.mitter.emit('loading', loading)
   }
 
-  onLoading(handler: mitt.Handler) {
+  onLoading(handler: Handler) {
     this.mitter.on('loading', handler)
   }
 }

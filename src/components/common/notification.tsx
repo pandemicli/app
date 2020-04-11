@@ -35,7 +35,7 @@ export const Notification: FunctionComponent = () => {
   )
 
   useEffect(() => {
-    mitter.onError((notification: NotificationPayload) => {
+    mitter.onError((notification) => {
       setNotification(notification)
 
       setTimeout(() => setNotification(null), 10000)

@@ -24,7 +24,7 @@ import {
   Spinner
 } from './components/common'
 import { client } from './graphql'
-import { analytics, nav } from './lib'
+import { analytics, mitter, nav } from './lib'
 import { AuthNavigator, MainNavigator } from './navigators'
 import { useAuth } from './store'
 import { colors } from './styles'
@@ -32,11 +32,13 @@ import { colors } from './styles'
 const Pandemic: FunctionComponent = () => {
   const isDarkMode = useDarkMode()
 
-  const [{ loading, userId }, { init }] = useAuth()
+  const [{ loading, userId }, { init, signOut }] = useAuth()
 
   useEffect(() => {
     init()
-  }, [init])
+
+    mitter.onLogout(signOut)
+  }, [init, signOut])
 
   useEffect(() => {
     if (!loading) {
