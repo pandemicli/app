@@ -1,6 +1,6 @@
 export { useContactActions, useContacts } from './contacts'
 export { useDebounce } from './debounce'
-export { useOnboarding } from './onboarding'
+export { userProfile, useUser } from './user'
 export { usePlaceActions, usePlaces } from './places'
 export { useToday } from './today'
 export { useToggleCheckIn } from './toggle-check-in'

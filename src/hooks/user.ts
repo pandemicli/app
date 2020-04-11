@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import { useNavigation } from '@react-navigation/native'
 import { EThree } from '@virgilsecurity/e3kit-native'
 import { useState } from 'react'
@@ -6,6 +6,7 @@ import { useState } from 'react'
 import {
   CHANGE_PASSWORD,
   DELETE_ACCOUNT,
+  PROFILE,
   SIGN_IN,
   SIGN_UP,
   VERIFY
@@ -15,7 +16,8 @@ import {
   MutationDeleteAccountPayload,
   MutationSignInPayload,
   MutationSignUpPayload,
-  MutationVerifyPayload
+  MutationVerifyPayload,
+  QueryProfilePayload
 } from '../graphql/payload'
 import {
   MutationChangePasswordArgs,
@@ -28,7 +30,17 @@ import { i18n } from '../i18n'
 import { analytics, crypto, dialog, mitter } from '../lib'
 import { useAuth } from '../store'
 
-export const useOnboarding = () => {
+export const useProfile = () => {
+  const { data, loading, refetch } = useQuery<QueryProfilePayload>(PROFILE)
+
+  return {
+    data,
+    loading,
+    refetch
+  }
+}
+
+export const useUser = () => {
   const { navigate } = useNavigation()
 
   const [, actions] = useAuth()

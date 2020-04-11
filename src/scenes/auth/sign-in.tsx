@@ -5,7 +5,7 @@ import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Button, Message, TextBox } from '../../components/common'
-import { useOnboarding } from '../../hooks'
+import { useUser } from '../../hooks'
 import { i18n } from '../../i18n'
 import { AuthParamList } from '../../navigators'
 import { layout } from '../../styles'
@@ -17,7 +17,7 @@ interface Props {
 export const SignIn: FunctionComponent<Props> = () => {
   const { bottom } = useSafeArea()
 
-  const { errors, signIn, signingIn } = useOnboarding()
+  const { errors, signIn, signingIn } = useUser()
 
   const passwordRef = createRef<TextInput>()
 

@@ -10,7 +10,7 @@ import {
 
 import { img_dark_save, img_light_save } from '../../assets'
 import { Header, HeaderButton, Message, TextBox } from '../../components/common'
-import { useOnboarding } from '../../hooks'
+import { useUser } from '../../hooks'
 import { i18n } from '../../i18n'
 import { analytics } from '../../lib'
 import { ProfileParamList } from '../../navigators'
@@ -24,7 +24,7 @@ interface Props {
 export const Password: FunctionComponent<Props> = ({
   navigation: { setOptions }
 }) => {
-  const { changePassword, changingPassword, errors } = useOnboarding()
+  const { changePassword, changingPassword, errors } = useUser()
 
   const newPasswordRef = createRef<TextInput>()
 

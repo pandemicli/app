@@ -5,7 +5,7 @@ import { DynamicStyleSheet, useDynamicStyleSheet } from 'react-native-dark-mode'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Button, Message, TextBox } from '../../components/common'
-import { useOnboarding } from '../../hooks'
+import { useUser } from '../../hooks'
 import { i18n } from '../../i18n'
 import { AuthParamList } from '../../navigators'
 import { layout } from '../../styles'
@@ -22,7 +22,7 @@ export const Verify: FunctionComponent<Props> = ({
 }) => {
   const { bottom } = useSafeArea()
 
-  const { errors, verify, verifying } = useOnboarding()
+  const { errors, verify, verifying } = useUser()
 
   const [code, setCode] = useState('')
 

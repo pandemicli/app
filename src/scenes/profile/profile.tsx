@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/react-hooks'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
@@ -39,9 +38,8 @@ import {
   img_light_tracking
 } from '../../assets'
 import { Image, Refresher, Separator, Touchable } from '../../components/common'
-import { PROFILE } from '../../graphql/documents'
-import { QueryProfilePayload } from '../../graphql/payload'
-import { useOnboarding } from '../../hooks'
+import { useUser } from '../../hooks'
+import { useProfile } from '../../hooks/user'
 import { i18n } from '../../i18n'
 import { analytics, browser, dialog } from '../../lib'
 import { ProfileParamList } from '../../navigators'
@@ -57,9 +55,9 @@ export const Profile: FunctionComponent<Props> = ({
   navigation: { navigate }
 }) => {
   const [{ unloading }, { signOut }] = useAuth()
-  const { deleteAccount } = useOnboarding()
 
-  const { data, loading, refetch } = useQuery<QueryProfilePayload>(PROFILE)
+  const { data, loading, refetch } = useProfile()
+  const { deleteAccount } = useUser()
 
   const { width } = Dimensions.get('window')
 
