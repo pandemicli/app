@@ -12,9 +12,6 @@ type StoreApi = StoreActionApi<State>
 
 const actions = {
   init: () => async ({ setState }: StoreApi) => {
-    await tracking.init()
-    await notifications.init()
-
     const token = await storage.get<string>('@token')
     const userId = await storage.get<string>('@userId')
 
@@ -60,32 +57,30 @@ const actions = {
       unloading: true
     })
 
-    const { userId } = getState()
-
-    if (userId) {
-      await notifications.unsubscribe(userId)
-    }
-
     try {
+      const { userId } = getState()
+
+      if (userId) {
+        await notifications.unsubscribe(userId)
+      }
+
       await crypto.reset()
-    } catch (error) {}
 
-    await tracking.stop()
+      await tracking.stop()
 
-    try {
       await client.clearStore()
       await client.cache.reset()
-    } catch (error) {}
 
-    await analytics.reset()
+      await analytics.reset()
+    } finally {
+      await storage.remove('@token')
+      await storage.remove('@userId')
 
-    await storage.remove('@token')
-    await storage.remove('@userId')
-
-    setState({
-      unloading: false,
-      userId: null
-    })
+      setState({
+        unloading: false,
+        userId: null
+      })
+    }
   }
 }
 

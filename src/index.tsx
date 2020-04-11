@@ -24,7 +24,7 @@ import {
   Spinner
 } from './components/common'
 import { client } from './graphql'
-import { analytics, mitter, nav } from './lib'
+import { analytics, mitter, nav, notifications, tracking } from './lib'
 import { AuthNavigator, MainNavigator } from './navigators'
 import { useAuth } from './store'
 import { colors } from './styles'
@@ -36,6 +36,9 @@ const Pandemic: FunctionComponent = () => {
 
   useEffect(() => {
     init()
+
+    tracking.init()
+    notifications.init()
 
     mitter.onLogout(signOut)
   }, [init, signOut])
