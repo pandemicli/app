@@ -16,17 +16,17 @@ class Dialog {
   }
 
   prompt(options: Partial<DialogProps>): Promise<string> {
-    return new Promise((resolve) => {
+    return new Promise((resolve) =>
       mitter.dialog({
         ...options,
         onValue: (value: string) => resolve(value),
         type: 'prompt'
       } as DialogProps)
-    })
+    )
   }
 
   confirm(message: string, title?: string, positive = true): Promise<boolean> {
-    return new Promise((resolve) => {
+    return new Promise((resolve) =>
       mitter.dialog({
         message,
         onNo: () => resolve(false),
@@ -35,7 +35,7 @@ class Dialog {
         title: title ? title : i18n.t('dialog__confirm__title'),
         type: 'confirm'
       })
-    })
+    )
   }
 }
 
