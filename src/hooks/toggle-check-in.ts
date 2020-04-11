@@ -8,6 +8,7 @@ import {
   QueryTodayFeedPayload
 } from '../graphql/payload'
 import { MutationToggleCheckInArgs, QueryTodayFeedArgs } from '../graphql/types'
+import { errors } from '../lib'
 
 export const useToggleCheckIn = (date: string) => {
   const [togglingCheckIn, setToggling] = useState(new Map())
@@ -23,7 +24,13 @@ export const useToggleCheckIn = (date: string) => {
   const [toggle] = useMutation<
     MutationToggleCheckInPayload,
     MutationToggleCheckInArgs
-  >(TOGGLE_CHECK_IN)
+  >(TOGGLE_CHECK_IN, {
+    onError(error) {
+      errors.handleApollo(error)
+
+      setToggling(new Map())
+    }
+  })
 
   const toggleCheckIn = async (id: string) => {
     updateToggling(id, true)

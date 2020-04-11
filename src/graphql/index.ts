@@ -1,8 +1,8 @@
-import ApolloClient, { InMemoryCache } from 'apollo-boost'
+import ApolloClient, { ApolloError, InMemoryCache } from 'apollo-boost'
 import { Platform } from 'react-native'
 import { API_URI } from 'react-native-dotenv'
 
-import { mitter, storage } from '../lib'
+import { errors, mitter, storage } from '../lib'
 
 const uri = __DEV__
   ? Platform.select({
@@ -13,8 +13,10 @@ const uri = __DEV__
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
-  onError({ graphQLErrors }) {
-    graphQLErrors?.forEach((error) => {
+  onError(error) {
+    errors.handleApollo((error as unknown) as ApolloError)
+
+    error.graphQLErrors?.forEach((error) => {
       if (error?.extensions?.code === 'UNAUTHENTICATED') {
         mitter.logout()
       }

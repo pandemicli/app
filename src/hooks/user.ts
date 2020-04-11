@@ -27,11 +27,15 @@ import {
   MutationVerifyArgs
 } from '../graphql/types'
 import { i18n } from '../i18n'
-import { analytics, crypto, dialog, mitter } from '../lib'
+import { analytics, crypto, dialog, errors, mitter } from '../lib'
 import { useAuth } from '../store'
 
 export const useProfile = () => {
-  const { data, loading, refetch } = useQuery<QueryProfilePayload>(PROFILE)
+  const { data, loading, refetch } = useQuery<QueryProfilePayload>(PROFILE, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   return {
     data,
@@ -51,31 +55,47 @@ export const useUser = () => {
   const [register, registerMutation] = useMutation<
     MutationSignUpPayload,
     MutationSignUpArgs
-  >(SIGN_UP)
+  >(SIGN_UP, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [login, loginMutation] = useMutation<
     MutationSignInPayload,
     MutationSignInArgs
-  >(SIGN_IN)
+  >(SIGN_IN, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [mfa, mfaMutation] = useMutation<
     MutationVerifyPayload,
     MutationVerifyArgs
-  >(VERIFY)
+  >(VERIFY, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [change, changeMutation] = useMutation<
     MutationChangePasswordPayload,
     MutationChangePasswordArgs
-  >(CHANGE_PASSWORD)
+  >(CHANGE_PASSWORD, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [remove, removeMutation] = useMutation<
     MutationDeleteAccountPayload,
     MutationDeleteAccountArgs
   >(DELETE_ACCOUNT, {
-    onError() {
+    onError(error) {
       mitter.loading(false)
 
-      dialog.error(i18n.t('dialog__confirm__delete_account__error'))
+      errors.handleApollo(error)
     }
   })
 

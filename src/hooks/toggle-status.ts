@@ -7,11 +7,16 @@ import {
   QueryProfilePayload
 } from '../graphql/payload'
 import { User } from '../graphql/types'
+import { errors } from '../lib'
 
 export const useToggleStatus = () => {
   const [toggleStatus, { loading }] = useMutation<
     MutationToggleCovid19PositivePayload
-  >(TOGGLE_COVID19_POSITIVE)
+  >(TOGGLE_COVID19_POSITIVE, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const toggle = (key: string, callback: (user: User) => void) =>
     toggleStatus({

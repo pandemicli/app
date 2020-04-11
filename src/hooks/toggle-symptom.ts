@@ -12,6 +12,7 @@ import {
   QueryTodayFeedArgs,
   SymptomName
 } from '../graphql/types'
+import { errors } from '../lib'
 
 export const useToggleSymptom = (date: string) => {
   const [togglingSymptom, setToggling] = useState(new Map())
@@ -27,7 +28,13 @@ export const useToggleSymptom = (date: string) => {
   const [toggle] = useMutation<
     MutationToggleSymptomPayload,
     MutationToggleSymptomArgs
-  >(TOGGLE_SYMPTOM)
+  >(TOGGLE_SYMPTOM, {
+    onError(error) {
+      errors.handleApollo(error)
+
+      setToggling(new Map())
+    }
+  })
 
   const toggleSymptom = async (name: SymptomName) => {
     updateToggling(name, true)

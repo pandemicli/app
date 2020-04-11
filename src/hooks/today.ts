@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { TODAY_FEED } from '../graphql/documents'
 import { QueryTodayFeedPayload } from '../graphql/payload'
 import { Contact, Place, QueryTodayFeedArgs, Symptom } from '../graphql/types'
-import { crypto } from '../lib'
+import { crypto, errors } from '../lib'
 
 export const useToday = (date: string) => {
   const [decrypting, setDecrypting] = useState(true)
@@ -17,6 +17,9 @@ export const useToday = (date: string) => {
     QueryTodayFeedPayload,
     QueryTodayFeedArgs
   >(TODAY_FEED, {
+    onError(error) {
+      errors.handleApollo(error)
+    },
     variables: {
       date
     }

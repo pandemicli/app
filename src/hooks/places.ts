@@ -27,7 +27,7 @@ import {
   QueryPlacesArgs
 } from '../graphql/types'
 import { i18n } from '../i18n'
-import { crypto, dialog } from '../lib'
+import { crypto, dialog, errors } from '../lib'
 
 export const usePlaces = (date?: string) => {
   const [decrypting, setDecrypting] = useState(true)
@@ -37,6 +37,9 @@ export const usePlaces = (date?: string) => {
     QueryPlacesPayload,
     QueryPlacesArgs
   >(PLACES, {
+    onError(error) {
+      errors.handleApollo(error)
+    },
     variables: {
       date
     }
@@ -88,22 +91,40 @@ export const usePlaceActions = () => {
   const [createPlace, createPlaceMutation] = useMutation<
     MutationCreatePlacePayload,
     MutationCreatePlaceArgs
-  >(CREATE_PLACE)
+  >(CREATE_PLACE, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [updatePlace, updatePlaceMutation] = useMutation<
     MutationUpdatePlacePayload,
     MutationUpdatePlaceArgs
-  >(UPDATE_PLACE)
+  >(UPDATE_PLACE, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [removePlace, removePlaceMutation] = useMutation<
     MutationRemovePlacePayload,
     MutationRemovePlaceArgs
-  >(REMOVE_PLACE)
+  >(REMOVE_PLACE, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [toggleFavoritePlace, toggleFavoritePlaceMutation] = useMutation<
     MutationToggleFavoritePlacePayload,
     MutationToggleFavoritePlaceArgs
-  >(TOGGLE_FAVORITE_PLACE)
+  >(TOGGLE_FAVORITE_PLACE, {
+    onError(error) {
+      errors.handleApollo(error)
+
+      setFavoriting(new Map())
+    }
+  })
 
   const create = async (data: PlaceInput, callback: (place: Place) => void) => {
     const place = clone(data)

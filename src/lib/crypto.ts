@@ -3,14 +3,16 @@ import { EThree } from '@virgilsecurity/e3kit-native'
 import { API_URI } from 'react-native-dotenv'
 import { JSHash } from 'react-native-hash'
 
+import { errors } from './errors'
+
 class Crypto {
   private client?: EThree
 
   async init(token: string): Promise<void> {
-    this.client = await EThree.initialize(
-      async () => {
-        const uri = API_URI.replace('graphql', 'virgil-jwt')
+    const tokenCallback = async () => {
+      const uri = API_URI.replace('graphql', 'virgil-jwt')
 
+      try {
         const response = await fetch(uri, {
           headers: {
             authorization: `Bearer ${token}`
@@ -21,13 +23,16 @@ class Crypto {
         const { virgilToken } = await response.json()
 
         return virgilToken
-      },
-      {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        AsyncStorage
+      } catch (error) {
+        errors.handleApi(error)
       }
-    )
+    }
+
+    this.client = await EThree.initialize(tokenCallback, {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      AsyncStorage
+    })
   }
 
   async register(): Promise<void> {

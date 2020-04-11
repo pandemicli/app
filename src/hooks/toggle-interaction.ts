@@ -11,6 +11,7 @@ import {
   MutationToggleInteractionArgs,
   QueryTodayFeedArgs
 } from '../graphql/types'
+import { errors } from '../lib'
 
 export const useToggleInteraction = (date: string) => {
   const [togglingInteraction, setToggling] = useState(new Map())
@@ -26,7 +27,13 @@ export const useToggleInteraction = (date: string) => {
   const [toggle] = useMutation<
     MutationToggleInteractionPayload,
     MutationToggleInteractionArgs
-  >(TOGGLE_INTERACTION)
+  >(TOGGLE_INTERACTION, {
+    onError(error) {
+      errors.handleApollo(error)
+
+      setToggling(new Map())
+    }
+  })
 
   const toggleInteraction = async (id: string) => {
     updateToggling(id, true)

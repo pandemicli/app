@@ -33,7 +33,7 @@ import {
   QueryContactsArgs
 } from '../graphql/types'
 import { i18n } from '../i18n'
-import { crypto, dialog } from '../lib'
+import { crypto, dialog, errors } from '../lib'
 import { PhoneContact } from '../types'
 
 export const useContacts = (date?: string) => {
@@ -44,6 +44,9 @@ export const useContacts = (date?: string) => {
     QueryContactsPayload,
     QueryContactsArgs
   >(CONTACTS, {
+    onError(error) {
+      errors.handleApollo(error)
+    },
     variables: {
       date
     }
@@ -91,28 +94,49 @@ export const useContactActions = () => {
   const [createContact, createContactMutation] = useMutation<
     MutationCreateContactPayload,
     MutationCreateContactArgs
-  >(CREATE_CONTACT)
+  >(CREATE_CONTACT, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [updateContact, updateContactMutation] = useMutation<
     MutationUpdateContactPayload,
     MutationUpdateContactArgs
-  >(UPDATE_CONTACT)
+  >(UPDATE_CONTACT, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [removeContact, removeContactMutation] = useMutation<
     MutationRemoveContactPayload,
     MutationRemoveContactArgs
-  >(REMOVE_CONTACT)
+  >(REMOVE_CONTACT, {
+    onError(error) {
+      errors.handleApollo(error)
+    }
+  })
 
   const [toggleFavoriteContact, toggleFavoriteContactMutation] = useMutation<
     MutationToggleFavoriteContactPayload,
     MutationToggleFavoriteContactArgs
-  >(TOGGLE_FAVORITE_CONTACT)
+  >(TOGGLE_FAVORITE_CONTACT, {
+    onError(error) {
+      errors.handleApollo(error)
+
+      setFavoriting(new Map())
+    }
+  })
 
   const [syncContacts, syncContactsMutation] = useMutation<
     MutationSyncContactsPayload,
     MutationSyncContactsArgs
   >(SYNC_CONTACTS, {
     awaitRefetchQueries: true,
+    onError(error) {
+      errors.handleApollo(error)
+    },
     refetchQueries() {
       return [
         {
@@ -141,6 +165,9 @@ export const useContactActions = () => {
           phone
         })
       }
+    },
+    onError(error) {
+      errors.handleApollo(error)
     }
   })
 
