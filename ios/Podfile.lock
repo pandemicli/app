@@ -369,7 +369,7 @@ PODS:
     - React
   - RNCAsyncStorage (1.9.0):
     - React
-  - RNCMaskedView (0.1.7):
+  - RNCMaskedView (0.1.8):
     - React
   - RNFastImage (8.1.5):
     - React
@@ -398,7 +398,7 @@ PODS:
   - RNSentry (1.3.7):
     - React
     - Sentry (~> 4.4.0)
-  - RNSVG (12.0.3):
+  - RNSVG (12.1.0):
     - React
   - RNVirgilCrypto (0.5.3):
     - React
@@ -675,7 +675,7 @@ SPEC CHECKSUMS:
   RNBackgroundFetch: 388cf1595934d22fed275b8db9b48a28bb4eb7b6
   RNBackgroundGeolocation: 0064322f9b1aad51884ca10295297663631d3453
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
-  RNCMaskedView: 76c40a1d41c3e2535df09246a2b5487f04de0814
+  RNCMaskedView: 4383c3140f1235391fd6029968c166f09ddd0973
   RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
   RNFBApp: ae8fe642e3e457a9a417f1cf825a22de6bc5e94d
   RNFBMessaging: 82a9c9bacbf5fff18bdc42e731b5fe7eef2bd3f2
@@ -686,7 +686,7 @@ SPEC CHECKSUMS:
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
   RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
   RNSentry: 370623102247ebea20191b5fb549ecc7a275b324
-  RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
+  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVirgilCrypto: 670c8e3be15f533e80d11d56df6bba3e82bf4570
   SDWebImage: 5d4cf6afccd9ac1d2ee701ed0c4917cbb1b80536
   SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
