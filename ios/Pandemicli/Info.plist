@@ -43,6 +43,8 @@
 	<string>Sync your contacts so you can keep track of people you meet.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Track your location in the background.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Track your location in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Share your location to find places near you.</string>
 	<key>NSMotionUsageDescription</key>
