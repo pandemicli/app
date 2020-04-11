@@ -61,8 +61,8 @@ const Pandemic: FunctionComponent = () => {
   return (
     <ApolloProvider client={client}>
       <SafeAreaProvider>
-        <KeyboardView>
-          <DarkModeProvider>
+        <DarkModeProvider>
+          <KeyboardView>
             <NavigationContainer
               onStateChange={(state) => nav.onStateChange(state)}
               ref={nav.ref}
@@ -75,12 +75,12 @@ const Pandemic: FunctionComponent = () => {
                 <AuthNavigator />
               )}
             </NavigationContainer>
-            <Dialog />
-          </DarkModeProvider>
-        </KeyboardView>
-        <Notification />
+          </KeyboardView>
+          <Notification />
+          <Dialog />
+          <Loading />
+        </DarkModeProvider>
       </SafeAreaProvider>
-      <Loading />
     </ApolloProvider>
   )
 }
