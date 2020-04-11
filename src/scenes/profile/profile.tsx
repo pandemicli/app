@@ -94,7 +94,6 @@ export const Profile: FunctionComponent<Props> = ({
       }
     },
     {
-      hidden: true,
       icon: img_tracking,
       label: i18n.t('profile__menu__tracking'),
       onPress: () => navigate('Tracking')
@@ -104,24 +103,6 @@ export const Profile: FunctionComponent<Props> = ({
       icon: img_notifications,
       label: i18n.t('profile__menu__notifications'),
       onPress: () => navigate('Notifications')
-    },
-    {
-      icon: img_about,
-      label: i18n.t('profile__menu__about'),
-      link: true,
-      onPress: () => browser.open('https://pandemic.li')
-    },
-    {
-      icon: img_help,
-      label: i18n.t('profile__menu__help'),
-      link: true,
-      onPress: () => browser.open('https://pandemic.li/help')
-    },
-    {
-      icon: img_privacy,
-      label: i18n.t('profile__menu__privacy'),
-      link: true,
-      onPress: () => browser.open('https://pandemic.li/privacy')
     },
     {
       icon: img_password,
@@ -149,6 +130,24 @@ export const Profile: FunctionComponent<Props> = ({
           analytics.track('User Signed Out')
         }
       }
+    },
+    {
+      icon: img_about,
+      label: i18n.t('profile__menu__about'),
+      link: true,
+      onPress: () => browser.open('https://pandemic.li')
+    },
+    {
+      icon: img_help,
+      label: i18n.t('profile__menu__help'),
+      link: true,
+      onPress: () => browser.open('https://pandemic.li/help')
+    },
+    {
+      icon: img_privacy,
+      label: i18n.t('profile__menu__privacy'),
+      link: true,
+      onPress: () => browser.open('https://pandemic.li/privacy')
     }
   ].filter(({ hidden }) => !hidden)
 
