@@ -31,7 +31,7 @@
     "apollo-boost": "^0.4.7",
     "graphql": "^15.0.0",
     "immutability-helper": "^3.0.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mitt": "^1.2.0",
     "moment": "^2.24.0",
     "phone": "^2.4.8",
